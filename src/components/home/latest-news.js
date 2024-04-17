@@ -1,0 +1,140 @@
+import { Button } from 'antd';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+function LatestNews() {
+  const router = useRouter();
+  return (
+    <div id='latest-news' className='container mx-auto py-10'>
+      <div
+        className='font-bold pb-8 text-center uppercase text-lg'
+        style={{ color: 'var(--primary-color)' }}
+      >
+        Latest News
+      </div>
+      <div className='hidden grid-cols-4 gap-4 sm:grid'>
+        <div className='latest-news-item'>
+          <Button
+            onClick={() => router.push('/news')}
+            className='btn-read-more'
+          >
+            Read more
+          </Button>
+          <Image
+            src='/fake-image-delete-in-future/latest-news.png'
+            alt='latest-news'
+            layout='responsive'
+            width={285}
+            height={235}
+            className='rounded-lg'
+            objecfit='contain'
+          />
+        </div>
+        <div className='latest-news-item'>
+          <Button
+            onClick={() => router.push('/news')}
+            className='btn-read-more'
+          >
+            Read more
+          </Button>
+          <Image
+            src='/fake-image-delete-in-future/latest-news2.png'
+            alt='latest-news'
+            layout='responsive'
+            width={285}
+            height={235}
+            className='rounded-lg'
+            objecfit='contain'
+          />
+        </div>
+        <div className='latest-news-item'>
+          <Button
+            onClick={() => router.push('/news')}
+            className='btn-read-more'
+          >
+            Read more
+          </Button>
+          <Image
+            src='/fake-image-delete-in-future/latest-news3.png'
+            alt='latest-news'
+            layout='responsive'
+            width={285}
+            height={235}
+            className='rounded-lg'
+            objecfit='contain'
+          />
+        </div>
+        <div className='latest-news-item'>
+          <Button
+            onClick={() => router.push('/news')}
+            className='btn-read-more'
+          >
+            Read more
+          </Button>
+          <Image
+            src='/fake-image-delete-in-future/latest-news.png'
+            alt='latest-news'
+            layout='responsive'
+            width={285}
+            height={235}
+            className='rounded-lg'
+            objecfit='contain'
+          />
+        </div>
+      </div>
+      <div className='px-10 sm:hidden'>
+        <Swiper
+          style={{ padding: '40px 0' }}
+          slidesPerView={1}
+          spaceBetween={30}
+          loop={true}
+          className='sm:hidden'
+        >
+          <SwiperSlide>
+            <Image
+              src='/fake-image-delete-in-future/latest-news.png'
+              alt='latest-news'
+              layout='responsive'
+              width={285}
+              height={235}
+              className='rounded-lg'
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <Image
+              src='/fake-image-delete-in-future/latest-news2.png'
+              alt='latest-news'
+              layout='responsive'
+              width={285}
+              height={235}
+              className='rounded-lg'
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <Image
+              src='/fake-image-delete-in-future/latest-news3.png'
+              alt='latest-news'
+              layout='responsive'
+              width={285}
+              height={235}
+              className='rounded-lg'
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <Image
+              src='/fake-image-delete-in-future/latest-news.png'
+              alt='latest-news'
+              layout='responsive'
+              width={285}
+              height={235}
+              className='rounded-lg'
+            />
+          </SwiperSlide>
+        </Swiper>
+      </div>
+    </div>
+  );
+}
+
+export default LatestNews;
