@@ -1,0 +1,87 @@
+:root {
+  --primary-color: #445a8e;
+}
+
+body {
+  width: 100%;
+  font-family: 'Montserrat' !important;
+
+  .container {
+    @media (max-width: 640px) {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+}
+
+#subscribe {
+  background-image: url('/img/suscribe-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  .ant-input {
+    background-color: transparent !important;
+    border-color: #fff !important;
+    color: #fff !important;
+  }
+}
+
+#about-us {
+  .our-service {
+    background-image: url('/img/our-service-bg.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+#latest-news {
+  .latest-news-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+
+    .btn-read-more {
+      position: absolute;
+      display: none;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 16px;
+      border: 1px solid #fff;
+      color: #fff;
+      background-color: var(--primary-color);
+    }
+
+    &::before {
+      display: none;
+      content: '';
+      position: absolute;
+      // background: url('/img/hover-bg.png');
+      // background-position: center;
+      // background-repeat: no-repeat;
+      background-color: rgba(0, 0, 0, 0.5);
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    &:hover {
+      &::before {
+        display: block;
+      }
+      .btn-read-more {
+        display: block;
+      }
+    }
+  }
+}
+
+.header {
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
