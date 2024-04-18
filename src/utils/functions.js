@@ -23,48 +23,6 @@ export const genHashTawkApi = (userId) => {
 	return CryptoJS.enc.Hex.stringify(hash);
 }
 
-export const isUserLoggedIn = () => {
-    let authData = null;
-
-    if (process.browser) {
-        authData = JSON.parse(localStorage.getItem("auth"));
-    }
-    return authData;
-};
-
-export const logOut = () => {
-    localStorage.removeItem("auth");
-    localStorage.removeItem(REFRESH_TOKEN_LS_KEY);
-
-};
-
-export const setAuth = (authData) => {
-    localStorage.setItem("auth", JSON.stringify(authData));
-    localStorage.setItem(REFRESH_TOKEN_LS_KEY, JSON.stringify(authData.refreshToken));
-};
-
-/**
- * Check if user is logged in.
- *
- * @return {object} Auth Object containing token and user data, false on failure.
- */
-export const isUserValidated = () => {
-    let userLoggedInData = "";
-
-    if (process.browser) {
-        let authTokenData = localStorage.getItem("auth");
-
-        if (!isEmpty(authTokenData)) {
-            authTokenData = JSON.parse(authTokenData);
-
-            if (!isEmpty(authTokenData.authToken)) {
-                userLoggedInData = authTokenData;
-            }
-        }
-    }
-
-    return userLoggedInData;
-};
 
 
 /**
@@ -116,18 +74,6 @@ export const getStates = async (countryCode = '') => {
     const { data } = await api.get(`data/countries/${countryCode}`);
 
     return data?.states ?? [];
-};
-
-
-export const fetchChannelMessages = async (channelId) => {
-    const botToken = 'MTEwNzU5ODA5NzU0NDEzODc1Mw.G43eOR.eXEZ0tk6vw92Xwwz_o4GcNyJNSRHzuRaH6ycyI';
-
-    return await axios.get(`https://discord.com/api/v10/channels/${channelId}/messages?limit=10`, {
-        headers: {
-            Authorization: `Bot ${botToken}`,
-            'Content-Type': 'application/json',
-        },
-    });
 };
 
 
