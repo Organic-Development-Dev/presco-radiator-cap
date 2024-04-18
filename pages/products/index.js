@@ -132,26 +132,33 @@ export default function Index(props) {
 }
 
 export async function getStaticProps() {
-    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-    const response = await fetch(`${apiBaseUrl}/api/products`);
+    try {
+        const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+        const response = await fetch(`${apiBaseUrl}/api/products`);
+        const dataCateRes = await fetch(`${apiBaseUrl}/api/products/categories`);
+        const products = await response.json();
+        const categories = await dataCateRes.json();
 
-  const dataCateRes = await fetch(
-      `${apiBaseUrl}/api/products/categories`
-  );
-  const products = await response.json();
-  const categories = await dataCateRes.json();
-
-  return {
-    props: {
-      products,
-      categories: categories.map((cate) => {
-        const { id, name, slug } = cate;
         return {
-          id,
-          name,
-          slug,
+            props: {
+                products,
+                categories: categories.map((cate) => {
+                    const { id, name, slug } = cate;
+                    return {
+                        id,
+                        name,
+                        slug,
+                    };
+                }),
+            },
         };
-      }),
-    },
-  };
+    } catch (error) {
+        console.error('Error fetching data in getStaticProps:', error);
+        return {
+            props: {
+                products: [],
+                categories: [],
+            },
+        };
+    }
 }
