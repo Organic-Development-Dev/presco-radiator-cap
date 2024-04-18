@@ -34,8 +34,9 @@ import axios from 'axios';
 //   return attributesWithTerms;
 // };
 const fetchAttributesWithTermByCategoryId = async (categoryId) => {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
   const { data: products } = await axios.get(
-    `http://localhost:3000/api/products`,
+    `${apiBaseUrl}/api/products`,
     {
       params: {
         category: categoryId,

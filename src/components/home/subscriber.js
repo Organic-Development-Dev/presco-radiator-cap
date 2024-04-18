@@ -5,7 +5,7 @@ function Subscriber() {
     <div id='subscribe' className='p-10'>
       <div className='container mx-auto'>
         <div className='font-bold text-center uppercase text-2xl text-white'>
-          SUBSCRIBER
+          SUBSCRIBE
         </div>
         <div className='text-white text-center font-thin pb-4'>
           Want to stay up to date? Subscribe to our Newsletter!
@@ -20,7 +20,7 @@ function Subscriber() {
             className='font-semibold '
             style={{ color: 'var(--primary-color)' }}
           >
-            Suscribe
+            Subscribe
           </Button>
         </div>
       </div>
