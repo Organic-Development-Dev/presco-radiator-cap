@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://presco-radiator-caps.com/
+
+# Sitemaps
+Sitemap: https://presco-radiator-caps.com/sitemap.xml
