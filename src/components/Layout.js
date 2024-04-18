@@ -7,6 +7,7 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import { ApolloProvider } from '@apollo/client';
 import React from 'react';
+import Subscribe from './home/subscriber';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -28,6 +29,7 @@ const Layout = (props) => {
           </Head>
           <Header />
           <div style={{ minHeight: '80vh' }}>{props.children}</div>
+          <Subscribe />
           <Footer />
         </div>
       </AppProvider>
