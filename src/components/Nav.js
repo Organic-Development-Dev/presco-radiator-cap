@@ -6,6 +6,8 @@ import SvgArrowDown from './icons/ArrowDown';
 import SearchIcon from './icons/Search';
 import { useRouter } from 'next/router';
 import DrawerCategory from './DrawerCategory';
+import dynamic from 'next/dynamic';
+// import ModalSearch from './ModalSearch';
 
 const dataChildSolutionAndProduct = {
   title: 'Products & Solutions',
@@ -104,9 +106,14 @@ const dataNavs = [
   },
 ];
 
+const ModalSearch = dynamic(() => import('/src/components/ModalSearch.js'), {
+  ssr: false,
+});
+
 const Nav = () => {
   const router = useRouter();
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
   return (
     <nav className='bg-white py-4'>
       <div className='flex items-center justify-between flex-wrap container mx-auto'>
@@ -126,7 +133,7 @@ const Nav = () => {
           </span>
         </div>
 
-        <div className='gap-10 items-center hidden sm:flex'>
+        <div className='gap-10 items-center hidden lg:flex'>
           {dataNavs.map((nav) =>
             nav?.children ? (
               <Dropdown
@@ -164,7 +171,8 @@ const Nav = () => {
 
           <div
             style={{ backgroundColor: 'var(--primary-color)' }}
-            className='p-2 rounded-full '
+            className='p-2 rounded-full'
+            onClick={() => setOpenSearch(true)}
           >
             <SearchIcon width={15} height={15} />
           </div>
@@ -187,7 +195,7 @@ const Nav = () => {
             </div>
           }
         >
-          <div className='menu-btn block sm:hidden'>
+          <div className='menu-btn block lg:hidden'>
             <button className='flex items-center px-3 py-2'>
               <svg
                 height='auto'
@@ -209,6 +217,7 @@ const Nav = () => {
           onClose={() => setOpenDrawer(false)}
           dataCategory={dataChildSolutionAndProduct}
         />
+        <ModalSearch open={openSearch} onClose={() => setOpenSearch(false)} />
       </div>
     </nav>
   );

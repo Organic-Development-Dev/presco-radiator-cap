@@ -5,12 +5,15 @@ function DrawerCategory(props) {
   const { open, onClose, dataCategory } = props;
   return (
     <Drawer
+      id='drawer-category'
       open={open}
       onClose={onClose}
+      closeIcon={null}
       placement='left'
-      closeIcon={
+      title={
         <div
-          className='p-1 rounded-lg'
+          onClick={onClose}
+          className='p-1 rounded-lg inline-block float-right'
           style={{ backgroundColor: 'var(--primary-color)' }}
         >
           <CloseIcon fill='#fff' width={20} height={20} />
