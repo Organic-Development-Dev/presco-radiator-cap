@@ -80,7 +80,7 @@ function Index() {
           <div className='w-9/12 mx-auto flex justify-between py-8'>
             <div className='text-center'>
               <Image
-                src='/fake-image-delete-in-future/person.png'
+                src='/img/person.png'
                 alt='person'
                 width={110}
                 height={110}
@@ -95,7 +95,7 @@ function Index() {
             </div>
             <div className='text-center'>
               <Image
-                src='/fake-image-delete-in-future/person.png'
+                src='/img/person.png'
                 alt='person'
                 width={110}
                 height={110}
@@ -110,7 +110,7 @@ function Index() {
             </div>
             <div className='text-center'>
               <Image
-                src='/fake-image-delete-in-future/person.png'
+                src='/img/person.png'
                 alt='person'
                 width={110}
                 height={110}

@@ -81,7 +81,7 @@ function Testimonials() {
                 }}
               >
                 <Avatar
-                  src={`/fake-image-delete-in-future/${feedback.avatar}`}
+                  src={`/img/${feedback.avatar}`}
                   alt='person'
                   size='large'
                   style={{

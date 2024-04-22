@@ -6,21 +6,27 @@ const dataProducts = [
     name: 'auto eUrope',
     desc:
       'Presco Radiator Caps Ltd is <br /> committed to industry-leading <br /> coverage in every product <br /> category we bring to market.',
+    image: 'core-image.png',
   },
   {
     name: 'japanese auto',
     desc:
       'Presco Radiator Caps Ltd is <br /> committed to industry-leading <br /> coverage in every product <br /> category we bring to market.',
+    image: 'product2.png',
+    width: 190,
+    height: 154,
   },
   {
     name: 'AGRICULTURAL',
     desc:
       'Presco Radiator Caps Ltd is <br /> committed to industry-leading <br /> coverage in every product <br /> category we bring to market.',
+    image: 'product3.png',
   },
   {
     name: 'AGRICULTURAL',
     desc:
       'Presco Radiator Caps Ltd is <br /> committed to industry-leading <br /> coverage in every product <br /> category we bring to market.',
+    image: 'product4.png',
   },
 ];
 
@@ -38,13 +44,16 @@ function OurProducts() {
           {dataProducts.map((product, id) => (
             <>
               <div className='text-center'>
-                <div style={{ width: 150 }} className='rounded-full mx-auto'>
+                <div
+                  style={{ width: product.width ?? 150 }}
+                  className='rounded-full mx-auto'
+                >
                   <Image
-                    src='/fake-image-delete-in-future/core-image.png'
+                    src={`/img/${product.image}`}
                     alt='product'
                     layout='responsive'
-                    width={150}
-                    height={150}
+                    width={product.width ?? 180}
+                    height={product.height ?? 150}
                   />
                 </div>
                 <div

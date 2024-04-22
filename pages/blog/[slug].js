@@ -50,7 +50,7 @@ function Index(props) {
           />
           {/* <div className='flex gap-2 items-center pt-8'>
             <ImageAntd
-              src='/fake-image-delete-in-future/person.png'
+              src='/img/person.png'
               alt='person'
               width={80}
               height={80}
