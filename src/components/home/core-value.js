@@ -21,18 +21,18 @@ const dataCores = [
   },
 ];
 
-function CoreValue() {
+function CoreValue({ title = 'CORE VALUES' }) {
   return (
     <div className='container mx-auto text-center bg-white px-10 py-8 text-lg'>
       <div
-        className='font-bold pb-10 sm:pr-8'
+        className='font-bold pb-10 text-lg'
         style={{ color: 'var(--primary-color)' }}
       >
-        CORE VALUES
+        {title}
       </div>
       <div className='flex flex-col sm:flex-row items-center justify-between'>
         {dataCores.map((coreItem) => (
-          <div className='text-center pb-8 sm:p-0'>
+          <div key={coreItem.name} className='text-center pb-8 sm:p-0'>
             <div
               style={{
                 width: 114,

@@ -72,7 +72,7 @@ function Testimonials() {
           }}
         >
           {dataFeedBack.map((feedback) => (
-            <SwiperSlide>
+            <SwiperSlide key={feedback.avatar}>
               <div
                 className='text-center rounded-3xl mx-auto p-4'
                 style={{
