@@ -51,6 +51,7 @@ const dataChildSolutionAndProduct = {
 const dataNavs = [
   {
     name: 'Products & Solutions',
+    tab: 1,
     slug: '/',
     children: [
       {
@@ -94,14 +95,17 @@ const dataNavs = [
   },
   {
     name: 'About Us',
+    tab: 2,
     slug: '/about-us',
   },
   {
     name: 'News',
+    tab: 3,
     slug: '/news',
   },
   {
     name: 'Contact Us',
+    tab: 4,
     slug: '/contact-us',
   },
 ];
@@ -163,6 +167,7 @@ const Nav = () => {
                 style={{ color: 'var(--primary-color)' }}
                 className='font-semibold text-base cursor-pointer'
                 onClick={() => router.push(nav.slug)}
+                key={nav.name}
               >
                 {nav.name}
               </div>
@@ -179,43 +184,28 @@ const Nav = () => {
         </div>
 
         {/*Menu button*/}
-        <Popover
-          placement='bottomRight'
-          content={
-            <div
-              className='font-semibold flex flex-col'
-              style={{ color: 'var(--primary-color)' }}
+        <div className='menu-btn block lg:hidden'>
+          <button
+            onClick={() => setOpenDrawer(true)}
+            className='flex items-center px-3 py-2'
+          >
+            <svg
+              height='auto'
+              width='100'
+              className='fill-current h-6 w-6'
+              fill='var(--primary-color)'
+              viewBox='0 0 20 20'
+              xmlns='http://www.w3.org/2000/svg'
             >
-              <div onClick={() => setOpenDrawer(true)}>
-                Products & Solutions
-              </div>
-              <Link href='/about-us'>About Us</Link>
-              <Link href='/about-us'>Resources</Link>
-              <Link href='/about-us'>Contact Us</Link>
-            </div>
-          }
-        >
-          <div className='menu-btn block lg:hidden'>
-            <button className='flex items-center px-3 py-2'>
-              <svg
-                height='auto'
-                width='100'
-                className='fill-current h-6 w-6'
-                fill='var(--primary-color)'
-                viewBox='0 0 20 20'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path d='M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z' />
-              </svg>
-            </button>
-          </div>
-        </Popover>
+              <path d='M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z' />
+            </svg>
+          </button>
+        </div>
 
         {/*MMenu in mobile*/}
         <DrawerCategory
           open={openDrawer}
           onClose={() => setOpenDrawer(false)}
-          dataCategory={dataChildSolutionAndProduct}
         />
         <ModalSearch open={openSearch} onClose={() => setOpenSearch(false)} />
       </div>
