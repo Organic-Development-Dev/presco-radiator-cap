@@ -71,7 +71,7 @@ function TeamMembers() {
               className='rounded-full p-1 border-4 mx-auto'
             >
               <Image
-                src={`/fake-image-delete-in-future/${member.image}`}
+                src={`/img/${member.image}`}
                 layout='responsive'
                 alt='person'
                 width={250}
@@ -111,7 +111,7 @@ function TeamMembers() {
                   className='rounded-full p-1 border-4 mx-auto'
                 >
                   <Image
-                    src={`/fake-image-delete-in-future/${member.image}`}
+                    src={`/img/${member.image}`}
                     layout='responsive'
                     alt='person'
                     width={250}

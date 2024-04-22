@@ -36,15 +36,16 @@ function CoreValue() {
             <div
               style={{
                 width: 114,
+                height: 114,
                 boxShadow: '0 4px 4px 0 rgba(0, 0, 0, 0.25)',
               }}
               className='rounded-full m-auto'
             >
               <Image
-                src='/fake-image-delete-in-future/core-image.png'
+                src='/img/core-image.png'
                 alt='core-image'
                 layout='responsive'
-                width={120}
+                width={130}
                 height={120}
               />
             </div>

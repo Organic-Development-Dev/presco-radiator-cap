@@ -16,15 +16,15 @@ function ModalSearch(props) {
       <Divider />
       <div>
         <div className='flex gap-2 items-center px-4 pb-4'>
-          <Image src='/fake-image-delete-in-future/product.png' width={80} />
+          <Image src='/img/product.png' width={80} />
           <div>Product name</div>
         </div>
         <div className='flex gap-2 items-center px-4 pb-4'>
-          <Image src='/fake-image-delete-in-future/product.png' width={80} />
+          <Image src='/img/product.png' width={80} />
           <div>Product name</div>
         </div>
         <div className='flex gap-2 items-center px-4 pb-4'>
-          <Image src='/fake-image-delete-in-future/product.png' width={80} />
+          <Image src='/img/product.png' width={80} />
           <div>Product name</div>
         </div>
       </div>

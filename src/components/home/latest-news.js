@@ -22,7 +22,7 @@ function LatestNews() {
             Read more
           </Button>
           <Image
-            src='/fake-image-delete-in-future/latest-news.png'
+            src='/img/latest-news.png'
             alt='latest-news'
             layout='responsive'
             width={285}
@@ -39,7 +39,7 @@ function LatestNews() {
             Read more
           </Button>
           <Image
-            src='/fake-image-delete-in-future/latest-news2.png'
+            src='/img/latest-news2.png'
             alt='latest-news'
             layout='responsive'
             width={285}
@@ -56,7 +56,7 @@ function LatestNews() {
             Read more
           </Button>
           <Image
-            src='/fake-image-delete-in-future/latest-news3.png'
+            src='/img/latest-news3.png'
             alt='latest-news'
             layout='responsive'
             width={285}
@@ -73,7 +73,7 @@ function LatestNews() {
             Read more
           </Button>
           <Image
-            src='/fake-image-delete-in-future/latest-news.png'
+            src='/img/latest-news.png'
             alt='latest-news'
             layout='responsive'
             width={285}
@@ -93,7 +93,7 @@ function LatestNews() {
         >
           <SwiperSlide>
             <Image
-              src='/fake-image-delete-in-future/latest-news.png'
+              src='/img/latest-news.png'
               alt='latest-news'
               layout='responsive'
               width={285}
@@ -103,7 +103,7 @@ function LatestNews() {
           </SwiperSlide>
           <SwiperSlide>
             <Image
-              src='/fake-image-delete-in-future/latest-news2.png'
+              src='/img/latest-news2.png'
               alt='latest-news'
               layout='responsive'
               width={285}
@@ -113,7 +113,7 @@ function LatestNews() {
           </SwiperSlide>
           <SwiperSlide>
             <Image
-              src='/fake-image-delete-in-future/latest-news3.png'
+              src='/img/latest-news3.png'
               alt='latest-news'
               layout='responsive'
               width={285}
@@ -123,7 +123,7 @@ function LatestNews() {
           </SwiperSlide>
           <SwiperSlide>
             <Image
-              src='/fake-image-delete-in-future/latest-news.png'
+              src='/img/latest-news.png'
               alt='latest-news'
               layout='responsive'
               width={285}

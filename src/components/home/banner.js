@@ -7,8 +7,6 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import Image from 'next/image';
 
-
-
 function Banner() {
   return (
     <div id='banner'>
@@ -25,7 +23,7 @@ function Banner() {
         <SwiperSlide>
           <div className='relative' style={{ paddingTop: '27.5%' }}>
             <Image
-              src='/fake-image-delete-in-future/banner.png'
+              src='/img/banner.png'
               layout='fill'
               alt='banner'
               className='absolute'
@@ -35,7 +33,7 @@ function Banner() {
         <SwiperSlide>
           <div className='relative' style={{ paddingTop: '27.5%' }}>
             <Image
-              src='/fake-image-delete-in-future/banner.png'
+              src='/img/banner.png'
               layout='fill'
               alt='banner'
               className='absolute'
@@ -45,7 +43,7 @@ function Banner() {
         <SwiperSlide>
           <div className='relative' style={{ paddingTop: '27.5%' }}>
             <Image
-              src='/fake-image-delete-in-future/banner.png'
+              src='/img/banner.png'
               layout='fill'
               alt='banner'
               className='absolute'
