@@ -53,6 +53,7 @@ function OurProducts() {
                   layout='responsive'
                   width={product.width ?? 180}
                   height={product.height ?? 150}
+                  style={{ objectFit: 'cover' }}
                 />
               </div>
               <div

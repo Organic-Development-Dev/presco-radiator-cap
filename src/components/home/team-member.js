@@ -10,33 +10,33 @@ const dataMembers = [
     image: 'person1.png',
   },
   {
-    name: 'Simon Archer',
-    position: 'General Manager',
-    desc: 'simon@presco-radiator-caps.com',
+    name: 'Gordon Archer',
+    position: 'Technical Manager',
+    desc: 'gordon@presco-radiator-caps.com',
     image: 'person2.png',
   },
   {
-    name: 'Simon Archer',
-    position: 'General Manager',
-    desc: 'simon@presco-radiator-caps.com',
+    name: 'Sue Archer',
+    position: 'Company Secretary',
+    desc: 'sue@presco-radiator-caps.com',
     image: 'person3.png',
   },
   {
-    name: 'Simon Archer',
-    position: 'General Manager',
-    desc: 'simon@presco-radiator-caps.com',
+    name: 'Caroline Bird',
+    position: 'Adminstration Manager',
+    desc: 'sales@presco-radiator-caps.com',
     image: 'person4.png',
   },
   {
-    name: 'Simon Archer',
-    position: 'General Manager',
-    desc: 'simon@presco-radiator-caps.com',
+    name: 'Sol Griffiths',
+    position: 'Quality Engineer',
+    desc: 'sol@presco-radiator-caps.com',
     image: 'person5.png',
   },
   {
-    name: 'Simon Archer',
-    position: 'General Manager',
-    desc: 'simon@presco-radiator-caps.com',
+    name: 'Martin Jelfs',
+    position: 'Production Manager',
+    desc: 'sue@presco-radiator-caps.com',
     image: 'person6.png',
   },
 ];
@@ -67,7 +67,7 @@ function TeamMembers() {
         {dataMembers.map((member) => (
           <div className='text-center' key={member.name}>
             <div
-              style={{ width: 160, borderColor: 'var(--primary-color)' }}
+              style={{ width: 200, borderColor: 'var(--primary-color)' }}
               className='rounded-full p-1 border-4 mx-auto'
             >
               <Image
