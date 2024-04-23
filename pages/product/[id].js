@@ -50,8 +50,8 @@ function Index(props) {
           />
         </div>
       </div>
-      <div className='container mx-auto py-16'>
-        <div className='w-2/3 mx-auto'>
+      <div className='container mx-auto py-12'>
+        <div className='w-5/6 mx-auto'>
           <Row gutter={80}>
             <Col xs={{ span: 24 }} md={{ span: 16 }}>
               <Swiper
@@ -198,8 +198,8 @@ function Index(props) {
                       src={product.images[0]?.src ?? '/img/background-gray.png'}
                       alt='product'
                       className='rounded-lg'
-                      width={120}
-                      height={120}
+                      width={100}
+                      height={100}
                       preview={false}
                     />
                     <div
