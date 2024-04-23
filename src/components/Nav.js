@@ -184,22 +184,30 @@ const Nav = () => {
         </div>
 
         {/*Menu button*/}
-        <div className='menu-btn block lg:hidden'>
-          <button
-            onClick={() => setOpenDrawer(true)}
-            className='flex items-center px-3 py-2'
-          >
-            <svg
-              height='auto'
-              width='100'
-              className='fill-current h-6 w-6'
-              fill='var(--primary-color)'
-              viewBox='0 0 20 20'
-              xmlns='http://www.w3.org/2000/svg'
+        <div className='lg:hidden flex gap-2 items-center'>
+          <SearchIcon
+            onClick={() => setOpenSearch(true)}
+            stroke='var(--primary-color)'
+            width={25}
+            height={25}
+          />
+          <div className='menu-btn'>
+            <button
+              onClick={() => setOpenDrawer(true)}
+              className='flex items-center px-3 py-2'
             >
-              <path d='M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z' />
-            </svg>
-          </button>
+              <svg
+                height='auto'
+                width='100'
+                className='fill-current h-6 w-6'
+                fill='var(--primary-color)'
+                viewBox='0 0 20 20'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path d='M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z' />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/*MMenu in mobile*/}
