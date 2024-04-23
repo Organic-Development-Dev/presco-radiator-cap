@@ -87,8 +87,8 @@ function DrawerCategory(props) {
       {dataNavs.map((nav) => (
         <div key={nav.name}>
           <div
-            style={{ backgroundColor: 'var(--primary-color)' }}
-            className='font-semibold uppercase text-lg text-white text-center mb-4'
+            style={{ color: 'var(--primary-color)' }}
+            className='font-semibold uppercase text-lg mb-4 px-3'
             onClick={() => {
               router.push(nav.slug);
               onClose();
@@ -98,7 +98,7 @@ function DrawerCategory(props) {
           </div>
           <Collapse
             bordered={false}
-            defaultActiveKey={['1']}
+            // defaultActiveKey={['1']}
             // expandIcon={({ isActive }) => (
             //   <CaretRightOutlined rotate={isActive ? 90 : 0} />
             // )}
@@ -139,38 +139,6 @@ function DrawerCategory(props) {
           />
         </div>
       ))}
-      {/* <div>
-        <div
-          style={{ backgroundColor: 'var(--primary-color)' }}
-          className='font-semibold uppercase text-lg text-white text-center mb-4'
-        >
-          {dataCategory.title}
-        </div>
-        <div>
-          {dataCategory.children.map((cate) => (
-            <div key={cate.name}>
-              <div
-                style={{ color: 'var(--primary-color)' }}
-                className='text-base cursor-pointer font-semibold uppercase'
-              >
-                {cate.title}
-              </div>
-              <ul className='pb-2 pl-4'>
-                {cate.children.map((child) => (
-                  <li
-                    style={{ color: 'var(--primary-color)' }}
-                    className='text-base cursor-pointer list-disc'
-                    onClick={() => router.push(nav.slug)}
-                    key={child.name}
-                  >
-                    {child.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div> */}
     </Drawer>
   );
 }
