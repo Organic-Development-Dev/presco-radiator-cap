@@ -9,25 +9,20 @@ import SvgInstagram from './icons/Instagram';
 const Footer = () => (
   <div className='footer text-white font-thin'>
     <div style={{ backgroundColor: '#4C4C4C' }}>
-      <div className='container m-auto py-10 px-6 sm:px-0'>
+      <div className='container w-5/6 sm:w-full m-auto py-10 px-6 sm:px-0'>
         <Row gutter={16}>
-          <Col xs={{ span: 24 }} lg={{ span: 8 }}>
+          <Col xs={{ span: 24 }} md={{ span: 8 }}>
             <div className='pb-8'>
-              <div style={{ width: 240 }}>
-                <Link href='/'>
-                  <Image
-                    src='/img/logo-bg-white.png'
-                    layout='responsive'
-                    width={240}
-                    height={72}
-                    alt='logo'
-                  />
-                </Link>
+              <div className='md:w-48 lg:w-64'>
+                <Image
+                  src='/img/logo-bg-white.png'
+                  layout='responsive'
+                  width={240}
+                  height={72}
+                  alt='logo'
+                />
               </div>
-              <div
-                style={{ width: 240 }}
-                className='flex gap-8 justify-between sm:justify-start mt-4'
-              >
+              <div className='md:w-64 flex gap-8 justify-between sm:justify-start mt-4'>
                 <Link href='/'>
                   <SvgFacebook />
                 </Link>
@@ -40,9 +35,9 @@ const Footer = () => (
               </div>
             </div>
           </Col>
-          <Col xs={{ span: 24 }} lg={{ span: 16 }}>
+          <Col xs={{ span: 24 }} md={{ span: 16 }}>
             <Row gutter={16}>
-              <Col xs={{ span: 24 }} lg={{ span: 8 }}>
+              <Col xs={{ span: 24 }} md={{ span: 8 }}>
                 <div className='pb-8 text-xs'>
                   <div className='font-semibold text-white text-sm mb-4'>
                     OUR ADDRESS
@@ -62,7 +57,7 @@ const Footer = () => (
                   </div>
                 </div>
               </Col>
-              <Col xs={{ span: 24 }} lg={{ span: 8 }}>
+              <Col xs={{ span: 24 }} md={{ span: 8 }}>
                 <div className='pb-8 text-xs'>
                   <div className='font-semibold text-white text-sm mb-4'>
                     OUR PRODUCT
@@ -73,7 +68,7 @@ const Footer = () => (
                   <div>Trucks & Commercials</div>
                 </div>
               </Col>
-              <Col xs={{ span: 24 }} lg={{ span: 8 }}>
+              <Col xs={{ span: 24 }} md={{ span: 8 }}>
                 <div className='text-xs'>
                   <div className='font-semibold text-white text-sm mb-4'>
                     IMPORTANT LINKS
