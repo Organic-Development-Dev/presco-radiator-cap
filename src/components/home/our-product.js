@@ -24,7 +24,7 @@ const dataProducts = [
     image: 'product3.png',
   },
   {
-    name: 'AGRICULTURAL',
+    name: 'Trucks & Commercial',
     desc:
       'Presco Radiator Caps Ltd is <br /> committed to industry-leading <br /> coverage in every product <br /> category we bring to market.',
     image: 'product4.png',
@@ -45,16 +45,16 @@ function OurProducts() {
           <Fragment key={product.name}>
             <div className='text-center'>
               <div
-                style={{ width: product.width ?? 150 }}
+                style={{ width: product.width ?? 150, height: 140 }}
                 className='rounded-full mx-auto'
               >
-                <Image
+                <img
                   src={`/img/${product.image}`}
                   alt='product'
                   layout='responsive'
-                  width={product.width ?? 180}
-                  height={product.height ?? 150}
-                  style={{ objectFit: 'contain' }}
+                  width={180}
+                  height={150}
+                  style={{ objectFit: 'cover' }}
                 />
               </div>
               <div
