@@ -1,5 +1,6 @@
 import { Divider } from 'antd';
 import Image from 'next/image';
+import { Fragment } from 'react';
 
 const dataProducts = [
   {
@@ -39,10 +40,10 @@ function OurProducts() {
       >
         OUR PRODUCTS
       </div>
-      <div className='container mx-auto flex flex-col sm:flex-row items-center justify-evenly py-8'>
+      <div className='container mx-auto flex flex-col gap-4 sm:gap-0 sm:flex-row items-center justify-evenly py-8'>
         {dataProducts.map((product, id) => (
-          <>
-            <div key={product.name} className='text-center'>
+          <Fragment key={product.name}>
+            <div className='text-center'>
               <div
                 style={{ width: product.width ?? 150 }}
                 className='rounded-full mx-auto'
@@ -84,7 +85,7 @@ function OurProducts() {
                 className='hidden sm:block'
               />
             )}
-          </>
+          </Fragment>
         ))}
       </div>
     </div>
