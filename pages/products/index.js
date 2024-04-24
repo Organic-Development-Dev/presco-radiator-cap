@@ -1,17 +1,8 @@
-import {
-  Breadcrumb,
-  Checkbox,
-  ConfigProvider,
-  Drawer,
-  Image,
-  Row,
-  Tabs,
-} from 'antd';
+import { Breadcrumb, ConfigProvider, Image, Tabs } from 'antd';
 import { useRouter } from 'next/router';
-import MenuIcon from '../../src/components/icons/Menu';
-import { useMemo, useState } from 'react';
-import CloseIcon from '../../src/components/icons/Close';
+import { useState } from 'react';
 import DrawerFilterProduct from '../../src/components/DrawerFilterProduct';
+import MenuIcon from '../../src/components/icons/Menu';
 
 export default function Index(props) {
   const { products, categories } = props;
@@ -104,7 +95,7 @@ export default function Index(props) {
               <div key={product.id} className='text-center'>
                 <div>
                   <Image
-                    src={product.images[0].src}
+                    src={product.images[0]?.src}
                     alt='product'
                     width={200}
                     height={93}
@@ -132,33 +123,33 @@ export default function Index(props) {
 }
 
 export async function getStaticProps() {
-    try {
-        const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-        const response = await fetch(`${apiBaseUrl}/api/products`);
-        const dataCateRes = await fetch(`${apiBaseUrl}/api/products/categories`);
-        const products = await response.json();
-        const categories = await dataCateRes.json();
+  try {
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const response = await fetch(`${apiBaseUrl}/api/products`);
+    const dataCateRes = await fetch(`${apiBaseUrl}/api/products/categories`);
+    const products = await response.json();
+    const categories = await dataCateRes.json();
 
-        return {
-            props: {
-                products,
-                categories: categories.map((cate) => {
-                    const { id, name, slug } = cate;
-                    return {
-                        id,
-                        name,
-                        slug,
-                    };
-                }),
-            },
-        };
-    } catch (error) {
-        console.error('Error fetching data in getStaticProps:', error);
-        return {
-            props: {
-                products: [],
-                categories: [],
-            },
-        };
-    }
+    return {
+      props: {
+        products,
+        categories: categories.map((cate) => {
+          const { id, name, slug } = cate;
+          return {
+            id,
+            name,
+            slug,
+          };
+        }),
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching data in getStaticProps:', error);
+    return {
+      props: {
+        products: [],
+        categories: [],
+      },
+    };
+  }
 }
