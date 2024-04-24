@@ -74,9 +74,8 @@ function Testimonials() {
           {dataFeedBack.map((feedback) => (
             <SwiperSlide key={feedback.avatar}>
               <div
-                className='text-center rounded-3xl mx-auto p-4'
+                className='text-center rounded-3xl mx-auto p-4 testimonials-slider-item'
                 style={{
-                  width: 500,
                   boxShadow: '0 4px 4px 0 rgba(0, 0, 0, 0.25)',
                 }}
               >

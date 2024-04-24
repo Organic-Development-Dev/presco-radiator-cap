@@ -85,3 +85,10 @@ body {
   top: 0;
   z-index: 1000;
 }
+
+.testimonials-slider-item {
+  width: 500px;
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+}
