@@ -1,4 +1,4 @@
-import { Image } from 'antd';
+import { Divider, Image } from 'antd';
 import Search from 'antd/es/input/Search';
 import axios from 'axios';
 import Link from 'next/link';
@@ -17,6 +17,7 @@ function SearchPage({ products, search }) {
           onSearch={(value, _e, info) => router.push(`/search?name=${value}`)}
         />
       </div>
+      <Divider />
       <div>
         <div className='pb-4'>
           Search Result for: <span>{search}</span>
