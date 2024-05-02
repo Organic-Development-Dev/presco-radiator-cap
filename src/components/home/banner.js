@@ -11,7 +11,7 @@ function Banner() {
   return (
     <div id='banner'>
       <Swiper
-        style={{ padding: '40px 0' }}
+        style={{ paddingBottom: '40px' }}
         slidesPerView={1}
         spaceBetween={30}
         pagination={{
@@ -33,7 +33,7 @@ function Banner() {
         <SwiperSlide>
           <div className='relative' style={{ paddingTop: '27.5%' }}>
             <Image
-              src='/img/banner.png'
+              src='/img/banner1.png'
               layout='fill'
               alt='banner'
               className='absolute'
@@ -43,7 +43,17 @@ function Banner() {
         <SwiperSlide>
           <div className='relative' style={{ paddingTop: '27.5%' }}>
             <Image
-              src='/img/banner.png'
+              src='/img/banner2.png'
+              layout='fill'
+              alt='banner'
+              className='absolute'
+            />
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className='relative' style={{ paddingTop: '27.5%' }}>
+            <Image
+              src='/img/banner3.png'
               layout='fill'
               alt='banner'
               className='absolute'
