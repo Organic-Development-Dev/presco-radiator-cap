@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const dataCores = [
   {
-    name: 'COVERAGE',
+    name: 'QUALITY',
     desc: 'WISH YOU COULD SAY YES <br /> MORE OFTEN?',
     subDesc:
       'Presco Radiator Caps Ltd is <br /> committed to industry-leading <br /> coverage in every product <br />category we bring to market.',

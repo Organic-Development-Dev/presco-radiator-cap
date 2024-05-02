@@ -1,11 +1,14 @@
 import { Breadcrumb } from 'antd';
 import Image from 'next/image';
 import { Image as ImageAntd } from 'antd';
+import { useRouter } from 'next/router';
 import client from '../../src/components/ApolloClient';
 import GET_DETAIL_BLOG from '../../src/queries/get-detail-blog';
+import GET_BLOGS from '../../src/queries/get-blogs';
 
 function Index(props) {
-  const { post } = props;
+  const router = useRouter();
+  const { post, prevPost, nextPost } = props;
   return (
     <>
       <div style={{ backgroundColor: '#F6F6F6' }}>
@@ -60,31 +63,36 @@ function Index(props) {
             <div>{post.author.name}</div>
           </div> */}
           <div className='flex flex-col sm:flex-row justify-between pt-8'>
-            <div>
-              <div className='font-thin' style={{ color: '#3A3A3A' }}>
-                Previous Post
-              </div>
-              <div
-                className='font-semibold text-lg'
-                style={{ color: 'var(--primary-color)' }}
-              >
-                Why not? I always choose the hard way for me
-              </div>
-            </div>
-            <div>
-              <div
-                className='font-thin text-left pt-4 sm:pt-0 sm:text-right'
-                style={{ color: '#3A3A3A' }}
-              >
-                Next Post
-              </div>
-              <div
-                className='font-semibold text-lg text-left sm:text-right'
-                style={{ color: 'var(--primary-color)' }}
-              >
-                Why not? I always choose the hard way for me
-              </div>
-            </div>
+              {prevPost && (
+                  <div className='post-action' onClick={() => router.push(`/blog/${prevPost?.slug}`)}>
+                    <div className='font-thin' style={{color: '#3A3A3A'}} >
+                      Previous Post
+                    </div>
+                    <div
+                        className='font-semibold text-lg'
+                        style={{color: 'var(--primary-color)'}}
+                    >
+                      {prevPost.title}
+                    </div>
+                  </div>
+              )}
+
+            {nextPost && (
+                <div className='post-action' onClick={() => router.push(`/blog/${nextPost?.slug}`)}>
+                  <div
+                        className='font-thin text-left pt-4 sm:pt-0 sm:text-right'
+                        style={{color: '#3A3A3A'}}
+                    >
+                      Next Post
+                    </div>
+                    <div
+                        className='font-semibold text-lg text-left sm:text-right'
+                        style={{color: 'var(--primary-color)'}}
+                    >
+                      {nextPost.title}
+                    </div>
+                  </div>
+              )}
           </div>
         </div>
       </div>
@@ -96,13 +104,25 @@ export default Index;
 
 export async function getStaticProps(context) {
   const {
-    params: { slug },
+    params: {slug},
   } = context;
 
-  const { data } = await client.query({
+  const {data} = await client.query({
     query: GET_DETAIL_BLOG,
-    variables: { slug },
+    variables: {slug},
   });
+
+  // Fetch the next and previous posts
+  const allPostsData = await client.query({
+    query: GET_BLOGS,
+  });
+
+  const allPosts = allPostsData.data.posts.nodes;
+
+  const currentIndex = allPosts.findIndex(item => item.slug === slug);
+  const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+
   return {
     props: {
       post: {
@@ -110,6 +130,8 @@ export async function getStaticProps(context) {
         title: data?.post?.title,
         author: data?.post.author?.node,
       },
+      prevPost,
+      nextPost,
     },
     revalidate: 1,
   };

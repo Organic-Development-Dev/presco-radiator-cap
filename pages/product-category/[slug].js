@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import MenuIcon from '../../src/components/icons/Menu';
 import DrawerFilterProduct from '../../src/components/DrawerFilterProduct';
+import {DEFAULT_PRODUCT_HOME_IMG_URL} from "../../src/constants/urls";
 
 export default function Index(props) {
   const { dataCategory, products } = props;
@@ -125,11 +126,11 @@ export default function Index(props) {
               <div
                 onClick={() => router.push(`/product/${product.id}`)}
                 key={product.id}
-                className='text-center'
+                className='text-center rounded-xl'
               >
                 <div>
                   <Image
-                    src={product.images[0]?.src}
+                    src={product?.images[0]?.src ?? DEFAULT_PRODUCT_HOME_IMG_URL}
                     alt='product'
                     height={120}
                     preview={false}

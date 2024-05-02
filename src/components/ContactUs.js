@@ -1,38 +1,26 @@
 "use client";
 
-import { Breadcrumb, Button, Col, Form, Input, Row, Space } from "antd";
+import { Breadcrumb, Button, Col, Form, Input, Row } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import Subscriber from "./home/subscriber";
 import { useState } from "react";
 import axios from "axios";
+import { Select } from "antd";
 
 function ContactUs() {
   const [message, setMessage] = useState("");
   const submitHandler = async (values) => {
     try {
       const data = await axios.post("/api/get-data-contact/", values);
-      setMessage("Submit Success");
-      console.log(data);
+
+      setMessage(data.data.status);
     } catch (error) {
-      console.log("submit error", error);
+      console.log(error);
     }
   };
 
   const submitFailed = (error) => {
     console.log("error", error);
   };
-  const mapData = [
-    {
-      title:
-        "Unit D86, Blackpole Trading Estate West Worcester, England, WR3 8T ",
-      tel: "+44 (0)1905 755656",
-      fax: "+44 1905 755654",
-      email: "sales@presco-radiator-caps.com There is parking on site",
-      desc:
-        "Our opening hours are 8 am-4.45 pm Monday to Thursday & Fridays we are open until 12.30pm – please leave a phone message or email us",
-    },
-  ];
-
   return (
     <>
       <div style={{ backgroundColor: "#F6F6F6" }}>
@@ -76,21 +64,21 @@ function ContactUs() {
                 onFinishFailed={submitFailed}
               >
                 <Row gutter={8}>
-                  <Col span={24} sm={12}>
+                  <Col span={24}>
                     <Form.Item
-                      name="firstName"
-                      label="First Name"
+                      name="your-name"
+                      label="Name"
                       rules={[
                         {
                           required: true,
-                          message: "Please input your first name!",
+                          message: "Please input your name",
                         },
                       ]}
                     >
                       <Input className="sm:w-full" />
                     </Form.Item>
                     <Form.Item
-                      name="email"
+                      name="your-email"
                       label="Email"
                       rules={[
                         {
@@ -106,35 +94,30 @@ function ContactUs() {
                       <Input className="sm:w-full" />
                     </Form.Item>
                   </Col>
-                  <Col span={24} sm={12}>
-                    <Form.Item
-                      name="lastName"
-                      label="Last Name"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input your last name!",
-                        },
-                      ]}
-                    >
-                      <Input className="sm:w-full" />
-                    </Form.Item>
-                    <Form.Item
-                      name="phone"
-                      label="Phone"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input your phone!",
-                        },
-                      ]}
-                    >
-                      <Input className="sm:w-full" />
+
+                  <Col span={24}>
+                    <Form.Item label="Select" name="avia_3_1">
+                      <Select>
+                        <Select.Option value="Product Questions">
+                          Product Questions
+                        </Select.Option>
+                        <Select.Option value="Payment">Payment</Select.Option>
+                        <Select.Option value="Delivery">Delivery</Select.Option>
+                        <Select.Option value="Refund">Refund</Select.Option>
+                        <Select.Option value="My Orders">
+                          My Orders
+                        </Select.Option>
+                        <Select.Option value="My Account">
+                          My Account
+                        </Select.Option>
+                        <Select.Option value="Coupons">Coupons</Select.Option>
+                        <Select.Option value="Other">Other</Select.Option>
+                      </Select>
                     </Form.Item>
                   </Col>
                   <Col span={24}>
                     <Form.Item
-                      name="comment"
+                      name="avia_4_1"
                       label="Comment"
                       rules={[
                         {
@@ -206,7 +189,6 @@ function ContactUs() {
         </Row>
         <div>{message && <p>{message}</p>}</div>
       </div>
-      <Subscriber />
     </>
   );
 }

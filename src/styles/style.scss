@@ -4,7 +4,7 @@
 
 body {
   width: 100%;
-  font-family: 'Montserrat' !important;
+  font-family: "Montserrat" !important;
 
   .container {
     @media (max-width: 640px) {
@@ -15,7 +15,7 @@ body {
 }
 
 #subscribe {
-  background-image: url('/img/suscribe-bg.png');
+  background-image: url("/img/suscribe-bg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -29,7 +29,7 @@ body {
 
 #about-us {
   .our-service {
-    background-image: url('/img/our-service-bg.jpeg');
+    background-image: url("/img/our-service-bg.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -57,7 +57,7 @@ body {
 
     &::before {
       display: none;
-      content: '';
+      content: "";
       position: absolute;
       // background: url('/img/hover-bg.png');
       // background-position: center;
@@ -92,3 +92,28 @@ body {
     width: 100%;
   }
 }
+
+p.title-policy strong {
+  color: #2d5c88;
+}
+.privacy-container.container p {
+  margin: 0.85em 0;
+  font-size: 15px;
+  color: #666666;
+}
+
+.disclaimer.container p {
+  padding: 8px 0;
+  color: #666666;
+}
+.post-action {
+  width: 100%;
+  cursor: pointer;
+}
+@media (min-width: 1270px) {
+  .wrap-inspection.flex.flex-col.md\:grid.grid-cols-3.gap-12.my-16.auto-cols-max {
+    margin-left: -18px;
+    margin-right: -18px;
+  }
+}
+
