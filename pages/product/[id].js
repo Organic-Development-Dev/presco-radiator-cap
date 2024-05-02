@@ -9,6 +9,7 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
+import {DEFAULT_PRODUCT_HOME_IMG_URL} from "../../src/constants/urls";
 
 const ModalEnquireNow = dynamic(
   () => import('../../src/components/ModalEnquireNow'),
@@ -167,16 +168,13 @@ function Index(props) {
                 className='rounded-xl flex flex-col'
                 onClick={() => router.push(`/product/${product.id}`)}
               >
-                {product.images[0]?.src && (
-                  <Image
-                    src={product.images[0].src}
-                    alt='product'
-                    className='rounded-lg'
-                    width={120}
-                    height={120}
-                    preview={false}
-                  />
-                )}
+                <Image src={product.images[0]?.src ?? DEFAULT_PRODUCT_HOME_IMG_URL}
+                       alt='product'
+                       className='rounded-lg'
+                       width={120}
+                       height={120}
+                       preview={false}
+                />
                 <div
                   style={{ backgroundColor: 'var(--primary-color)' }}
                   className='py-1 px-4 rounded-lg text-white inline-block text-xs mt-4 cursor-pointer inline-block'
@@ -195,7 +193,7 @@ function Index(props) {
                     onClick={() => router.push(`/product/${product.id}`)}
                   >
                     <Image
-                      src={product.images[0]?.src ?? '/img/background-gray.png'}
+                      src={product.images[0]?.src ?? DEFAULT_PRODUCT_HOME_IMG_URL}
                       alt='product'
                       className='rounded-lg'
                       width={100}

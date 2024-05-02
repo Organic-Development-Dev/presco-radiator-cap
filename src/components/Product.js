@@ -17,8 +17,7 @@ const Product = (props) => {
 						className="object-cover bg-gray-100"
 						width="100%"
 						height="auto"
-						src={product?.image?.sourceUrl ?? ''}
-						defaultimgurl={DEFAULT_PRODUCT_HOME_IMG_URL}
+						src={product?.image?.sourceUrl ?? DEFAULT_PRODUCT_HOME_IMG_URL}
 						alttext={product?.image?.altText ?? product?.slug}
 					/>
 				</Link>
