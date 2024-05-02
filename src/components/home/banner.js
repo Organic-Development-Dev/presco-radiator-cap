@@ -21,17 +21,7 @@ function Banner() {
         modules={[Pagination]}
       >
         <SwiperSlide>
-          <div className='relative' style={{ paddingTop: '27.5%' }}>
-            <Image
-              src='/img/banner.png'
-              layout='fill'
-              alt='banner'
-              className='absolute'
-            />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className='relative' style={{ paddingTop: '27.5%' }}>
+          <div className='relative' style={{ paddingTop: '30%' }}>
             <Image
               src='/img/banner1.png'
               layout='fill'
@@ -41,7 +31,7 @@ function Banner() {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className='relative' style={{ paddingTop: '27.5%' }}>
+          <div className='relative' style={{ paddingTop: '30%' }}>
             <Image
               src='/img/banner2.png'
               layout='fill'
@@ -51,7 +41,7 @@ function Banner() {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className='relative' style={{ paddingTop: '27.5%' }}>
+          <div className='relative' style={{ paddingTop: '30%' }}>
             <Image
               src='/img/banner3.png'
               layout='fill'
