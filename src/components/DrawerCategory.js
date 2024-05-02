@@ -47,9 +47,18 @@ const dataNavs = [
     ],
   },
   {
-    name: 'About Us',
-    tab: 2,
-    slug: '/about-us',
+    children: [
+      {
+        name: 'About Us',
+        slug: '/about-us',
+        children: [
+          { name: 'Packaging', slug: '/' },
+          { name: 'Inspection & Testing', slug: '/inspection-testing' },
+          { name: 'Privacy Policy', slug: '/privacy-policy' },
+          { name: 'Disclaimer', slug: '/disclaimer' },
+        ],
+      },
+    ],
   },
   {
     name: 'News',
@@ -85,17 +94,21 @@ function DrawerCategory(props) {
       }
     >
       {dataNavs.map((nav) => (
-        <div key={nav.name}>
-          <div
-            style={{ color: 'var(--primary-color)' }}
-            className='font-semibold uppercase text-lg mb-4 px-3'
-            onClick={() => {
-              router.push(nav.slug);
-              onClose();
-            }}
-          >
-            {nav.name}
-          </div>
+        <>
+          {nav.name && (
+            <div key={nav.name}>
+              <div
+                style={{ color: 'var(--primary-color)' }}
+                className='font-semibold uppercase text-lg mb-4 px-3'
+                onClick={() => {
+                  router.push(nav.slug);
+                  onClose();
+                }}
+              >
+                {nav.name}
+              </div>
+            </div>
+          )}
           <Collapse
             bordered={false}
             // defaultActiveKey={['1']}
@@ -106,6 +119,7 @@ function DrawerCategory(props) {
             style={{ background: '#fff' }}
             expandIconPosition='end'
             items={nav?.children?.map((childNav) => {
+              console.log(childNav);
               return {
                 key: childNav.key,
                 label: (
@@ -116,9 +130,9 @@ function DrawerCategory(props) {
                     {childNav.name}
                   </div>
                 ),
-                children: (
+                children: childNav?.children ? (
                   <ul className='pb-2 pl-4'>
-                    {childNav.children.map((child) => (
+                    {childNav?.children?.map((child) => (
                       <li
                         style={{ color: 'var(--primary-color)' }}
                         className='text-base cursor-pointer list-disc'
@@ -132,12 +146,13 @@ function DrawerCategory(props) {
                       </li>
                     ))}
                   </ul>
-                ),
+                ) : null,
+
                 style: { border: 'none' },
               };
             })}
           />
-        </div>
+        </>
       ))}
     </Drawer>
   );
