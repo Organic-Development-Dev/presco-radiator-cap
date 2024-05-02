@@ -16,33 +16,33 @@ const dataChildSolutionAndProduct = {
       title: 'auto',
       children: [
         { name: 'Expansion Tank', slug: 'expansion-tank' },
-        { name: 'Fuel Caps' },
-        { name: 'Radiator Wing Caps' },
-        { name: 'Japanese Caps' },
-        { name: 'Reservior Caps' },
-        { name: 'Oil Caps' },
-        { name: 'Radiator Necks' },
+        { name: 'Fuel Caps', slug: 'fuel-caps' },
+        { name: 'Radiator Wing Caps', slug: 'radiator-wing-caps' },
+        { name: 'Japanese Caps', slug: 'japanese-caps' },
+        { name: 'Reservior Caps', slug: 'reservior-caps' },
+        { name: 'Oil Caps', slug: 'oil-caps' },
+        { name: 'Radiator Necks', slug: 'radiator-necks' },
       ],
     },
     {
       title: 'Agricultural',
       children: [
-        { name: 'Oil Caps' },
-        { name: 'Fuel Caps' },
-        { name: 'Reservior Caps' },
-        { name: 'Radiator Necks' },
-        { name: 'Engine Parts' },
+        { name: 'Oil Caps', slug: 'oil-caps' },
+        { name: 'Fuel Caps', slug: 'fuel-caps' },
+        { name: 'Reservior Caps', slug: 'reservior-caps' },
+        { name: 'Radiator Necks', slug: 'radiator-necks' },
+        { name: 'Engine Parts', slug: 'engine-parts' },
       ],
     },
     {
       title: 'Other Applications',
       children: [
-        { name: 'Auto' },
-        { name: 'Agricultura' },
-        { name: 'Truck & Commercial' },
-        { name: 'Radiator Necks' },
-        { name: 'Sealing Caps' },
-        { name: 'Ad Blue Caps' },
+        { name: 'Auto', slug: 'auto' },
+        { name: 'Agricultura', slug: 'agricultura' },
+        { name: 'Truck & Commercial', slug: 'commercial-caps' },
+        { name: 'Radiator Necks', slug: 'radiator-necks' },
+        { name: 'Sealing Caps', slug: 'sealing-caps' },
+        { name: 'Ad Blue Caps', slug: 'ad-blue-caps' },
       ],
     },
   ],
@@ -79,7 +79,7 @@ const dataNavs = [
                   <ul>
                     {childNav.children.map((item) => (
                       <li key={item.name}>
-                        <Link href='/product-category/expansion-tank'>
+                        <Link href={`/product-category/${item.slug}`}>
                           {item.name}
                         </Link>
                       </li>
