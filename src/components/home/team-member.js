@@ -36,7 +36,7 @@ const dataMembers = [
   {
     name: 'Martin Jelfs',
     position: 'Production Manager',
-    desc: 'sue@presco-radiator-caps.com',
+    desc: '',
     image: 'person6.png',
   },
 ];
