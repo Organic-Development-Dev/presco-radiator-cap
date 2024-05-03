@@ -23,16 +23,30 @@ function Subscriber() {
     }, 1000);
   };
 
+  const openMessageErr = () => {
+    messageApi.open({
+      type: 'error',
+      content: 'Email is invalid!',
+    });
+  };
+
   const handleSubmit = async (e) => {
     const email = e.target.email.value;
     e.preventDefault();
 
-    const { data } = await axios.post('http://localhost:3000/api/newsletter', {
-      email,
-    });
-    if (data.status) {
-      openMessage();
-      e.target.email.value = '';
+    if (!email) {
+      openMessageErr();
+    } else {
+      const { data } = await axios.post(
+        'http://localhost:3000/api/newsletter',
+        {
+          email,
+        }
+      );
+      if (data.status) {
+        openMessage();
+        e.target.email.value = '';
+      }
     }
   };
   return (
@@ -53,6 +67,7 @@ function Subscriber() {
                 placeholder='Email*'
                 style={{ width: 250 }}
                 name='email'
+                type='email'
               />
               <Button
                 htmlType='submit'
