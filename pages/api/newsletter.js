@@ -4,7 +4,7 @@ import mailchimp from '@mailchimp/mailchimp_marketing';
 
 mailchimp.setConfig({
   apiKey: process.env.MAIL_CHIMP_API_KEY,
-  server: 'us22',
+  server: process.env.MAIL_CHIMP_SERVER,
 });
 
 export default async function handler(req, res) {
@@ -13,8 +13,8 @@ export default async function handler(req, res) {
     res.status(404).json({ error: 'Email not found' });
   } else {
     const subscriber_hash = md5(email);
-    const response = await mailchimp.lists.setListMember(
-      'a50847cf45',
+    await mailchimp.lists.setListMember(
+      process.env.MAIL_CHIMP_LIST_ID,
       subscriber_hash,
       {
         email_address: email,
