@@ -26,15 +26,15 @@ const Footer = () => {
                   />
                 </div>
                 <div className='md:w-64 flex gap-8 justify-between sm:justify-start mt-4'>
-                  <Link href='/'>
+                  <a href='/'>
                     <SvgFacebook />
-                  </Link>
-                  <Link href='/'>
+                  </a>
+                  <a href='/'>
                     <SvgTwitter />
-                  </Link>
-                  <Link href='/'>
+                  </a>
+                  <a href='/'>
                     <SvgInstagram />
-                  </Link>
+                  </a>
                 </div>
               </div>
             </Col>
