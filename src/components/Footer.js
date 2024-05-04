@@ -88,11 +88,11 @@ const Footer = () => {
                     <div onClick={() => router.push('/inspection-testing')}>
                       Inspection & Testing
                     </div>
-                    {/* <div onClick={() => router.push("/about-us")}>About Us</div>
+                    <div onClick={() => router.push("/about-us")}>About Us</div>
                     <div onClick={() => router.push("/news")}>Blog</div>
                     <div onClick={() => router.push("/contact-us")}>
                       Contact Us
-                    </div> */}
+                    </div>
                     <div onClick={() => router.push('/privacy-policy')}>
                       Privacy Policy
                     </div>
