@@ -114,18 +114,6 @@ const dataNavs = [
             >
               <Link href='/inspection-testing'>Inspection & Testing</Link>
             </li>
-            <li
-              className='font-semibold'
-              style={{ color: 'var(--primary-color)' }}
-            >
-              <Link href='/privacy-policy'>Privacy Policy</Link>
-            </li>
-            <li
-              className='font-semibold'
-              style={{ color: 'var(--primary-color)' }}
-            >
-              <Link href='/disclaimer'>Disclaimer</Link>
-            </li>
           </ul>
         ),
       },
