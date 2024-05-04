@@ -3,8 +3,8 @@ export const AppContext = React.createContext([{}, () => {}]);
 
 export const AppProvider = (props) => {
   return (
-    <AppContext.Provider>
-      <>{props.children}</>
-    </AppContext.Provider>
+    // <AppContext.Provider>
+    <>{props.children}</>
+    // </AppContext.Provider>
   );
 };

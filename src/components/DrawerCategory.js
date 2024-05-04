@@ -96,7 +96,7 @@ function DrawerCategory(props) {
       {dataNavs.map((nav) => (
         <>
           {nav.name && (
-            <div key={nav.name}>
+            <div key={nav.key}>
               <div
                 style={{ color: 'var(--primary-color)' }}
                 className='font-semibold uppercase text-lg mb-4 px-3'
@@ -110,6 +110,7 @@ function DrawerCategory(props) {
             </div>
           )}
           <Collapse
+            key={nav.slug}
             bordered={false}
             // defaultActiveKey={['1']}
             // expandIcon={({ isActive }) => (
@@ -125,6 +126,7 @@ function DrawerCategory(props) {
                   <div
                     style={{ color: 'var(--primary-color)' }}
                     className='text-base cursor-pointer font-semibold uppercase'
+                    key={childNav.name}
                   >
                     {childNav.name}
                   </div>
