@@ -50,53 +50,23 @@ const index = () => {
           />
         </div>
         <div className="flex justify-center">
-          <Image
-            //   className="basis-1/4"
-            src="/img/testing1.png"
-            alt="img"
-            width={355}
-            height={293}
-          />
+          <Image src="/img/testing1.png" alt="img" width={355} height={293} />
         </div>
         <div className="flex justify-center">
-          <Image
-            //   className="basis-1/4"
-            src="/img/testing2.png"
-            alt="img"
-            width={355}
-            height={293}
-          />
+          <Image src="/img/testing2.png" alt="img" width={355} height={293} />
         </div>
         <div className="flex justify-center">
-          <Image
-            //   className="basis-1/4"
-            src="/img/testing3.png"
-            alt="img"
-            width={355}
-            height={293}
-          />
+          <Image src="/img/testing3.png" alt="img" width={355} height={293} />
         </div>
         <div className="flex justify-center">
-          <Image
-            //   className="basis-1/4"
-            src="/img/testing4.png"
-            alt="img"
-            width={355}
-            height={293}
-          />
+          <Image src="/img/testing4.png" alt="img" width={355} height={293} />
         </div>
         <div className="flex justify-center">
-          <Image
-            //   className="basis-1/4"
-            src="/img/testing5.png"
-            alt="img"
-            width={355}
-            height={293}
-          />
+          <Image src="/img/testing5.png" alt="img" width={355} height={293} />
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center items-start">
           <Image
-            //   className="basis-1/4"
+            className="object-contain"
             src="/img/testing6.png"
             alt="img"
             width={355}
@@ -104,13 +74,7 @@ const index = () => {
           />
         </div>
         <div className="flex justify-center">
-          <Image
-            //   className="basis-1/4"
-            src="/img/testing7.png"
-            alt="img"
-            width={355}
-            height={407}
-          />
+          <Image src="/img/testing7.png" alt="img" width={355} height={407} />
         </div>
       </div>
     </div>
