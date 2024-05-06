@@ -160,10 +160,10 @@ const Nav = () => {
         </div>
 
         <div className='gap-10 items-center hidden lg:flex'>
-          {dataNavs.map((nav) =>
+          {dataNavs.map((nav, id) =>
             nav?.children ? (
               <Dropdown
-                key={nav.name}
+                key={id}
                 menu={{ items: nav?.children }}
                 placement='bottom'
                 className='cursor-pointer'
@@ -189,7 +189,7 @@ const Nav = () => {
                 style={{ color: 'var(--primary-color)' }}
                 className='font-semibold text-base cursor-pointer'
                 onClick={() => router.push(nav.slug)}
-                key={nav.name}
+                key={id}
               >
                 {nav.name}
               </div>
