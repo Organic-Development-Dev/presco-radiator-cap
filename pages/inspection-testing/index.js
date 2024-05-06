@@ -43,7 +43,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             className="object-cover"
-            src="/img/inspection-testing.jpg"
+            src="/img/testing.png"
             alt="img"
             width={355}
             height={293}
@@ -52,7 +52,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/inspection-testing.jpg"
+            src="/img/testing.png"
             alt="img"
             width={355}
             height={293}
@@ -61,7 +61,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/inspection-testing.jpg"
+            src="/img/testing.png"
             alt="img"
             width={355}
             height={293}
@@ -70,7 +70,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/inspection-testing.jpg"
+            src="/img/testing.png"
             alt="img"
             width={355}
             height={293}
@@ -79,7 +79,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/inspection-testing.jpg"
+            src="/img/testing.png"
             alt="img"
             width={355}
             height={293}
@@ -88,7 +88,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/inspection-testing.jpg"
+            src="/img/testing.png"
             alt="img"
             width={355}
             height={293}
@@ -97,7 +97,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/inspection-testing.jpg"
+            src="/img/testing.png"
             alt="img"
             width={355}
             height={293}
@@ -106,7 +106,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/inspection-testing.jpg"
+            src="/img/testing.png"
             alt="img"
             width={355}
             height={293}
