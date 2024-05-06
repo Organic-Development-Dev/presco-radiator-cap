@@ -26,13 +26,15 @@ function Index() {
       <div className='container mx-auto py-16'>
         <Row gutter={16}>
           <Col xs={{ span: 24 }} md={{ span: 12 }}>
-            <Image
-              src='/img/background-gray.png'
-              layout='responsive'
-              width={480}
-              height={357}
-              objectFit='contain'
-            />
+            <div className='o-4 border border-[#e1e1e1] inline-block'>
+              <Image
+                preview={false}
+                src='/img/about-us.png'
+                width={480}
+                height={357}
+                objectFit='contain'
+              />
+            </div>
           </Col>
           <Col xs={{ span: 24 }} md={{ span: 12 }}>
             <div>
