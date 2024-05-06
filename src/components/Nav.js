@@ -94,9 +94,10 @@ const dataNavs = [
     ],
   },
   {
-    name: 'About Us',
+    // name: 'About Us',
     tab: 2,
     slug: '/about-us',
+    label: <Link href='/about-us'>About Us</Link>,
     children: [
       {
         key: '1',
@@ -172,7 +173,7 @@ const Nav = () => {
                   className='font-semibold text-base'
                 >
                   <Space>
-                    {nav.name}
+                    {nav.name ?? nav.label}
                     {nav?.children && (
                       <SvgArrowDown
                         width={20}
