@@ -51,7 +51,6 @@ function OurProducts() {
                 <img
                   src={`/img/${product.image}`}
                   alt='product'
-                  layout='responsive'
                   width={180}
                   height={150}
                   style={{ objectFit: 'cover' }}

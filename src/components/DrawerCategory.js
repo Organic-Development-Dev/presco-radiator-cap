@@ -1,6 +1,7 @@
 import { Collapse, Drawer } from 'antd';
 import CloseIcon from './icons/Close';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const dataNavs = [
   {
@@ -49,8 +50,8 @@ const dataNavs = [
   {
     children: [
       {
-        name: 'About Us',
         slug: '/about-us',
+        label: <Link href='/about-us'>About Us</Link>,
         children: [
           { name: 'Packaging', slug: '/' },
           { name: 'Inspection & Testing', slug: '/inspection-testing' },
@@ -119,21 +120,21 @@ function DrawerCategory(props) {
             // style={{ background: token.colorBgContainer }}
             style={{ background: '#fff' }}
             expandIconPosition='end'
-            items={nav?.children?.map((childNav) => {
+            items={nav?.children?.map((childNav, idx) => {
               return {
                 key: childNav.key,
                 label: (
                   <div
                     style={{ color: 'var(--primary-color)' }}
                     className='text-base cursor-pointer font-semibold uppercase'
-                    key={childNav.name}
+                    key={idx}
                   >
-                    {childNav.name}
+                    {childNav.name || childNav.label}
                   </div>
                 ),
                 children: childNav?.children ? (
                   <ul className='pb-2 pl-4'>
-                    {childNav?.children?.map((child) => (
+                    {childNav?.children?.map((child, id) => (
                       <li
                         style={{ color: 'var(--primary-color)' }}
                         className='text-base cursor-pointer list-disc'
@@ -141,7 +142,7 @@ function DrawerCategory(props) {
                           router.push(`/product-category/expansion-tank`);
                           onClose();
                         }}
-                        key={child.name}
+                        key={id}
                       >
                         {child.name}
                       </li>
