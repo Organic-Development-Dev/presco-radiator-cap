@@ -52,7 +52,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/testing.png"
+            src="/img/testing1.png"
             alt="img"
             width={355}
             height={293}
@@ -61,7 +61,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/testing.png"
+            src="/img/testing2.png"
             alt="img"
             width={355}
             height={293}
@@ -70,7 +70,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/testing.png"
+            src="/img/testing3.png"
             alt="img"
             width={355}
             height={293}
@@ -79,7 +79,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/testing.png"
+            src="/img/testing4.png"
             alt="img"
             width={355}
             height={293}
@@ -88,7 +88,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/testing.png"
+            src="/img/testing5.png"
             alt="img"
             width={355}
             height={293}
@@ -97,7 +97,7 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/testing.png"
+            src="/img/testing6.png"
             alt="img"
             width={355}
             height={293}
@@ -106,10 +106,10 @@ const index = () => {
         <div className="flex justify-center">
           <Image
             //   className="basis-1/4"
-            src="/img/testing.png"
+            src="/img/testing7.png"
             alt="img"
             width={355}
-            height={293}
+            height={407}
           />
         </div>
       </div>
