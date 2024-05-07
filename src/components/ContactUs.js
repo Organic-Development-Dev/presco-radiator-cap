@@ -96,7 +96,16 @@ function ContactUs() {
                   </Col>
 
                   <Col span={24}>
-                    <Form.Item label="Select" name="avia_3_1">
+                    <Form.Item
+                      label="Select"
+                      name="avia_3_1"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your input!",
+                        },
+                      ]}
+                    >
                       <Select>
                         <Select.Option value="Product Questions">
                           Product Questions
