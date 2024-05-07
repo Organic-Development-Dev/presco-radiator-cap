@@ -7,7 +7,7 @@ const handler = async (req, res) => {
   }
 
   const data = req.body;
-
+  console.log("data", data);
   try {
     const response = await axios.post(
       "https://presco-radiator-caps.com/wp-json/contact-form-7/v1/contact-forms/4791/feedback",
@@ -18,18 +18,18 @@ const handler = async (req, res) => {
         },
       }
     );
-    return res
-      .status(200)
-      .json({ ...data, status: "success", message: response.data.message });
+    return res.status(200).json({
+      ...data,
+      status: response.data.status,
+      message: response.data.message,
+    });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        ...data,
-        status: "error",
-        message: response.data.message,
-        error: error,
-      });
+    return res.status(500).json({
+      ...data,
+      status: response.data.status,
+      message: response.data.message,
+      error: error,
+    });
   }
   // return res.status(200).json(data, { message: "Success" });
 };
