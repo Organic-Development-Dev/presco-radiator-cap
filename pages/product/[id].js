@@ -37,7 +37,7 @@ function Index(props) {
       <Head>
         <title>Presco Radiator - {product.name}</title>
         <meta
-          name='Will help you unlock your life and help you become successful'
+          name={product.name}
           content={product.name}
         />
       </Head>
