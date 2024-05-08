@@ -8,7 +8,7 @@ export const SESSION_TOKEN_LS_KEY = 'woo-session'
 export const REFRESH_TOKEN_LS_KEY = 'refresh'
 export const AUTH_TOKEN_LS_KEY = 'auth'
 export const AUTH_KEY_TIMEOUT = 30000
-export const GRAPHQL_ENDPOINT = 'https://presco-radiator-caps.com/graphql'
+export const GRAPHQL_ENDPOINT = 'https://bd.presco-radiator-caps.com/graphql'
 
 export const WOOCOMMERCE_COUNTRIES_ENDPOINT = `${NEXT_PUBLIC_WORDPRESS_SITE_URL}/wp-json/rae/v1/wc/countries/`;
 export const WOOCOMMERCE_STATES_ENDPOINT = `${NEXT_PUBLIC_WORDPRESS_SITE_URL}/wp-json/rae/v1/wc/states`;

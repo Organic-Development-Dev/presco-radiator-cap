@@ -18,7 +18,7 @@ function ContactUs() {
     console.log(values);
     try {
       const response = await axios.post(
-        "https://presco-radiator-caps.com/wp-json/contact-form-7/v1/contact-forms/4791/feedback",
+        "https://bd.presco-radiator-caps.com/wp-json/contact-form-7/v1/contact-forms/4791/feedback",
         formData
       );
       console.log("response", response);
