@@ -7,7 +7,7 @@ const handler = async (req, res) => {
   }
 
   const data = req.body;
-  console.log("data", data);
+  console.log("data endpoint", data);
   try {
     const response = await axios.post(
       "https://presco-radiator-caps.com/wp-json/contact-form-7/v1/contact-forms/4791/feedback",
@@ -18,6 +18,7 @@ const handler = async (req, res) => {
         },
       }
     );
+    console.log("responese", response.data);
     return res.status(200).json({
       ...data,
       status: response.data.status,
@@ -26,7 +27,7 @@ const handler = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       ...data,
-      status: response.data.status,
+      // status: response.data.status,
       message: response.data.message,
       error: error,
     });

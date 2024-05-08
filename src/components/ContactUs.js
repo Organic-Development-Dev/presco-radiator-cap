@@ -9,10 +9,24 @@ import { Select } from "antd";
 function ContactUs() {
   const [message, setMessage] = useState("");
   const submitHandler = async (values) => {
-    try {
-      const data = await axios.post("/api/get-data-contact/", values);
+    const formData = new FormData();
 
-      setMessage(data.data.status);
+    formData.append("your-name", values["your-name"]);
+    formData.append("your-email", values["your-email"]);
+    formData.append("avia_4_1", values["avia_4_1"]);
+    formData.append("avia_3_1", values["avia_3_1"]);
+    console.log(values);
+    try {
+      const response = await axios.post(
+        "https://presco-radiator-caps.com/wp-json/contact-form-7/v1/contact-forms/4791/feedback",
+        formData
+      );
+      console.log("response", response);
+      if (response.data.status === "mail_sent") {
+        setMessage(data.data.status);
+      } else {
+        setMessage(data.data.message);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -98,11 +112,11 @@ function ContactUs() {
                   <Col span={24}>
                     <Form.Item
                       label="Select"
-                      name="avia_3_1"
+                      name="avia_4_1"
                       rules={[
                         {
                           required: true,
-                          message: "Please input your input!",
+                          message: "Please input your select!",
                         },
                       ]}
                     >
@@ -126,7 +140,7 @@ function ContactUs() {
                   </Col>
                   <Col span={24}>
                     <Form.Item
-                      name="avia_4_1"
+                      name="avia_3_1"
                       label="Comment"
                       rules={[
                         {
