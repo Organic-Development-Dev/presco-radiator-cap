@@ -6,6 +6,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Select } from 'antd';
 import ReCAPTCHA from 'react-google-recaptcha';
+import Head from 'next/head';
 
 const siteKeyReCaptcha = process.env.NEXT_PUBLIC_SITE_KEY;
 
@@ -27,6 +28,10 @@ function ContactUs() {
   };
   return (
     <>
+      <Head>
+        <title>Presco Radiator Caps - Contact Us</title>
+        <meta content="Contact Us" />
+      </Head>
       <div style={{ backgroundColor: '#F6F6F6' }}>
         <div className='container mx-auto py-4 px-6 md:px-'>
           <Breadcrumb

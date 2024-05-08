@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import MenuIcon from '../../src/components/icons/Menu';
 import DrawerFilterProduct from '../../src/components/DrawerFilterProduct';
 import { DEFAULT_PRODUCT_HOME_IMG_URL } from '../../src/constants/urls';
+import Head from "next/head";
 
 export default function Index(props) {
   const { dataCategory, products } = props;
@@ -68,6 +69,10 @@ export default function Index(props) {
 
   return (
     <>
+      <Head>
+        <title>Presco Radiator Caps - {dataCategory.name}</title>
+        <meta content={dataCategory.name} />
+      </Head>
       <div className='container mx-auto py-4'>
         <Breadcrumb
           style={{ color: 'var(--primary-color)' }}
