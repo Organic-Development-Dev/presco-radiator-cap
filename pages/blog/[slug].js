@@ -13,8 +13,8 @@ function Index(props) {
   return (
     <>
       <Head>
-        <title>Presco Radiator - {post.title}</title>
-        <meta content={post.content} />
+        <title>Presco Radiator Caps - {post.title}</title>
+        <meta content={post.title} />
       </Head>
       <div style={{ backgroundColor: '#F6F6F6' }}>
         <div className='container mx-auto py-4'>
