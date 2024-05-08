@@ -21,9 +21,8 @@ const Layout = (props) => {
           <Head>
             <title>Presco Radiator</title>
             <meta
-              name='Unlock your success with our Copy Trading platform offering 100% passive income, Forex Signals and Future Signals! Join our platform for expert-guided trading strategies, real-time signals and automated copy trading. 
-                Maximise your profits with the power of knowledge and experience in the world of trading'
-              content='Trade and Thrive with Copy Trading,Forex signals and Future Signals'
+              name='Presco Radiator Caps'
+              content='Welcome to the Presco Radiator Caps Ltd Web site.'
             />
             <link rel='icon' type='image/x-icon' href='/img/favicon.png' />
           </Head>
