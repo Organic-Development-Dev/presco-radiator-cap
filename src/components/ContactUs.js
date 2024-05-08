@@ -23,9 +23,9 @@ function ContactUs() {
       );
       console.log("response", response);
       if (response.data.status === "mail_sent") {
-        setMessage(data.data.status);
+        setMessage(response.data.message);
       } else {
-        setMessage(data.data.message);
+        setMessage(response.data.message);
       }
     } catch (error) {
       console.log(error);
