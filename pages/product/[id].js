@@ -9,7 +9,8 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
-import {DEFAULT_PRODUCT_HOME_IMG_URL} from "../../src/constants/urls";
+import { DEFAULT_PRODUCT_HOME_IMG_URL } from '../../src/constants/urls';
+import Head from 'next/head';
 
 const ModalEnquireNow = dynamic(
   () => import('../../src/components/ModalEnquireNow'),
@@ -33,6 +34,13 @@ function Index(props) {
 
   return (
     <>
+      <Head>
+        <title>Presco Radiator - {product.name}</title>
+        <meta
+          name='Will help you unlock your life and help you become successful'
+          content={product.name}
+        />
+      </Head>
       <div style={{ backgroundColor: '#F6F6F6' }}>
         <div className='container mx-auto py-4'>
           <Breadcrumb
@@ -168,12 +176,13 @@ function Index(props) {
                 className='rounded-xl flex flex-col'
                 onClick={() => router.push(`/product/${product.id}`)}
               >
-                <Image src={product.images[0]?.src ?? DEFAULT_PRODUCT_HOME_IMG_URL}
-                       alt='product'
-                       className='rounded-lg'
-                       width={120}
-                       height={120}
-                       preview={false}
+                <Image
+                  src={product.images[0]?.src ?? DEFAULT_PRODUCT_HOME_IMG_URL}
+                  alt='product'
+                  className='rounded-lg'
+                  width={120}
+                  height={120}
+                  preview={false}
                 />
                 <div
                   style={{ backgroundColor: 'var(--primary-color)' }}
@@ -193,7 +202,9 @@ function Index(props) {
                     onClick={() => router.push(`/product/${product.id}`)}
                   >
                     <Image
-                      src={product.images[0]?.src ?? DEFAULT_PRODUCT_HOME_IMG_URL}
+                      src={
+                        product.images[0]?.src ?? DEFAULT_PRODUCT_HOME_IMG_URL
+                      }
                       alt='product'
                       className='rounded-lg'
                       width={100}
