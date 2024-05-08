@@ -5,12 +5,17 @@ import { useRouter } from 'next/router';
 import client from '../../src/components/ApolloClient';
 import GET_DETAIL_BLOG from '../../src/queries/get-detail-blog';
 import GET_BLOGS from '../../src/queries/get-blogs';
+import Head from 'next/head';
 
 function Index(props) {
   const router = useRouter();
   const { post, prevPost, nextPost } = props;
   return (
     <>
+      <Head>
+        <title>Presco Radiator - {post.title}</title>
+        <meta content={post.content} />
+      </Head>
       <div style={{ backgroundColor: '#F6F6F6' }}>
         <div className='container mx-auto py-4'>
           <Breadcrumb
@@ -63,36 +68,42 @@ function Index(props) {
             <div>{post.author.name}</div>
           </div> */}
           <div className='flex flex-col sm:flex-row justify-between pt-8'>
-              {prevPost && (
-                  <div className='post-action' onClick={() => router.push(`/blog/${prevPost?.slug}`)}>
-                    <div className='font-thin' style={{color: '#3A3A3A'}} >
-                      Previous Post
-                    </div>
-                    <div
-                        className='font-semibold text-lg'
-                        style={{color: 'var(--primary-color)'}}
-                    >
-                      {prevPost.title}
-                    </div>
-                  </div>
-              )}
+            {prevPost && (
+              <div
+                className='post-action'
+                onClick={() => router.push(`/blog/${prevPost?.slug}`)}
+              >
+                <div className='font-thin' style={{ color: '#3A3A3A' }}>
+                  Previous Post
+                </div>
+                <div
+                  className='font-semibold text-lg'
+                  style={{ color: 'var(--primary-color)' }}
+                >
+                  {prevPost.title}
+                </div>
+              </div>
+            )}
 
             {nextPost && (
-                <div className='post-action' onClick={() => router.push(`/blog/${nextPost?.slug}`)}>
-                  <div
-                        className='font-thin text-left pt-4 sm:pt-0 sm:text-right'
-                        style={{color: '#3A3A3A'}}
-                    >
-                      Next Post
-                    </div>
-                    <div
-                        className='font-semibold text-lg text-left sm:text-right'
-                        style={{color: 'var(--primary-color)'}}
-                    >
-                      {nextPost.title}
-                    </div>
-                  </div>
-              )}
+              <div
+                className='post-action'
+                onClick={() => router.push(`/blog/${nextPost?.slug}`)}
+              >
+                <div
+                  className='font-thin text-left pt-4 sm:pt-0 sm:text-right'
+                  style={{ color: '#3A3A3A' }}
+                >
+                  Next Post
+                </div>
+                <div
+                  className='font-semibold text-lg text-left sm:text-right'
+                  style={{ color: 'var(--primary-color)' }}
+                >
+                  {nextPost.title}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -104,12 +115,12 @@ export default Index;
 
 export async function getStaticProps(context) {
   const {
-    params: {slug},
+    params: { slug },
   } = context;
 
-  const {data} = await client.query({
+  const { data } = await client.query({
     query: GET_DETAIL_BLOG,
-    variables: {slug},
+    variables: { slug },
   });
 
   // Fetch the next and previous posts
@@ -119,9 +130,10 @@ export async function getStaticProps(context) {
 
   const allPosts = allPostsData.data.posts.nodes;
 
-  const currentIndex = allPosts.findIndex(item => item.slug === slug);
+  const currentIndex = allPosts.findIndex((item) => item.slug === slug);
   const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
-  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+  const nextPost =
+    currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
 
   return {
     props: {

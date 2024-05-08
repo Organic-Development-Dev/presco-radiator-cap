@@ -15,7 +15,6 @@ const api = new WooCommerceRestApi({
 });
 
 export default async function handler(req, res) {
-  const { id } = req.query;
   const responseData = {
     success: false,
     error: '',

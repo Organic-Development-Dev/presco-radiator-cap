@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import MenuIcon from '../../src/components/icons/Menu';
 import DrawerFilterProduct from '../../src/components/DrawerFilterProduct';
-import {DEFAULT_PRODUCT_HOME_IMG_URL} from "../../src/constants/urls";
+import { DEFAULT_PRODUCT_HOME_IMG_URL } from '../../src/constants/urls';
 
 export default function Index(props) {
   const { dataCategory, products } = props;
@@ -130,7 +130,9 @@ export default function Index(props) {
               >
                 <div>
                   <Image
-                    src={product?.images[0]?.src ?? DEFAULT_PRODUCT_HOME_IMG_URL}
+                    src={
+                      product?.images[0]?.src ?? DEFAULT_PRODUCT_HOME_IMG_URL
+                    }
                     alt='product'
                     height={120}
                     preview={false}
@@ -176,7 +178,9 @@ export async function getStaticProps(context) {
 
   let products = [];
 
-  const dataCategory = dataCateRes.find((cate) => cate.slug == slug);
+  const dataCategory = dataCateRes?.find((cate) => cate.slug == slug);
+
+  console.log(dataCategory);
 
   if (dataCategory) {
     const dataProductsRes = await axios.get(
