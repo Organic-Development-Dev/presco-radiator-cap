@@ -1,27 +1,80 @@
+import { Breadcrumb, ConfigProvider, Image, Pagination } from 'antd';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-// import ProductsCategory from '../../src/components/ProductsCategory';
+import MenuIcon from './icons/Menu';
+import DrawerFilterProduct from './DrawerFilterProduct';
+import { DEFAULT_PRODUCT_HOME_IMG_URL } from '../constants/urls';
 
-export default function Index(props) {
-  const ProductsCategory = dynamic(
-    () => import('../../src/components/ProductsCategory'),
-    { ssr: false }
-  );
+export default function ProductsCategory(props) {
   const { dataCategory, products } = props;
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [dataProducts, setDataProducts] = useState(products);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(16);
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
+  useEffect(() => {
+    let attributesMap = {};
+    products.forEach((product) => {
+      product.attributes.forEach((attr) => {
+        if (!attributesMap[attr.name]) {
+          attributesMap[attr.name] = new Set(); // Use a Set to avoid duplicate terms
+        }
+        attr.options.forEach((option) => {
+          attributesMap[attr.name].add(option);
+        });
+      });
+    });
+
+    Object.keys(attributesMap).forEach((key) => {
+      attributesMap[key] = Array.from(attributesMap[key]);
+    });
+
+    setDataProducts(products);
+  }, [products]);
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = dataProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handlerFilter = (selectedFilters) => {
+    const filtered = products.filter((product) =>
+      Object.keys(selectedFilters).every((attribute) =>
+        product.attributes.some(
+          (attr) =>
+            attr.name === attribute &&
+            selectedFilters[attribute].some((value) =>
+              attr.options.includes(value)
+            )
+        )
+      )
+    );
+
+    setDataProducts(filtered);
+    setOpenDrawer(false);
+  };
+
   return (
     <>
       <Head>
         <title>Presco Radiator Caps - {dataCategory.name}</title>
         <meta content={dataCategory.name} />
       </Head>
-      {dataCategory && products && (
-        <ProductsCategory dataCategory={dataCategory} products={products} />
-      )}
-
-      {/* <div className='container mx-auto py-4'>
+      <div className='container mx-auto py-4'>
         <Breadcrumb
           style={{ color: 'var(--primary-color)' }}
           items={[
@@ -109,48 +162,15 @@ export default function Index(props) {
           onChange={paginate}
           style={{ textAlign: 'center', paddingTop: '20px' }}
         />
-        <DrawerFilterProduct
-          open={openDrawer}
-          onClose={() => setOpenDrawer(false)}
-          handlerFilter={(selectedFilters) => handlerFilter(selectedFilters)}
-          categoryId={dataCategory.id}
-        />
-      </div> */}
+        {products.length > 0 && (
+          <DrawerFilterProduct
+            open={openDrawer}
+            onClose={() => setOpenDrawer(false)}
+            handlerFilter={(selectedFilters) => handlerFilter(selectedFilters)}
+            products={products}
+          />
+        )}
+      </div>
     </>
   );
 }
-
-export async function getStaticProps(context) {
-  const {
-    params: { slug },
-  } = context;
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-  const { data: dataCateRes } = await axios.get(
-    `${apiBaseUrl}/api/products/categories`
-  );
-
-  let products = [];
-
-  const dataCategory = dataCateRes?.find((cate) => cate.slug == slug) ?? null;
-
-  if (dataCategory) {
-    const dataProductsRes = await axios.get(
-      `${apiBaseUrl}/api/products?category=${dataCategory.id}&per_page=100`
-    );
-    products = dataProductsRes.data;
-  }
-
-  return {
-    props: {
-      products,
-      dataCategory,
-    },
-  };
-}
-
-export const getStaticPaths = async () => {
-  return {
-    paths: [], //indicates that no page needs be created at build time
-    fallback: 'blocking', //indicates the type of fallback
-  };
-};
