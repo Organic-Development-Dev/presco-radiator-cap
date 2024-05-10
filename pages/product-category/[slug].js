@@ -1,79 +1,27 @@
-import { Breadcrumb, ConfigProvider, Image, Pagination } from 'antd';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import MenuIcon from '../../src/components/icons/Menu';
-import DrawerFilterProduct from '../../src/components/DrawerFilterProduct';
-import { DEFAULT_PRODUCT_HOME_IMG_URL } from '../../src/constants/urls';
-import Head from "next/head";
+import Head from 'next/head';
+import dynamic from 'next/dynamic';
+// import ProductsCategory from '../../src/components/ProductsCategory';
 
 export default function Index(props) {
-  const { dataCategory, products } = props;
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [dataProducts, setDataProducts] = useState(products);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(16);
-  const router = useRouter();
-
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
-
-  useEffect(() => {
-    let attributesMap = {};
-    products.forEach((product) => {
-      product.attributes.forEach((attr) => {
-        if (!attributesMap[attr.name]) {
-          attributesMap[attr.name] = new Set(); // Use a Set to avoid duplicate terms
-        }
-        attr.options.forEach((option) => {
-          attributesMap[attr.name].add(option);
-        });
-      });
-    });
-
-    Object.keys(attributesMap).forEach((key) => {
-      attributesMap[key] = Array.from(attributesMap[key]);
-    });
-
-    setDataProducts(products);
-  }, [products]);
-
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = dataProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
+  const ProductsCategory = dynamic(
+    () => import('../../src/components/ProductsCategory'),
+    { ssr: false }
   );
-
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handlerFilter = (selectedFilters) => {
-    const filtered = products.filter((product) =>
-      Object.keys(selectedFilters).every((attribute) =>
-        product.attributes.some(
-          (attr) =>
-            attr.name === attribute &&
-            selectedFilters[attribute].some((value) =>
-              attr.options.includes(value)
-            )
-        )
-      )
-    );
-
-    setDataProducts(filtered);
-    setOpenDrawer(false);
-  };
-
+  const { dataCategory, products } = props;
   return (
     <>
       <Head>
         <title>Presco Radiator Caps - {dataCategory.name}</title>
         <meta content={dataCategory.name} />
       </Head>
-      <div className='container mx-auto py-4'>
+      {dataCategory && products && (
+        <ProductsCategory dataCategory={dataCategory} products={products} />
+      )}
+
+      {/* <div className='container mx-auto py-4'>
         <Breadcrumb
           style={{ color: 'var(--primary-color)' }}
           items={[
@@ -167,7 +115,7 @@ export default function Index(props) {
           handlerFilter={(selectedFilters) => handlerFilter(selectedFilters)}
           categoryId={dataCategory.id}
         />
-      </div>
+      </div> */}
     </>
   );
 }
@@ -183,9 +131,7 @@ export async function getStaticProps(context) {
 
   let products = [];
 
-  const dataCategory = dataCateRes?.find((cate) => cate.slug == slug);
-
-  console.log(dataCategory);
+  const dataCategory = dataCateRes?.find((cate) => cate.slug == slug) ?? null;
 
   if (dataCategory) {
     const dataProductsRes = await axios.get(

@@ -2,25 +2,19 @@ import { useEffect, useState } from 'react';
 import { fetchAttributesWithTermByCategoryId } from '../utils/products';
 import { Button, Checkbox, Drawer, Space } from 'antd';
 import CloseIcon from './icons/Close';
+import dynamic from 'next/dynamic';
 
 const DrawerFilterProduct = (props) => {
-  const { open, onClose, handlerFilter, categoryId } = props;
+  const { open, onClose, handlerFilter, categoryId, products } = props;
   const [dataAttributes, setDataAttributes] = useState({});
   const [selectedFilters, setSelectedFilters] = useState({});
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const dataAttributesRes = await fetchAttributesWithTerm();
-  //     setDataAttributes(dataAttributesRes);
-  //   })();
-  // }, []);
-
   useEffect(() => {
-    (async () => {
-      const dataAttrRes = await fetchAttributesWithTermByCategoryId(categoryId);
+    if (products?.length > 0) {
+      const dataAttrRes = fetchAttributesWithTermByCategoryId(products);
       setDataAttributes(dataAttrRes);
-    })();
-  }, [categoryId]);
+    }
+  }, [products]);
 
   const handleCheckboxChange = (attribute, value, checked) => {
     setSelectedFilters((prev) => {

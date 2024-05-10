@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import DrawerFilterProduct from '../../src/components/DrawerFilterProduct';
 import MenuIcon from '../../src/components/icons/Menu';
-import {DEFAULT_PRODUCT_HOME_IMG_URL} from "../../src/constants/urls";
+import { DEFAULT_PRODUCT_HOME_IMG_URL } from '../../src/constants/urls';
 
 export default function Index(props) {
   const { products, categories } = props;
@@ -14,16 +14,16 @@ export default function Index(props) {
   const [productsPerPage] = useState(16);
   const router = useRouter();
 
-    const indexOfLastProduct = currentPage * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = dataProducts.slice(
-        indexOfFirstProduct,
-        indexOfLastProduct
-    );
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = dataProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
-    const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -106,14 +106,20 @@ export default function Index(props) {
           />
           <div className='grid grid-cols-4 gap-y-20 py-4'>
             {currentProducts.map((product) => (
-              <div key={product.id} className='text-center' onClick={() => router.push(`/product/${product.id}`)}>
+              <div
+                key={product.id}
+                className='text-center'
+                onClick={() => router.push(`/product/${product.id}`)}
+              >
                 <div>
                   <Image
-                      src={product?.images[0]?.src ?? DEFAULT_PRODUCT_HOME_IMG_URL}
-                      alt='product'
-                      height={120}
-                      preview={false}
-                      style={{ objectFit: 'contain' }}
+                    src={
+                      product?.images[0]?.src ?? DEFAULT_PRODUCT_HOME_IMG_URL
+                    }
+                    alt='product'
+                    height={120}
+                    preview={false}
+                    style={{ objectFit: 'contain' }}
                   />
                 </div>
                 <div
@@ -128,17 +134,18 @@ export default function Index(props) {
           </div>
         </ConfigProvider>
       </div>
-        <Pagination
-            current={currentPage}
-            total={dataProducts.length}
-            pageSize={productsPerPage}
-            onChange={paginate}
-            style={{ textAlign: 'center', paddingTop: '20px' }}
-        />
+      <Pagination
+        current={currentPage}
+        total={dataProducts.length}
+        pageSize={productsPerPage}
+        onChange={paginate}
+        style={{ textAlign: 'center', paddingTop: '20px' }}
+      />
       <DrawerFilterProduct
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
         handlerFilter={(selectedFilters) => handlerFilter(selectedFilters)}
+        products={products}
       />
     </>
   );
