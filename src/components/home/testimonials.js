@@ -12,17 +12,10 @@ const dataFeedBack = [
     avatar: 'person1.png',
     description:
       'We are proud to be a partner with Presco as our radiator Cap supplier in the UK. Their commitment to excellence and reliability has been instrumental in meeting our radiator Cap needs efficiently. With their high-quality products and exceptional service, Presco has consistently exceeded our expectations, ensuring our facilities remain comfortable and energy-efficient. We highly recommend Presco to any organization seeking top-notch radiator-cap solutions and outstanding customer support',
-  },
-  {
-    avatar: 'person2.png',
-    description:
-      'Presco also boasts impressive engineering capabilities, with CAD, CAM, wire <br /> erosion, and tooling manufacture facilities. This allows them to design and <br /> develop new applications to better serve their customers. They even <br /> accommodate specific requirements concerning product identity and <br /> visual appearance upon request.',
-  },
-  {
-    avatar: 'person3.png',
-    description:
-      'Presco also boasts impressive engineering capabilities, with CAD, CAM, wire <br /> erosion, and tooling manufacture facilities. This allows them to design and <br /> develop new applications to better serve their customers. They even <br /> accommodate specific requirements concerning product identity and <br /> visual appearance upon request.',
-  },
+    name: 'Subair .U',
+    subname: 'Chairman &  MD',
+    position: 'CoolLine Group – U.A.E',
+  }
 ];
 
 function Testimonials() {
@@ -73,38 +66,44 @@ function Testimonials() {
         >
           {dataFeedBack.map((feedback) => (
             <SwiperSlide key={feedback.avatar}>
-              <div
-                className='text-center rounded-3xl mx-auto p-4 testimonials-slider-item'
-                style={{
-                  boxShadow: '0 4px 4px 0 rgba(0, 0, 0, 0.25)',
-                }}
-              >
-                <Avatar
-                  src={`/img/${feedback.avatar}`}
-                  alt='person'
-                  size='large'
-                  style={{
-                    width: 120,
-                    height: 120,
-                    border: '2px solid var(--primary-color)',
-                    padding: 2,
-                  }}
-                />
-                <div style={{ width: 18 }} className='mx-auto pt-4'>
-                  <Image
-                    src='/img/feed-back.png'
-                    layout='responsive'
-                    alt='feedback'
-                    width={78}
-                    height={78}
-                  />
-                </div>
                 <div
-                  style={{ color: '#3A3A3A' }}
-                  className='font-thin text-xs pt-4'
-                  dangerouslySetInnerHTML={{ __html: feedback.description }}
-                />
-              </div>
+                    className='text-center rounded-3xl mx-auto p-4 testimonials-slider-item pb-8'
+                    style={{
+                        boxShadow: '0 4px 4px 0 rgba(0, 0, 0, 0.25)',
+                    }}
+                >
+                    <div style={{width: 18}} className='mx-auto pt-4'>
+                        <Image
+                            src='/img/feed-back.png'
+                            layout='responsive'
+                            alt='feedback'
+                            width={78}
+                            height={78}
+                        />
+                    </div>
+                    <div
+                        style={{color: '#3A3A3A'}}
+                        className='font-thin text-xs pt-4'
+                        dangerouslySetInnerHTML={{__html: feedback.description}}
+                    />
+                    <div
+                        className='font-semibold name text-xs uppercase pt-6'
+                    >
+                        {feedback.name}
+                    </div>
+                    <div
+                        className='font-normal subname text-xs pt-2'
+                        style={{color: '#3A3A3A'}}
+                    >
+                        {feedback.subname}
+                    </div>
+                    <div
+                        className='font-normal position text-xs pt-2'
+                        style={{color: '#3A3A3A'}}
+                    >
+                        {feedback.position}
+                    </div>
+                </div>
             </SwiperSlide>
           ))}
         </Swiper>
