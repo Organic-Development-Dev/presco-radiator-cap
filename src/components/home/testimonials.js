@@ -11,7 +11,7 @@ const dataFeedBack = [
   {
     avatar: 'person1.png',
     description:
-      'Presco also boasts impressive engineering capabilities, with CAD, CAM, wire <br /> erosion, and tooling manufacture facilities. This allows them to design and <br /> develop new applications to better serve their customers. They even <br /> accommodate specific requirements concerning product identity and <br /> visual appearance upon request.',
+      'We are proud to be a partner with Presco as our radiator Cap supplier in the UK. Their commitment to excellence and reliability has been instrumental in meeting our radiator Cap needs efficiently. With their high-quality products and exceptional service, Presco has consistently exceeded our expectations, ensuring our facilities remain comfortable and energy-efficient. We highly recommend Presco to any organization seeking top-notch radiator-cap solutions and outstanding customer support',
   },
   {
     avatar: 'person2.png',
