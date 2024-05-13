@@ -3,18 +3,21 @@ import Image from 'next/image';
 const dataCores = [
   {
     name: 'QUALITY',
+      image: 'quality.png',
     desc: 'WISH YOU COULD SAY YES <br /> MORE OFTEN?',
     subDesc:
       'Presco Radiator Caps Ltd is <br /> committed to industry-leading <br /> coverage in every product <br />category we bring to market.',
   },
   {
     name: 'SERVICE',
+      image: 'service.png',
     desc: 'STRUGGLING WIT <br /> FILL RATES & CATEGORY <br /> MANAGEMENT?',
     subDesc:
       'Presco Radiator Caps fill rate average of 97.81%* <br/> and category management <br /> expertise will ensure your shelves are stocked with <br /> the right parts for optimal product availability.',
   },
   {
     name: 'INNOVATION',
+      image: 'innovation.png',
     desc: 'LOOKING FOR INNOVATIVE <br /> UP-SELL OPPORTUNITIES?',
     subDesc:
       'Presco’s product and engineering teams are <br /> in tune with market issues, providing <br/> innovative OEM+ product solutions.',
@@ -37,16 +40,15 @@ function CoreValue({ title = 'CORE VALUES' }) {
               style={{
                 width: 114,
                 height: 114,
-                boxShadow: '0 4px 4px 0 rgba(0, 0, 0, 0.25)',
               }}
               className='rounded-full m-auto'
             >
               <Image
-                src='/img/core-image.png'
+                src={`/img/${coreItem.image}`}
                 alt='core-image'
                 layout='responsive'
                 width={130}
-                height={120}
+                height={130}
               />
             </div>
             <div
