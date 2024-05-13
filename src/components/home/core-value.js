@@ -33,7 +33,7 @@ function CoreValue({ title = 'CORE VALUES' }) {
       >
         {title}
       </div>
-      <div className='flex flex-col sm:flex-row items-center justify-between'>
+      <div className='flex flex-col sm:flex-row items-start justify-between'>
         {dataCores.map((coreItem) => (
           <div key={coreItem.name} className='text-center pb-8 sm:p-0'>
             <div
