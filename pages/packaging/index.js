@@ -50,7 +50,7 @@ const index = ({ data: dataPage }) => {
   ];
   return (
     <div className='container mx-auto py-16 px-6 md:px-4'>
-      <div className='flex mb-2 '>
+      {/* <div className='flex mb-2 '>
         <h3>Packaging</h3>
         <div className='flex-auto ml-4'>
           <div
@@ -102,7 +102,8 @@ const index = ({ data: dataPage }) => {
           </p>
           <p>This may be for mixed reference quantities</p>
         </div>
-      </div>
+      </div> */}
+      <div dangerouslySetInnerHTML={{ __html: dataPage.content }} />
     </div>
   );
 };
