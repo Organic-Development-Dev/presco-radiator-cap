@@ -1,48 +1,30 @@
-import React from "react";
+import React from 'react';
+import GET_PAGE_BY_TITLE from '../../src/queries/get-page-by-title';
+import client from '../../src/components/ApolloClient';
 
-const index = () => {
+const index = ({ data }) => {
   return (
-    <div className="disclaimer container mx-auto py-16 px-6 md:px-">
-      <div className="avia_textblock" itemProp="text">
-        <h3>
-          <strong>Disclaimer</strong>
-        </h3>
-        <p>
-          The information contained in this website is for general information
-          purposes only.
-        </p>
-        <p>
-          The information is provided by Presco Radiator Caps Ltd and while we
-          endeavour to keep the information up to date and correct, we make no
-          representations or warranties of any kind, express or implied, about
-          the completeness, accuracy, reliability, suitability or availability
-          with respect to the website or the information, products,services, or
-          related graphics contained on the website for any purpose. Any
-          reliance you place on such information is therefore strictly at your
-          own risk.
-        </p>
-        <p>
-          In no event will we be liable for any loss or damage including without
-          limitation,indirect or consequential loss or damage, or any loss or
-          damage whatsoever arising from loss of data or profits arising out of,
-          or in connection with, the use of this website.
-        </p>
-        <p>
-          Through this website you are able to link to other websites which are
-          not under the control of Presco Radiator Caps Ltd. We have no control
-          over the nature, content and availability of those sites. The
-          inclusion of any links does not necessarily imply a recommendation or
-          endorse the views expressed within them.
-        </p>
-        <p>
-          Every effort is made to keep the website up and running smoothly.
-          However, Presco Radiator Caps Ltd takes no responsibility for, and
-          will not be liable for, the website being temporarily unavailable due
-          to technical issues beyond our control.
-        </p>
+    <div className='disclaimer container mx-auto py-16 px-6 md:px-'>
+      <div className='avia_textblock' itemProp='text'>
+        <div dangerouslySetInnerHTML={{ __html: data.content }} />
       </div>
     </div>
   );
 };
 
 export default index;
+
+export async function getStaticProps(context) {
+  const { data } = await client.query({
+    query: GET_PAGE_BY_TITLE,
+    variables: { title: 'Disclaimer' },
+  });
+
+  if (data) {
+    return {
+      props: {
+        data: data.pages.nodes[0],
+      },
+    };
+  }
+}
