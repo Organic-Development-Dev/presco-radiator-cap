@@ -1,12 +1,15 @@
 import React from 'react';
 
 import Image from 'next/image';
+import client from '../../src/components/ApolloClient';
+import GET_PAGE_BY_ID from '../../src/queries/get-page-by-title';
 
-const index = () => {
+const index = ({ data }) => {
   return (
     <div className='container mx-auto py-16 px-6 md:px-4'>
       <div className='w-full border px-4 py-5 text-blue-900 text-sm bg-slate-200'>
-        <p className='py-2'>
+        <div dangerouslySetInnerHTML={{ __html: data.content }} />
+        {/* <p className='py-2'>
           Presco is certified to the standard & guidelines of ISO 9001:2015. See
           our current certification.
         </p>
@@ -37,7 +40,7 @@ const index = () => {
           new technology, machinery, training and at all times following the
           policies set down and procedures laid out in our quality manual and in
           accordance with the ANSI SAE J164 international standards.
-        </p>
+        </p> */}
       </div>
       <div className='wrap-inspection flex flex-col md:grid grid-cols-3 gap-12 my-16 auto-cols-max'>
         <div className='flex justify-center'>
@@ -82,3 +85,18 @@ const index = () => {
 };
 
 export default index;
+
+export async function getStaticProps(context) {
+  const { data } = await client.query({
+    query: GET_PAGE_BY_ID,
+    variables: { id: 'cG9zdDoy' },
+  });
+
+  if (data) {
+    return {
+      props: {
+        data: data.page,
+      },
+    };
+  }
+}

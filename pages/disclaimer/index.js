@@ -1,5 +1,5 @@
 import React from 'react';
-import GET_PAGE_BY_TITLE from '../../src/queries/get-page-by-title';
+import GET_PAGE_BY_ID from '../../src/queries/get-page-by-title';
 import client from '../../src/components/ApolloClient';
 
 const index = ({ data }) => {
@@ -16,14 +16,14 @@ export default index;
 
 export async function getStaticProps(context) {
   const { data } = await client.query({
-    query: GET_PAGE_BY_TITLE,
-    variables: { title: 'Disclaimer' },
+    query: GET_PAGE_BY_ID,
+    variables: { id: 'cG9zdDo1NzI2' },
   });
 
   if (data) {
     return {
       props: {
-        data: data.pages.nodes[0],
+        data: data.page,
       },
     };
   }
