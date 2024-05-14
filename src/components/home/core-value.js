@@ -4,23 +4,20 @@ const dataCores = [
   {
     name: 'QUALITY',
       image: 'quality.png',
-    desc: 'WISH YOU COULD SAY YES <br /> MORE OFTEN?',
-    subDesc:
-      'Presco Radiator Caps Ltd is <br /> committed to industry-leading <br /> coverage in every product <br />category we bring to market.',
+    desc: '',
+    subDesc: '',
   },
   {
     name: 'SERVICE',
       image: 'service.png',
-    desc: 'STRUGGLING WIT <br /> FILL RATES & CATEGORY <br /> MANAGEMENT?',
-    subDesc:
-      'Presco Radiator Caps fill rate average of 97.81%* <br/> and category management <br /> expertise will ensure your shelves are stocked with <br /> the right parts for optimal product availability.',
+    desc: '',
+    subDesc: '',
   },
   {
     name: 'INNOVATION',
       image: 'innovation.png',
-    desc: 'LOOKING FOR INNOVATIVE <br /> UP-SELL OPPORTUNITIES?',
-    subDesc:
-      'Presco’s product and engineering teams are <br /> in tune with market issues, providing <br/> innovative OEM+ product solutions.',
+    desc: '',
+    subDesc: '',
   },
 ];
 
