@@ -65,17 +65,17 @@ const Footer = () => {
                     <div className="font-semibold text-white text-sm mb-4">
                       OUR PRODUCT
                     </div>
-                    <div onClick={() => router.push("/products")}>
-                      Europe Auto
+                    <div>
+                      <Link href='/product-category/auto'>Europe Auto</Link>
                     </div>
-                    <div onClick={() => router.push("/products")}>
-                      Japanese Auto
+                    <div>
+                      <Link href='/product-category/japanese-caps'>Japanese Auto</Link>
                     </div>
-                    <div onClick={() => router.push("/products")}>
-                      Agricultural
+                    <div>
+                      <Link href='/product-category/agricultural'>Agricultural</Link>
                     </div>
-                    <div onClick={() => router.push("/products")}>
-                      Trucks & Commercials
+                    <div>
+                      <Link href='/product-category/commercial-caps'>Trucks & Commercials</Link>
                     </div>
                   </div>
                 </Col>
@@ -84,22 +84,26 @@ const Footer = () => {
                     <div className="font-semibold text-white text-sm mb-4">
                       IMPORTANT LINKS
                     </div>
-                    <div onClick={() => router.push("/packaging")}>
-                      Packaging
+                    <div>
+                      <Link href='/packaging'>Packaging</Link>
                     </div>
-                    <div onClick={() => router.push("/inspection-testing")}>
-                      Inspection & Testing
+                    <div>
+                      <Link href='/inspection-testing'>Inspection & Testing</Link>
                     </div>
-                    <div onClick={() => router.push("/about-us")}>About Us</div>
-                    <div onClick={() => router.push("/news")}>Blog</div>
-                    <div onClick={() => router.push("/contact-us")}>
-                      Contact Us
+                    <div>
+                      <Link href='/about-us'>About Us</Link>
                     </div>
-                    <div onClick={() => router.push("/privacy-policy")}>
-                      Privacy Policy
+                    <div>
+                      <Link href='/news'>Blog</Link>
                     </div>
-                    <div onClick={() => router.push("/disclaimer")}>
-                      Disclaimer
+                    <div>
+                      <Link href='/contact-us'>Contact Us</Link>
+                    </div>
+                    <div>
+                      <Link href='/privacy-policy'>Privacy Policy</Link>
+                    </div>
+                    <div>
+                      <Link href='/disclaimer'>Disclaimer</Link>
                     </div>
                   </div>
                 </Col>

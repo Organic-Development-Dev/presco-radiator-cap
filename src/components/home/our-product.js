@@ -1,6 +1,7 @@
 import { Divider } from 'antd';
 import Image from 'next/image';
 import { Fragment } from 'react';
+import Link from "next/link";
 
 const dataProducts = [
   {
@@ -64,9 +65,7 @@ function OurProducts() {
                   className='font-extrabold text-xl py-4 uppercase'
                   style={{color: 'var(--primary-color)'}}
               >
-                <a href={`${product.href}`}>
-                  {product.name}
-                </a>
+                <Link href={`${product.href}`}>{product.name}</Link>
               </div>
               <div
                   style={{color: '#3A3A3A'}}
@@ -74,16 +73,20 @@ function OurProducts() {
                 dangerouslySetInnerHTML={{ __html: product.desc }}
               />
               <div className='action-button'>
-                  <a href={`${product.href}`} className='rounded-full px-2 py-1 text-white text-xs' style={{backgroundColor: 'var(--primary-color)'}}>
+                <Link href={`${product.href}`}>
+                  <a className='rounded-full px-2 py-1 text-white text-xs'
+                     style={{backgroundColor: 'var(--primary-color)'}}>
                     View More
                   </a>
+                </Link>
+
               </div>
             </div>
 
             {id < 3 && (
-              <Divider
-                type='vertical'
-                style={{ backgroundColor: '#000', height: 110 }}
+                <Divider
+                    type='vertical'
+                    style={{backgroundColor: '#000', height: 110 }}
                 className='hidden sm:block'
               />
             )}
