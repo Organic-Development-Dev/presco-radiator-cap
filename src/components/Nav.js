@@ -107,7 +107,7 @@ const dataNavs = [
               className='font-semibold'
               style={{ color: 'var(--primary-color)' }}
             >
-              Packaging
+              <Link href='/packaging'>Packaging</Link>
             </li>
             <li
               className='font-semibold'
