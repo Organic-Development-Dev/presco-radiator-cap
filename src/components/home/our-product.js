@@ -8,6 +8,7 @@ const dataProducts = [
     desc:
       'Presco Radiator Caps Ltd is <br /> committed to industry-leading <br /> coverage in every product <br /> category we bring to market.',
     image: 'core-image.png',
+    href: '/product-category/auto/',
   },
   {
     name: 'japanese auto',
@@ -16,18 +17,21 @@ const dataProducts = [
     image: 'product2.png',
     width: 190,
     height: 154,
+    href: '/product-category/japanese-caps/',
   },
   {
     name: 'AGRICULTURAL',
     desc:
       'Presco Radiator Caps Ltd is <br /> committed to industry-leading <br /> coverage in every product <br /> category we bring to market.',
     image: 'product3.png',
+    href: '/product-category/agricultural/',
   },
   {
     name: 'Trucks & Commercial',
     desc:
       'Presco Radiator Caps Ltd is <br /> committed to industry-leading <br /> coverage in every product <br /> category we bring to market.',
     image: 'product4.png',
+    href: '/product-category/commercial-caps/',
   },
 ];
 
@@ -57,23 +61,22 @@ function OurProducts() {
                 />
               </div>
               <div
-                className='font-extrabold text-xl py-4 uppercase'
-                style={{ color: 'var(--primary-color)' }}
+                  className='font-extrabold text-xl py-4 uppercase'
+                  style={{color: 'var(--primary-color)'}}
               >
-                {product.name}
+                <a href={`${product.href}`}>
+                  {product.name}
+                </a>
               </div>
               <div
-                style={{ color: '#3A3A3A' }}
-                className='text-xs pb-4'
+                  style={{color: '#3A3A3A'}}
+                  className='text-xs pb-4'
                 dangerouslySetInnerHTML={{ __html: product.desc }}
               />
-              <div>
-                <button
-                  className='rounded-full px-2 py-1 text-white text-xs'
-                  style={{ backgroundColor: 'var(--primary-color)' }}
-                >
-                  View More
-                </button>
+              <div className='action-button'>
+                  <a href={`${product.href}`} className='rounded-full px-2 py-1 text-white text-xs' style={{backgroundColor: 'var(--primary-color)'}}>
+                    View More
+                  </a>
               </div>
             </div>
 
