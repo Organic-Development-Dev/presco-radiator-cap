@@ -13,36 +13,36 @@ const dataNavs = [
         key: 1,
         name: 'Auto',
         children: [
-          { name: 'Expansion Tank', slug: 'expansion-tank' },
-          { name: 'Fuel Caps', slug: 'fuel-caps' },
-          { name: 'Radiator Wing Caps', slug: 'radiator-wing-caps' },
-          { name: 'Japanese Caps', slug: 'japanese-caps' },
-          { name: 'Reservior Caps', slug: 'reservior-caps' },
-          { name: 'Oil Caps', slug: 'oil-caps' },
-          { name: 'Radiator Necks', slug: 'radiator-necks' },
+          { name: 'Expansion Tank', slug: '/product-category/expansion-tank' },
+          { name: 'Fuel Caps', slug: '/product-category/fuel-caps' },
+          { name: 'Radiator Wing Caps', slug: '/product-category/radiator-wing-caps' },
+          { name: 'Japanese Caps', slug: '/product-category/japanese-caps' },
+          { name: 'Reservior Caps', slug: '/product-category/reservior-caps' },
+          { name: 'Oil Caps', slug: '/product-category/oil-caps' },
+          { name: 'Radiator Necks', slug: '/product-category/radiator-necks' },
         ],
       },
       {
         key: 2,
         name: 'Agricultural',
         children: [
-          { name: 'Oil Caps', slug: 'oil' },
-          { name: 'Fuel Caps', slug: 'fuel' },
-          { name: 'Radiator Caps', slug: 'radiator' },
-          { name: 'Radiator Necks', slug: 'radiator-necks-agricultural' },
-          { name: 'Engine Parts', slug: 'other-applications' },
+          { name: 'Oil Caps', slug: '/product-category/oil' },
+          { name: 'Fuel Caps', slug: '/product-category/fuel' },
+          { name: 'Radiator Caps', slug: '/product-category/radiator' },
+          { name: 'Radiator Necks', slug: '/product-category/radiator-necks-agricultural' },
+          { name: 'Engine Parts', slug: '/product-category/other-applications' },
         ],
       },
       {
         key: 3,
         name: 'Other Applications',
         children: [
-          { name: 'Auto', slug: 'auto' },
-          { name: 'Agricultural', slug: 'agricultural' },
-          { name: 'Truck & Commercial', slug: 'commercial-caps' },
-          { name: 'Radiator Necks', slug: 'radiator-necks' },
-          { name: 'Sealing Caps', slug: 'sealing-caps' },
-          { name: 'Ad Blue Caps', slug: 'ad-blue-caps' },
+          { name: 'Auto', slug: '/product-category/auto' },
+          { name: 'Agricultural', slug: '/product-category/agricultural' },
+          { name: 'Truck & Commercial', slug: '/product-category/commercial-caps' },
+          { name: 'Radiator Necks', slug: '/product-category/radiator-necks' },
+          { name: 'Sealing Caps', slug: '/product-category/sealing-caps' },
+          { name: 'Ad Blue Caps', slug: '/product-category/ad-blue-caps' },
         ],
       },
     ],
@@ -53,10 +53,8 @@ const dataNavs = [
         slug: '/about-us',
         label: <Link href='/about-us'>About Us</Link>,
         children: [
-          { name: 'Packaging', slug: '/' },
-          { name: 'Inspection & Testing', slug: '/inspection-testing' },
-          { name: 'Privacy Policy', slug: '/privacy-policy' },
-          { name: 'Disclaimer', slug: '/disclaimer' },
+          { name: 'Packaging', slug: '/packaging' },
+          { name: 'Inspection & Testing', slug: '/inspection-testing' }
         ],
       },
     ],
@@ -139,7 +137,7 @@ function DrawerCategory(props) {
                         style={{ color: 'var(--primary-color)' }}
                         className='text-base cursor-pointer list-disc'
                         onClick={() => {
-                          router.push(`/product-category/${child.slug}`);
+                          router.push(`${child.slug}`);
                           onClose();
                         }}
                         key={id}
