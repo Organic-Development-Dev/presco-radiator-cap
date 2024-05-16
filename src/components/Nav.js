@@ -31,7 +31,7 @@ const dataChildSolutionAndProduct = {
         { name: 'Fuel Caps', slug: 'fuel' },
         { name: 'Radiator Caps', slug: 'radiator' },
         { name: 'Radiator Necks', slug: 'radiator-necks-agricultural' },
-        { name: 'Engine Parts', slug: 'engine-parts' },
+        { name: 'Engine Parts', slug: 'other-applications' },
       ],
     },
     {
