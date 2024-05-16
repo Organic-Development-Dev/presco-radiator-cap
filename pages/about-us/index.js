@@ -1,6 +1,4 @@
 import { Breadcrumb, Col, Image, Row } from 'antd';
-import TeamMembers from '../../src/components/home/team-member';
-import CoreValue from '../../src/components/home/core-value';
 import axios from 'axios';
 import { useEffect } from 'react';
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -25,44 +23,6 @@ function Index({ data }) {
             ]}
           />
         </div>
-      </div>
-      <div className='container mx-auto py-16'>
-        <Row gutter={16}>
-          <Col xs={{ span: 24 }} md={{ span: 12 }}>
-            <div className='o-4 border border-[#e1e1e1] inline-block'>
-              <Image
-                preview={false}
-                src='/img/about-us.png'
-                width={480}
-                height={357}
-                objectFit='contain'
-              />
-            </div>
-          </Col>
-          <Col xs={{ span: 24 }} md={{ span: 12 }}>
-            <div>
-              <div
-                className='font-extrabold text-xl relative mb-2'
-                style={{ color: 'var(--primary-color)' }}
-              >
-                OUR STORY
-                <div
-                  style={{
-                    width: 80,
-                    height: 2,
-                    backgroundColor: 'var(--primary-color)',
-                  }}
-                  className='absolute bottom-2 left-0'
-                />
-              </div>
-              <div
-                style={{ color: '#3A3A3A' }}
-                className='text-lg font-thin'
-                dangerouslySetInnerHTML={{ __html: content }}
-              />
-            </div>
-          </Col>
-        </Row>
       </div>
       {/* <div className='our-service py-16'>
         <div className='container mx-auto'>
@@ -132,9 +92,9 @@ function Index({ data }) {
           </div>
         </div>
       </div> */}
-      <CoreValue title='Our Services' />
-      <TeamMembers />
-      <div dangerouslySetInnerHTML={{ __html: data?.content?.rendered }} />
+        <div className='cms-content container mx-auto py-16'>
+            <div dangerouslySetInnerHTML={{__html: data?.content?.rendered}}/>
+        </div>
     </div>
   );
 }
