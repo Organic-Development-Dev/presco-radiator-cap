@@ -26,11 +26,11 @@ const dataNavs = [
         key: 2,
         name: 'Agricultural',
         children: [
-          { name: 'Oil Caps', slug: 'oil-caps' },
-          { name: 'Fuel Caps', slug: 'fuel-caps' },
-          { name: 'Reservior Caps', slug: 'reservior-caps' },
-          { name: 'Radiator Necks', slug: 'radiator-necks' },
-          { name: 'Engine Parts', slug: 'engine-parts' },
+          { name: 'Oil Caps', slug: 'oil' },
+          { name: 'Fuel Caps', slug: 'fuel' },
+          { name: 'Radiator Caps', slug: 'radiator' },
+          { name: 'Radiator Necks', slug: 'radiator-necks-agricultural' },
+          { name: 'Engine Parts', slug: 'other-applications' },
         ],
       },
       {
@@ -38,7 +38,7 @@ const dataNavs = [
         name: 'Other Applications',
         children: [
           { name: 'Auto', slug: 'auto' },
-          { name: 'Agricultura', slug: 'agricultura' },
+          { name: 'Agricultural', slug: 'agricultural' },
           { name: 'Truck & Commercial', slug: 'commercial-caps' },
           { name: 'Radiator Necks', slug: 'radiator-necks' },
           { name: 'Sealing Caps', slug: 'sealing-caps' },
@@ -139,7 +139,7 @@ function DrawerCategory(props) {
                         style={{ color: 'var(--primary-color)' }}
                         className='text-base cursor-pointer list-disc'
                         onClick={() => {
-                          router.push(`/product-category/expansion-tank`);
+                          router.push(`/product-category/${child.slug}`);
                           onClose();
                         }}
                         key={id}
