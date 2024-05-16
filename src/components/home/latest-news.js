@@ -7,12 +7,7 @@ import { useQuery } from '@apollo/client';
 
 function LatestNews() {
   const router = useRouter();
-  const {
-    data: {
-      posts: { nodes: lastestNews },
-    },
-    refetch,
-  } = useQuery(GET_BLOGS, {
+  const { data, refetch } = useQuery(GET_BLOGS, {
     variables: {
       limit: 4,
     },
@@ -27,7 +22,7 @@ function LatestNews() {
         Latest News
       </div>
       <div className='hidden grid-cols-4 gap-4 sm:grid'>
-        {lastestNews.map((item) => (
+        {data?.posts?.nodes?.map((item) => (
           <div key={item.id} className='latest-news-item'>
             <Button
               onClick={() => router.push(`/blog/${item.slug}`)}
@@ -106,7 +101,7 @@ function LatestNews() {
           loop={true}
           className='sm:hidden'
         >
-          {lastestNews.map((item) => (
+          {data?.posts?.nodes.map((item) => (
             <SwiperSlide
               key={item.id}
               onClick={() => router.push(`/blog/${item.slug}`)}
