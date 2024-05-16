@@ -30,8 +30,6 @@ function Index() {
               <Image
                 preview={false}
                 src='/img/about-us.png'
-                width={480}
-                height={357}
                 objectFit='contain'
               />
             </div>
