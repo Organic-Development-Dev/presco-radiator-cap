@@ -1,7 +1,9 @@
 import { Divider } from 'antd';
 import Image from 'next/image';
-import { Fragment } from 'react';
-import Link from "next/link";
+import { Fragment, useEffect, useState } from 'react';
+import Link from 'next/link';
+import GET_PAGE_BY_ID from '../../queries/get-page-by-title';
+import client from '../ApolloClient';
 
 const dataProducts = [
   {
@@ -37,6 +39,17 @@ const dataProducts = [
 ];
 
 function OurProducts() {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    (async () => {
+      const { data } = await client.query({
+        query: GET_PAGE_BY_ID,
+        variables: { id: 'cG9zdDo2OTEx' },
+      });
+      setData(data);
+    })();
+  }, []);
+
   return (
     <div className='text-center py-8' style={{ backgroundColor: '#ECECEC' }}>
       <div
@@ -62,37 +75,39 @@ function OurProducts() {
                 />
               </div>
               <div
-                  className='font-extrabold text-xl py-4 uppercase'
-                  style={{color: 'var(--primary-color)'}}
+                className='font-extrabold text-xl py-4 uppercase'
+                style={{ color: 'var(--primary-color)' }}
               >
                 <Link href={`${product.href}`}>{product.name}</Link>
               </div>
               <div
-                  style={{color: '#3A3A3A'}}
-                  className='text-xs pb-4'
+                style={{ color: '#3A3A3A' }}
+                className='text-xs pb-4'
                 dangerouslySetInnerHTML={{ __html: product.desc }}
               />
               <div className='action-button'>
                 <Link href={`${product.href}`}>
-                  <a className='rounded-full px-2 py-1 text-white text-xs'
-                     style={{backgroundColor: 'var(--primary-color)'}}>
+                  <a
+                    className='rounded-full px-2 py-1 text-white text-xs'
+                    style={{ backgroundColor: 'var(--primary-color)' }}
+                  >
                     View More
                   </a>
                 </Link>
-
               </div>
             </div>
 
             {id < 3 && (
-                <Divider
-                    type='vertical'
-                    style={{backgroundColor: '#000', height: 110 }}
+              <Divider
+                type='vertical'
+                style={{ backgroundColor: '#000', height: 110 }}
                 className='hidden sm:block'
               />
             )}
           </Fragment>
         ))}
       </div>
+      <div dangerouslySetInnerHTML={{ __html: data?.page.content }} />
     </div>
   );
 }

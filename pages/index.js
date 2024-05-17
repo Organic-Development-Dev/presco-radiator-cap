@@ -5,16 +5,35 @@ import LatestNews from '../src/components/home/latest-news';
 import OurProducts from '../src/components/home/our-product';
 import TeamMembers from '../src/components/home/team-member';
 import Testimonials from '../src/components/home/testimonials';
+import axios from "axios";
 
-export default function Home() {
+function Home({ data }) {
   return (
-    <>
-      <Banner />
-      <CoreValue />
-      <OurProducts />
-      <TeamMembers />
-      <LatestNews />
-      <Testimonials />
-    </>
+      <>
+          <Banner/>
+          <div className='cms-content'>
+              <div className='container mx-auto'>
+                  <div dangerouslySetInnerHTML={{__html: data?.content?.rendered}}/>
+              </div>
+          </div>
+          <LatestNews/>
+          <Testimonials/>
+      </>
   );
+}
+
+export default Home;
+
+export async function getStaticProps(context) {
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const { data } = await axios.get(
+        `${apiBaseUrl}/api/pages/6932`
+    );
+    if (data) {
+        return {
+            props: {
+                data,
+            },
+        };
+    }
 }
