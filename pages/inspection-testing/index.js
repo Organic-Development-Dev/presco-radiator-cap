@@ -1,13 +1,9 @@
 import React from 'react';
-
-import Image from 'next/image';
-import client from '../../src/components/ApolloClient';
-import GET_PAGE_BY_ID from '../../src/queries/get-page-by-title';
 import axios from "axios";
 import Head from "next/head";
 import {Breadcrumb} from "antd";
 
-const index = ({ data }) => {
+function Index({ data }) {
   return (
       <>
           <Head>
@@ -45,19 +41,25 @@ const index = ({ data }) => {
   );
 };
 
-export default index;
+export default Index;
 
 export async function getStaticProps(context) {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-    const { data } = await axios.get(
-        `${apiBaseUrl}/api/pages/2`
-    );
-
-  if (data) {
-    return {
-      props: {
-        data,
-      },
-    };
-  }
+    try {
+        const { data } = await axios.get(`${apiBaseUrl}/api/pages/2`);
+        return {
+            props: {
+                data,
+            },
+            revalidate: 1,
+        };
+    } catch (error) {
+        console.error('Error fetching data in getStaticProps', error);
+        return {
+            props: {
+                data: null,
+            },
+            revalidate: 1,
+        };
+    }
 }
