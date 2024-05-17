@@ -206,11 +206,28 @@ tr:first-child th, tr:first-child td{
     max-width: 120px;
     margin: 0 auto 30px;
   }
-  .avia-icon-circles-inner .icon-title {
-    text-transform: uppercase;
-    font-weight: 600;
-    color: #44558e;
-    font-size: 20px;
+  .avia-icon-circles-inner {
+    .icon-title {
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #44558e;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    .icon-description {
+      color: #3A3A3A;
+      font-size: 12px;
+    }
+    .action-button {
+      margin-top: 15px;
+      a {
+        background: #445a8e;
+        color: #fff;
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+      }
+    }
   }
 }
 .avia-image-container.avia-align-center {
@@ -262,4 +279,40 @@ tr:first-child th, tr:first-child td{
     }
   }
 }
-
+.cms-content {
+  overflow: hidden;
+}
+.our-product-wrapper {
+  background: #ECECEC;
+  margin-top: 50px;
+  padding: 0 0 60px;
+  &:before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 1000vh;
+    top: 0;
+    background: #ECECEC;
+    left: -100%;
+  }
+  .av-special-heading {
+    position: relative;
+  }
+  .av-icon-circles-container {
+    position: relative;
+    &:after {
+      content: "";
+      height: 110px;
+      width: 1px;
+      background: #445a8e;
+      position: absolute;
+      right: -50px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+  }
+}
+.avia-builder-el-last .av-icon-circles-container:after {
+  display: none;
+}
