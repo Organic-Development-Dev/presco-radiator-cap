@@ -1,7 +1,10 @@
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
+import "../src/styles/grid.css";
+import "../src/styles/custom.css";
 import "../src/styles/main.scss";
 import "../src/styles/style.scss";
+
 
 import Router from 'next/router';
 import NProgress from 'nprogress';

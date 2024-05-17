@@ -10,7 +10,7 @@ import Head from 'next/head';
 
 const siteKeyReCaptcha = process.env.NEXT_PUBLIC_SITE_KEY;
 
-function ContactUs() {
+function ContactUs({ data: dataPage }) {
   const [message, setMessage] = useState('');
   const [isVerify, setIsVerify] = useState(false);
   const submitHandler = async (values) => {
@@ -30,7 +30,7 @@ function ContactUs() {
     <>
       <Head>
         <title>Presco Radiator Caps - Contact Us</title>
-        <meta content="Contact Us" />
+        <meta content='Contact Us' />
       </Head>
       <div style={{ backgroundColor: '#F6F6F6' }}>
         <div className='container mx-auto py-4 px-6 md:px-'>
@@ -57,7 +57,7 @@ function ContactUs() {
               Contact US
             </div>
             <div className='pb-4 text-base'>
-              Have a question? We’re here to help! Our dedicated team at
+              Have a question? We’re here to help! Our dedicated team at {' '}
               <span className='text-blue-900 font-medium'>
                 Presco-Radiator-Caps.Com
               </span>{' '}
@@ -179,7 +179,7 @@ function ContactUs() {
               />
             </div>
             <div className='my-5'>
-              <div className='leading-6'>
+              {/* <div className='leading-6'>
                 <h3 className='font-bold'>Presco Radiator Caps Ltd</h3>
                 <p>
                   Unit D86, Blackpole Trading Estate West Worcester, England,
@@ -199,7 +199,8 @@ function ContactUs() {
                   Fridays we are open until 12.30pm – Please leave a phone
                   message or email us
                 </p>
-              </div>
+              </div> */}
+              <div dangerouslySetInnerHTML={{ __html: dataPage?.content }} />
             </div>
           </Col>
         </Row>
