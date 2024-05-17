@@ -26,14 +26,21 @@ export default Home;
 
 export async function getStaticProps(context) {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-    const { data } = await axios.get(
-        `${apiBaseUrl}/api/pages/6932`
-    );
-    if (data) {
+    try {
+        const { data } = await axios.get(`${apiBaseUrl}/api/pages/6932`);
         return {
             props: {
                 data,
             },
+            revalidate: 1,
+        };
+    } catch (error) {
+        console.error('Error fetching data in getStaticProps', error);
+        return {
+            props: {
+                data: null,
+            },
+            revalidate: 1,
         };
     }
 }
