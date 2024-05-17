@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import GET_BLOGS from '../../src/queries/get-blogs';
 import client from '../../src/components/ApolloClient';
+import {DEFAULT_PRODUCT_HOME_IMG_URL} from "../../src/constants/urls";
 
 const des =
   'Presco is certified to the standard & guidelines of ISO 9001:2015. See our current certification. Our Pnuetek FC0750 Pressure & Leak Testing Machine uses state of the art testing equipment to measure both the radiator cap pressure & valve leak to 100th of one PSI.We have a second electronic pressure testing machine, our J.M.Bodley tester, with a comprehensive range of compatible test pots, for our range of expansion tank pressure caps.Presco follows extensive testing procedures for all its clients, and for some, all radiator caps are 100% pressure and leak tested. Presco has recently introduced a new water testing facility, for further extensive testing of our metal & expansion tank caps. Using these machines Presco is able to provide the customer with detailed testing results so they may be confident that the supplied product is of perfect quality.This will be achieved through continued improvement and investment in new technology, machinery, training and at all times following the policies set down and procedures laid out in our quality manual and in accordance with the ANSI SAE J164 international standards.';
@@ -20,9 +21,6 @@ function Index(props) {
             items={[
               {
                 title: 'Home',
-              },
-              {
-                title: 'Resources',
               },
               {
                 title: 'News',
@@ -43,6 +41,7 @@ function Index(props) {
               width={240}
               height={60}
               layout='responsive'
+              objectFit='cover'
             />
           </div>
           <div
@@ -61,11 +60,14 @@ function Index(props) {
               >
                 <Col xs={{ span: 24 }} md={{ span: 8 }}>
                   <Image
-                    src='/img/background-gray.png'
+                    src={
+                        blog?.featuredImage?.node?.mediaItemUrl ?? '/img/background-gray.png'
+                    }
                     layout='responsive'
+                    className='blog-image'
                     width={361}
                     height={207}
-                    objectFit='contain'
+                    objectFit='cover'
                   />
                 </Col>
                 <Col xs={{ span: 24 }} md={{ span: 16 }}>

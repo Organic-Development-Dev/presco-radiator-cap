@@ -25,8 +25,10 @@ function Home({ data }) {
 export default Home;
 
 export async function getStaticProps(context) {
-    const {data} = await axios.get(`http://localhost:3000/api/pages/6932`);
-
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const { data } = await axios.get(
+        `${apiBaseUrl}/api/pages/6932`
+    );
     if (data) {
         return {
             props: {

@@ -27,7 +27,7 @@ const Layout = (props) => {
             <link rel='icon' type='image/x-icon' href='/img/favicon.png' />
           </Head>
           <Header />
-          <div style={{ minHeight: '80vh' }}>{props.children}</div>
+          <div style={{ minHeight: '50vh' }}>{props.children}</div>
           <Subscribe />
           <Footer />
         </div>

@@ -11,6 +11,11 @@ const GET_BLOGS = gql`
         slug
         title
         content
+        featuredImage {
+            node {
+              mediaItemUrl
+            }
+          }
       }
     }
   }

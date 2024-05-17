@@ -311,8 +311,38 @@ tr:first-child th, tr:first-child td{
       transform: translateY(-50%);
       z-index: 1;
     }
+    .avia-icon-circles-main-logo {
+      max-width: 150px;
+    }
   }
 }
 .avia-builder-el-last .av-icon-circles-container:after {
   display: none;
+}
+.blog-image {
+  border-radius: 15px;
+}
+.cms-testing-content {
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+  color: #2a4365;
+  p {
+    margin-bottom: 15px;
+  }
+}
+.disclaimer-content {
+  font-size: 14px;
+  h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #44558e;
+  }
+  p {
+    margin-bottom: 10px;
+  }
+}
+.ant-pagination .ant-pagination-options {
+  display: none !important;
 }
