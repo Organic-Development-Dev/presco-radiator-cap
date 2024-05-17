@@ -11,10 +11,12 @@ html.responsive { min-width: 0px; }
   clear: both;
   position: relative;
   /* z-index: 1; */
-  border-top-style: solid;
-  border-top-width: 1px;
 }
-
+.container_wrap::after {
+	content: "";
+	clear: both;
+	display: block;
+}
 .unit, .units {
   float: left;
   display: inline;
