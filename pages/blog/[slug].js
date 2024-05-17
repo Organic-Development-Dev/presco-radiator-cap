@@ -25,10 +25,10 @@ function Index(props) {
                 title: 'Home',
               },
               {
-                title: 'Resources',
+                title: 'New',
               },
               {
-                title: 'Blog',
+                title: post.title,
               },
             ]}
           />

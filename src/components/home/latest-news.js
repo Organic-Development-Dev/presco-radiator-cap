@@ -31,13 +31,15 @@ function LatestNews() {
               Read more
             </Button>
             <Image
-              src='/img/latest-news.png'
+              src={
+                  item?.featuredImage?.node?.mediaItemUrl ?? '/img/latest-news.png'
+              }
               alt='latest-news'
               layout='responsive'
               width={285}
               height={235}
               className='rounded-lg'
-              objecfit='contain'
+              objecfit='cover'
             />
           </div>
         ))}

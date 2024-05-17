@@ -102,8 +102,10 @@ function Index({ data }) {
 export default Index;
 
 export async function getStaticProps(context) {
-  const { data } = await axios.get(`http://localhost:3000/api/pages/1195`);
-
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const { data } = await axios.get(
+        `${apiBaseUrl}/api/pages/1195`
+    );
   if (data) {
     return {
       props: {
