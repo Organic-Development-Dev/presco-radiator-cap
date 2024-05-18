@@ -346,3 +346,21 @@ tr:first-child th, tr:first-child td{
 .ant-pagination .ant-pagination-options {
   display: none !important;
 }
+
+@media (max-width: 767px) {
+  div .flex_column {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .av-special-heading {
+    padding: 50px 0 30px;
+  }
+  .av-icon-circles-container .avia-icon-circles-inner .action-button {
+    margin-bottom: 30px;
+  }
+  td {
+    font-size: 12px;
+  }
+
+}
