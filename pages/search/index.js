@@ -24,7 +24,7 @@ function Index({ products, search }) {
 
   return (
       <>
-        <SearchPage products={currentProducts} search={search} />
+        <SearchPage products={products} search={search} />
         <Pagination
             current={currentPage}
             total={dataProducts.length}
