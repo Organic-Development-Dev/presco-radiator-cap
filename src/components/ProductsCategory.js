@@ -79,9 +79,6 @@ export default function ProductsCategory(props) {
           style={{ color: 'var(--primary-color)' }}
           items={[
             {
-              title: 'Home',
-            },
-            {
               title: 'Product & Solutions',
             },
             {

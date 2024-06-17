@@ -37,8 +37,6 @@ const dataChildSolutionAndProduct = {
     {
       title: 'Other Applications',
       children: [
-        { name: 'Auto', slug: 'auto' },
-        { name: 'Agricultural', slug: 'agricultural' },
         { name: 'Truck & Commercial', slug: 'commercial-caps' },
         { name: 'Radiator Necks', slug: 'radiator-necks' },
         { name: 'Sealing Caps', slug: 'sealing-caps' },
