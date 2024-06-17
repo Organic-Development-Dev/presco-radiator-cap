@@ -4,7 +4,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 // import required modules
-import { Pagination } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 import Image from 'next/image';
 
 function Banner() {
@@ -14,11 +14,15 @@ function Banner() {
         style={{ paddingBottom: '40px' }}
         slidesPerView={1}
         spaceBetween={30}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
         pagination={{
           clickable: true,
         }}
         loop={true}
-        modules={[Pagination]}
+        modules={[Autoplay, Pagination]}
       >
         <SwiperSlide>
           <div className='relative' style={{ paddingTop: '30%' }}>
