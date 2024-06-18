@@ -40,6 +40,8 @@ function LatestNews() {
               height={235}
               className='rounded-lg'
               objecfit='cover'
+              quality={90}
+              priority
             />
           </div>
         ))}

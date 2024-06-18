@@ -31,6 +31,8 @@ function Banner() {
               layout='fill'
               alt='banner'
               className='absolute'
+              quality={90}
+              priority
             />
           </div>
         </SwiperSlide>
@@ -41,6 +43,8 @@ function Banner() {
               layout='fill'
               alt='banner'
               className='absolute'
+              quality={90}
+              priority
             />
           </div>
         </SwiperSlide>
@@ -51,6 +55,8 @@ function Banner() {
               layout='fill'
               alt='banner'
               className='absolute'
+              quality={90}
+              priority
             />
           </div>
         </SwiperSlide>
