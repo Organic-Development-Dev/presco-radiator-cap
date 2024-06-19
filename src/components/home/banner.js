@@ -27,9 +27,9 @@ function Banner() {
         <SwiperSlide>
           <div className='relative' style={{ paddingTop: '30%' }}>
             <Image
-              src='/img/banner1.png'
+              src='/img/banner1.webp'
               layout='fill'
-              alt='banner'
+              alt='banner1'
               className='absolute'
               quality={80}
               priority // Preload the first image
@@ -39,9 +39,9 @@ function Banner() {
         <SwiperSlide>
           <div className='relative' style={{ paddingTop: '30%' }}>
             <Image
-              src='/img/banner2.png'
+              src='/img/banner2.webp'
               layout='fill'
-              alt='banner'
+              alt='banner2'
               className='absolute'
               quality={80}
             />
@@ -50,9 +50,9 @@ function Banner() {
         <SwiperSlide>
           <div className='relative' style={{ paddingTop: '30%' }}>
             <Image
-              src='/img/banner3.png'
+              src='/img/banner3.webp'
               layout='fill'
-              alt='banner'
+              alt='banner3'
               className='absolute'
               quality={80}
             />
