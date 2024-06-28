@@ -35,13 +35,20 @@ function Index(props) {
   return (
     <>
       <Head>
-        <title>Presco Radiator Caps - {product.name}</title>
+        <title>{product.name}</title>
         <meta
-          name={product.name}
-          content={product.name}
+            title={product.name}
+            content={product.name}
         />
+        <meta name="description" content={product?.yoast_head_json?.og_description ?? 'Presco Radiator Caps'}/>
+        <meta property="og:locale" content={product?.yoast_head_json?.og_locale}/>
+        <meta property="og:site_name" content={product?.yoast_head_json?.og_site_name}/>
+        <meta property="og:url" content="https://www.presco-radiator-caps.com"/>
+        <meta property="og:title" content={product?.yoast_head_json?.og_title}/>
+        <meta property="og:type" content={product?.yoast_head_json?.og_type}/>
+        <meta property="og:description" content={product?.yoast_head_json?.og_description}/>
       </Head>
-      <div style={{ backgroundColor: '#F6F6F6' }}>
+      <div style={{backgroundColor: '#F6F6F6'}}>
         <div className='container mx-auto py-4'>
           <Breadcrumb
             style={{ color: 'var(--primary-color)' }}
