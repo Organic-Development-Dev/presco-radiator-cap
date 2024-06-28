@@ -14,8 +14,18 @@ export default function Index(props) {
   return (
     <>
       <Head>
-        <title>Presco Radiator Caps - {dataCategory.name}</title>
-        <meta content={dataCategory.name} />
+        <title>{dataCategory.name}</title>
+        <meta
+            title={dataCategory.name}
+            content={dataCategory.name}
+        />
+        <meta name="description" content={dataCategory?.yoast_head_json?.og_description ?? 'Presco Radiator Caps'}/>
+        <meta property="og:locale" content={dataCategory?.yoast_head_json?.og_locale}/>
+        <meta property="og:site_name" content={dataCategory?.yoast_head_json?.og_site_name}/>
+        <meta property="og:url" content="https://www.presco-radiator-caps.com"/>
+        <meta property="og:title" content={dataCategory?.yoast_head_json?.og_title}/>
+        <meta property="og:type" content={dataCategory?.yoast_head_json?.og_type}/>
+        <meta property="og:description" content={dataCategory?.yoast_head_json?.og_description}/>
       </Head>
       {dataCategory && products && (
         <ProductsCategory dataCategory={dataCategory} products={products} />
