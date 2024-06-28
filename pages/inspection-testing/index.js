@@ -7,8 +7,15 @@ function Index({ data }) {
   return (
       <>
           <Head>
-              <title>Inspection & Testing</title>
-              <meta content="Inspection & Testing" />
+              <title>{data?.yoast_head_json?.title}</title>
+              <meta content={data?.yoast_head_json?.og_title}/>
+              <meta name="description" content={data?.yoast_head_json?.og_description ?? 'Presco Radiator Caps'}/>
+              <meta property="og:locale" content={data?.yoast_head_json?.og_locale}/>
+              <meta property="og:site_name" content={data?.yoast_head_json?.og_site_name}/>
+              <meta property="og:url" content="https://www.presco-radiator-caps.com"/>
+              <meta property="og:title" content={data?.yoast_head_json?.og_title}/>
+              <meta property="og:type" content={data?.yoast_head_json?.og_type}/>
+              <meta property="og:description" content={data?.yoast_head_json?.og_description}/>
           </Head>
           <div style={{ backgroundColor: '#F6F6F6' }}>
               <div className='container mx-auto py-4'>

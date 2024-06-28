@@ -2,7 +2,7 @@
 
 import { Breadcrumb, Button, Col, Form, Input, Row } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Select } from 'antd';
 import ReCAPTCHA from 'react-google-recaptcha';
@@ -29,8 +29,15 @@ function ContactUs({ data: dataPage }) {
   return (
     <>
       <Head>
-        <title>Presco Radiator Caps - Contact Us</title>
-        <meta content='Contact Us' />
+        <title>{dataPage.title}</title>
+        <meta content={dataPage?.seo?.metaDesc ? dataPage.seo.metaDesc : 'Presco Radiator Caps'}/>
+        <meta name="description" content={dataPage?.seo?.metaDesc ? dataPage.seo.metaDesc : 'Presco Radiator Caps'}/>
+        <meta property="og:locale" content="en_US"/>
+        <meta property="og:site_name" content={dataPage?.seo?.opengraphSiteName ? dataPage.seo.opengraphSiteName : 'Presco Radiator Caps'}/>
+        <meta property="og:url" content="https://www.presco-radiator-caps.com"/>
+        <meta property="og:title" content={dataPage?.seo?.title ? dataPage.seo.title : dataPage.title}/>
+        <meta property="og:type" content={dataPage?.seo?.opengraphType}/>
+        <meta property="og:description" content={dataPage?.seo?.opengraphDescription ? dataPage.seo.opengraphDescription : 'Presco Radiator Caps'}/>
       </Head>
       <div style={{ backgroundColor: '#F6F6F6' }}>
         <div className='container mx-auto py-4 px-6 md:px-'>

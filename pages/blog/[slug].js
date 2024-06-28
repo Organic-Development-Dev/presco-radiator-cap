@@ -6,15 +6,25 @@ import client from '../../src/components/ApolloClient';
 import GET_DETAIL_BLOG from '../../src/queries/get-detail-blog';
 import GET_BLOGS from '../../src/queries/get-blogs';
 import Head from 'next/head';
+import React from "react";
 
 function Index(props) {
   const router = useRouter();
   const { post, prevPost, nextPost } = props;
+
+  console.log('post', post);
   return (
     <>
       <Head>
-        <title>Presco Radiator Caps - {post.title}</title>
-        <meta content={post.title} />
+        <title>{post.title}</title>
+        <meta content={post?.seo?.metaDesc ? post.seo.metaDesc : 'Presco Radiator Caps'}/>
+        <meta name="description" content={post?.seo?.metaDesc ? post.seo.metaDesc : 'Presco Radiator Caps'}/>
+        <meta property="og:locale" content="en_US"/>
+        <meta property="og:site_name" content={post?.seo?.opengraphSiteName ? post.seo.opengraphSiteName : 'Presco Radiator Caps'}/>
+        <meta property="og:url" content="https://www.presco-radiator-caps.com"/>
+        <meta property="og:title" content={post?.seo?.title ? post.seo.title : post.title}/>
+        <meta property="og:type" content={post?.seo?.opengraphType}/>
+        <meta property="og:description" content={post?.seo?.opengraphDescription ? post.seo.opengraphDescription : 'Presco Radiator Caps'}/>
       </Head>
       <div style={{ backgroundColor: '#F6F6F6' }}>
         <div className='container mx-auto py-4'>
@@ -141,6 +151,7 @@ export async function getStaticProps(context) {
         content: data?.post?.content,
         title: data?.post?.title,
         author: data?.post.author?.node,
+        seo: data?.post.seo,
       },
       prevPost,
       nextPost,
