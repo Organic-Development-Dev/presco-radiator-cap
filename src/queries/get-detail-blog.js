@@ -15,6 +15,24 @@ const GET_DETAIL_BLOG = gql`
           name
         }
       }
+      seo {
+          canonical
+          metaDesc
+          metaKeywords
+          metaRobotsNofollow
+          metaRobotsNoindex
+          opengraphAuthor
+          opengraphDescription
+          opengraphModifiedTime
+          opengraphPublishedTime
+          title
+          twitterDescription
+          twitterTitle
+          opengraphUrl
+          opengraphType
+          opengraphTitle
+          opengraphSiteName
+        }
       contentType {
         node {
           id

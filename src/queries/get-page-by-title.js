@@ -6,6 +6,24 @@ const GET_PAGE_BY_ID = gql`
       id
       content
       title
+      seo {
+          canonical
+          metaDesc
+          metaKeywords
+          metaRobotsNofollow
+          metaRobotsNoindex
+          opengraphAuthor
+          opengraphDescription
+          opengraphModifiedTime
+          opengraphPublishedTime
+          title
+          twitterDescription
+          twitterTitle
+          opengraphUrl
+          opengraphType
+          opengraphTitle
+          opengraphSiteName
+        }
     }
   }
 `;
