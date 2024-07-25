@@ -4,7 +4,7 @@ import client from '../../src/components/ApolloClient';
 import Head from "next/head";
 import {Breadcrumb} from "antd";
 
-const index = ({ data }) => {
+const index = ({ data: dataPage }) => {
   return (
       <>
           <Head>
@@ -35,7 +35,7 @@ const index = ({ data }) => {
         </div>
         <div className='disclaimer-content container mx-auto py-16 pt-8'>
           <div className='avia_textblock' itemProp='text'>
-            <div dangerouslySetInnerHTML={{__html: data.content}}/>
+            <div dangerouslySetInnerHTML={{__html: dataPage.content}}/>
           </div>
         </div>
       </>
