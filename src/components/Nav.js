@@ -155,7 +155,7 @@ const dataNavs = [
       ),
     },
   ],
-},
+
   {
     name: 'News',
     tab: 4,
