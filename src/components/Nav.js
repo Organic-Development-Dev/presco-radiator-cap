@@ -92,10 +92,10 @@ const dataNavs = [
     ],
   },
   {
-    // name: 'About Us',
+    // name: 'Quality',
     tab: 2,
-    slug: '/about-us',
-    label: <Link href='/about-us'>About Us</Link>,
+    slug: '/quality',
+    label: <Link href='/quality'>Quality</Link>,
     children: [
       {
         key: '1',
@@ -105,7 +105,7 @@ const dataNavs = [
               className='font-semibold'
               style={{ color: 'var(--primary-color)' }}
             >
-              <Link href='/packaging'>Packaging</Link>
+              <Link href='/iso'>ISO</Link>
             </li>
             <li
               className='font-semibold'
@@ -113,11 +113,49 @@ const dataNavs = [
             >
               <Link href='/inspection-testing'>Inspection & Testing</Link>
             </li>
+            <li
+              className='font-semibold'
+              style={{ color: 'var(--primary-color)' }}
+            >
+              <Link href='/packaging'>Packaging</Link>
+            </li>
           </ul>
         ),
       },
     ],
   },
+  // name: 'About Us',
+  tab: 2,
+  slug: '/about-us',
+  label: <Link href='/about-us'>About Us</Link>,
+  children: [
+    {
+      key: '1',
+      label: (
+        <ul>
+          <li
+            className='font-semibold'
+            style={{ color: 'var(--primary-color)' }}
+          >
+            <Link href='/about-us'>History</Link>
+          </li>
+          <li
+            className='font-semibold'
+            style={{ color: 'var(--primary-color)' }}
+          >
+            <Link href='/about-us'>Meet the team</Link>
+          </li>
+          <li
+            className='font-semibold'
+            style={{ color: 'var(--primary-color)' }}
+          >
+            <Link href='/contact-us'>Visit us</Link>
+          </li>
+        </ul>
+      ),
+    },
+  ],
+},
   {
     name: 'News',
     tab: 3,
