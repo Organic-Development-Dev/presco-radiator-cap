@@ -10,7 +10,7 @@ const dataNavs = [
     slug: '/',
     children: [
       {
-        key: 1,
+        key: '1',
         name: 'Auto',
         children: [
           { name: 'Expansion Tank', slug: '/product-category/expansion-tank' },
@@ -23,7 +23,7 @@ const dataNavs = [
         ],
       },
       {
-        key: 2,
+        key: '2',
         name: 'Agricultural',
         children: [
           { name: 'Oil Caps', slug: '/product-category/oil' },
@@ -34,11 +34,9 @@ const dataNavs = [
         ],
       },
       {
-        key: 3,
+        key: '3',
         name: 'Other Applications',
         children: [
-          { name: 'Auto', slug: '/product-category/auto' },
-          { name: 'Agricultural', slug: '/product-category/agricultural' },
           { name: 'Truck & Commercial', slug: '/product-category/commercial-caps' },
           { name: 'Radiator Necks', slug: '/product-category/radiator-necks' },
           { name: 'Sealing Caps', slug: '/product-category/sealing-caps' },
@@ -48,25 +46,45 @@ const dataNavs = [
     ],
   },
   {
+    name: 'Quality',
+    tab: 2,
+    slug: '/quality',
     children: [
       {
-        slug: '/about-us',
-        label: <Link href='/about-us'>About Us</Link>,
+        key: '1',
+        name: 'Quality',
         children: [
+          { name: 'ISO', slug: '/iso' },
+          { name: 'Inspection & Testing', slug: '/inspection-testing' },
           { name: 'Packaging', slug: '/packaging' },
-          { name: 'Inspection & Testing', slug: '/inspection-testing' }
+        ],
+      },
+    ],
+  },
+  {
+    name: 'About Us',
+    tab: 3,
+    slug: '/about-us',
+    children: [
+      {
+        key: '1',
+        name: 'About Us',
+        children: [
+          { name: 'History', slug: '/about-us' },
+          { name: 'Meet the team', slug: '/about-us' },
+          { name: 'Visit us', slug: '/contact-us' },
         ],
       },
     ],
   },
   {
     name: 'News',
-    tab: 3,
+    tab: 4,
     slug: '/news',
   },
   {
     name: 'Contact Us',
-    tab: 4,
+    tab: 5,
     slug: '/contact-us',
   },
 ];
@@ -93,9 +111,9 @@ function DrawerCategory(props) {
       }
     >
       {dataNavs.map((nav) => (
-        <>
+        <div key={nav.tab}>
           {nav.name && (
-            <div key={nav.key}>
+            <div>
               <div
                 style={{ color: 'var(--primary-color)' }}
                 className='font-semibold uppercase text-lg mb-4 px-3'
@@ -109,50 +127,40 @@ function DrawerCategory(props) {
             </div>
           )}
           <Collapse
-            key={nav.slug}
             bordered={false}
-            // defaultActiveKey={['1']}
-            // expandIcon={({ isActive }) => (
-            //   <CaretRightOutlined rotate={isActive ? 90 : 0} />
-            // )}
-            // style={{ background: token.colorBgContainer }}
             style={{ background: '#fff' }}
             expandIconPosition='end'
-            items={nav?.children?.map((childNav, idx) => {
-              return {
-                key: childNav.key,
-                label: (
-                  <div
-                    style={{ color: 'var(--primary-color)' }}
-                    className='text-base cursor-pointer font-semibold uppercase'
-                    key={idx}
-                  >
-                    {childNav.name || childNav.label}
-                  </div>
-                ),
-                children: childNav?.children ? (
-                  <ul className='pb-2 pl-4'>
-                    {childNav?.children?.map((child, id) => (
-                      <li
-                        style={{ color: 'var(--primary-color)' }}
-                        className='text-base cursor-pointer list-disc'
-                        onClick={() => {
-                          router.push(`${child.slug}`);
-                          onClose();
-                        }}
-                        key={id}
-                      >
-                        {child.name}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null,
-
-                style: { border: 'none' },
-              };
-            })}
+            items={nav.children?.map((childNav) => ({
+              key: childNav.key,
+              label: (
+                <div
+                  style={{ color: 'var(--primary-color)' }}
+                  className='text-base cursor-pointer font-semibold uppercase'
+                >
+                  {childNav.name}
+                </div>
+              ),
+              children: childNav.children ? (
+                <ul className='pb-2 pl-4'>
+                  {childNav.children.map((child) => (
+                    <li
+                      style={{ color: 'var(--primary-color)' }}
+                      className='text-base cursor-pointer list-disc'
+                      onClick={() => {
+                        router.push(child.slug);
+                        onClose();
+                      }}
+                      key={child.name}
+                    >
+                      {child.name}
+                    </li>
+                  ))}
+                </ul>
+              ) : null,
+              style: { border: 'none' },
+            }))}
           />
-        </>
+        </div>
       ))}
     </Drawer>
   );
