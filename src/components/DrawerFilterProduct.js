@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react';
 import { fetchAttributesWithTermByCategoryId } from '../utils/products';
-import { Button, Checkbox, Drawer, Space, Select } from 'antd';
+import { Button, Checkbox, Drawer, Space } from 'antd';
 import CloseIcon from './icons/Close';
 import dynamic from 'next/dynamic';
 
-const { Option } = Select;
-
 const DrawerFilterProduct = (props) => {
-  const { open, onClose, handlerFilter, products } = props;
+  const { open, onClose, handlerFilter, categoryId, products } = props;
   const [dataAttributes, setDataAttributes] = useState({});
   const [selectedFilters, setSelectedFilters] = useState({});
-  const [sortOrder, setSortOrder] = useState('ascending'); // Manage sort order state
 
   useEffect(() => {
     if (products?.length > 0) {
@@ -23,24 +20,20 @@ const DrawerFilterProduct = (props) => {
     setSelectedFilters((prev) => {
       const currentValues = prev[attribute] || [];
       if (checked) {
+        // Thêm giá trị nếu người dùng đánh dấu chọn
         return { ...prev, [attribute]: [...currentValues, value] };
       } else {
+        // Xóa giá trị nếu người dùng bỏ đánh dấu
         const updatedValues = currentValues.filter((v) => v !== value);
+        // Nếu sau khi bỏ chọn, mảng trống, thì xóa key đó khỏi đối tượng
         if (updatedValues.length === 0) {
           const { [attribute]: _, ...rest } = prev;
           return rest;
         }
+        // Ngược lại, cập nhật giá trị mới cho key
         return { ...prev, [attribute]: updatedValues };
       }
     });
-  };
-
-  const handleSortOrderChange = (value) => {
-    setSortOrder(value);
-  };
-
-  const handleFilterClick = () => {
-    handlerFilter(selectedFilters, sortOrder); // Pass sortOrder to the handlerFilter function
   };
 
   return (
@@ -57,8 +50,8 @@ const DrawerFilterProduct = (props) => {
       }
       footer={
         <Space style={{ float: 'right' }}>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button onClick={handleFilterClick} type='primary'>
+          <Button>Cancel</Button>
+          <Button onClick={() => handlerFilter(selectedFilters)} type='primary'>
             Filter
           </Button>
         </Space>
@@ -66,30 +59,6 @@ const DrawerFilterProduct = (props) => {
       open={open}
       placement='left'
     >
-      <div
-        style={{
-          borderTop: '8px solid var(--primary-color)',
-          backgroundColor: '#F0F0F0',
-          padding: '16px 24px',
-          marginBottom: 24,
-        }}
-      >
-        <div
-          style={{ color: 'var(--primary-color)' }}
-          className='pb-2 text-2xl font-semibold uppercase'
-        >
-          Sort Order
-        </div>
-        <Select
-          value={sortOrder}
-          onChange={handleSortOrderChange}
-          style={{ width: 200 }}
-        >
-          <Option value='ascending'>Ascending</Option>
-          <Option value='descending'>Descending</Option>
-        </Select>
-      </div>
-
       {Object.entries(dataAttributes).map(([attribute, terms]) => (
         <div
           key={attribute}
@@ -116,7 +85,6 @@ const DrawerFilterProduct = (props) => {
           >
             {terms.map((term) => (
               <Checkbox
-                key={term}
                 onChange={(e) =>
                   handleCheckboxChange(attribute, term, e.target.checked)
                 }
@@ -130,6 +98,49 @@ const DrawerFilterProduct = (props) => {
           </Checkbox.Group>
         </div>
       ))}
+      {/* {dataAttributes.map((att) => (
+        <div
+          key={att.id}
+          style={{
+            borderTop: '8px solid var(--primary-color)',
+            backgroundColor: '#F0F0F0',
+            padding: '16px 24px',
+            marginBottom: 24,
+          }}
+        >
+          <div
+            style={{ color: 'var(--primary-color)' }}
+            className='pb-2 text-2xl font-semibold uppercase'
+          >
+            {att.name}
+          </div>
+          <Checkbox.Group
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              flex: 1,
+              gap: 10,
+            }}
+          >
+            {att.terms.map((term) => (
+              <Checkbox
+                checked={
+                  selectedFilters[att.name] &&
+                  selectedFilters[att.name].includes(term.slug)
+                }
+                onChange={(e) =>
+                  handleCheckboxChange(att.name, term.name, e.target.checked)
+                }
+                value={term.slug}
+              >
+                <div className='flex justify-between' style={{ width: 200 }}>
+                  <span>{term.name}</span>
+                </div>
+              </Checkbox>
+            ))}
+          </Checkbox.Group>
+        </div>
+      ))} */}
     </Drawer>
   );
 };
