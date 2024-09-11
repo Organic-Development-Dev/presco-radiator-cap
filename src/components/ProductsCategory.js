@@ -1,13 +1,11 @@
 import { Breadcrumb, ConfigProvider, Image, Pagination } from 'antd';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import dynamic from 'next/dynamic';
 import MenuIcon from './icons/Menu';
 import DrawerFilterProduct from './DrawerFilterProduct';
 import { DEFAULT_PRODUCT_HOME_IMG_URL } from '../constants/urls';
-import { sortProducts } from '../utils/sort';  // Adjust the path as needed
+import { sortProducts } from '../utils/sort';  // Import the sort function
 
 export default function ProductsCategory(props) {
   const { dataCategory, products } = props;
@@ -22,6 +20,7 @@ export default function ProductsCategory(props) {
   }
 
   useEffect(() => {
+    // Create attributes map for filtering
     let attributesMap = {};
     products.forEach((product) => {
       product.attributes.forEach((attr) => {
@@ -41,6 +40,11 @@ export default function ProductsCategory(props) {
     // Sort products before setting the state
     setDataProducts(sortProducts(products));
   }, [products]);
+
+  useEffect(() => {
+    // Ensure that the products are sorted whenever the page or data changes
+    setDataProducts((prevData) => sortProducts(prevData));
+  }, [currentPage]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -68,6 +72,7 @@ export default function ProductsCategory(props) {
 
     // Sort filtered products
     setDataProducts(sortProducts(filtered));
+    setCurrentPage(1); // Reset to first page after filtering
     setOpenDrawer(false);
   };
 
