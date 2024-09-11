@@ -124,6 +124,7 @@ const dataNavs = [
       },
     ],
   },
+  {
   // name: 'About Us',
   tab: 3,
   slug: '/about-us',
@@ -155,6 +156,7 @@ const dataNavs = [
       ),
     },
   ],
+},
 
   {
     name: 'News',
