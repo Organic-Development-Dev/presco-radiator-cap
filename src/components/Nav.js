@@ -21,7 +21,7 @@ const dataChildSolutionAndProduct = {
         { name: 'Japanese Caps', slug: 'japanese-caps' },
         { name: 'Reservior Caps', slug: 'reservior-caps' },
         { name: 'Oil Caps', slug: 'oil-caps' },
-        { name: 'Radiator Necks', slug: 'radiator-necks' },
+        
       ],
     },
     {
@@ -30,7 +30,7 @@ const dataChildSolutionAndProduct = {
         { name: 'Oil Caps', slug: 'oil' },
         { name: 'Fuel Caps', slug: 'fuel' },
         { name: 'Radiator Caps', slug: 'radiator' },
-        { name: 'Radiator Necks', slug: 'radiator-necks-agricultural' },
+        
         { name: 'Engine Parts', slug: 'other-applications' },
       ],
     },
