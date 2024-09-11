@@ -174,16 +174,16 @@ function ContactUs({ data: dataPage }) {
           </Col>
           <Col span={12} xs={24} sm={24} md={24} lg={12} xl={12}>
             <div className='w-full'>
-              <iframe
-                src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2444.380811234382!2d-2.2018762859153007!3d52.218298871866715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4870f1b1c73476f9%3A0x9232e78d2580796!2sLesaffre%20UK%20%2B%20Ireland%20Ltd!5e0!3m2!1svi!2s!4v1712732701696!5m2!1svi!2s'
-                width={550}
-                height={420}
-                className='w-full'
-                style={{ border: 0 }}
-                allowFullScreen
-                loading='lazy'
-                referrerPolicy='no-referrer-when-downgrade'
-              />
+            <iframe
+  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2444.3733757979894!2d-2.2033938233371284!3d52.21843397198367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4870f1b1c73476f9%3A0x66d2825735993d1e!2sPresco%20Radiator%20Caps%20Ltd!5e0!3m2!1sen!2suk!4v1726054912549!5m2!1sen!2suk"
+  width={600}
+  height={450}
+  style={{ border: 0 }}
+  allowFullScreen=""
+  loading="lazy"
+  referrerPolicy="no-referrer-when-downgrade"
+/>
+
             </div>
             <div className='my-5'>
               {/* <div className='leading-6'>
