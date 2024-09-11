@@ -10,7 +10,7 @@ import { sortProducts } from '../utils/sort';  // Import the sort function
 export default function ProductsCategory(props) {
   const { dataCategory, products } = props;
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [dataProducts, setDataProducts] = useState(products);
+  const [sortedProducts, setSortedProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(16);
   const router = useRouter();
@@ -20,35 +20,19 @@ export default function ProductsCategory(props) {
   }
 
   useEffect(() => {
-    // Create attributes map for filtering
-    let attributesMap = {};
-    products.forEach((product) => {
-      product.attributes.forEach((attr) => {
-        if (!attributesMap[attr.name]) {
-          attributesMap[attr.name] = new Set(); // Use a Set to avoid duplicate terms
-        }
-        attr.options.forEach((option) => {
-          attributesMap[attr.name].add(option);
-        });
-      });
-    });
-
-    Object.keys(attributesMap).forEach((key) => {
-      attributesMap[key] = Array.from(attributesMap[key]);
-    });
-
-    // Sort products before setting the state
-    setDataProducts(sortProducts(products));
+    // Sort products initially
+    setSortedProducts(sortProducts(products));
+    setCurrentPage(1); // Reset page to 1 on products update
   }, [products]);
 
   useEffect(() => {
-    // Ensure that the products are sorted whenever the page or data changes
-    setDataProducts((prevData) => sortProducts(prevData));
+    // Apply sorting to ensure correct order on page change
+    setSortedProducts((prevProducts) => sortProducts(prevProducts));
   }, [currentPage]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = dataProducts.slice(
+  const currentProducts = sortedProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
@@ -71,7 +55,7 @@ export default function ProductsCategory(props) {
     );
 
     // Sort filtered products
-    setDataProducts(sortProducts(filtered));
+    setSortedProducts(sortProducts(filtered));
     setCurrentPage(1); // Reset to first page after filtering
     setOpenDrawer(false);
   };
@@ -162,7 +146,7 @@ export default function ProductsCategory(props) {
         </ConfigProvider>
         <Pagination
           current={currentPage}
-          total={dataProducts.length}
+          total={sortedProducts.length}
           pageSize={productsPerPage}
           onChange={paginate}
           style={{ textAlign: 'center', paddingTop: '20px' }}
