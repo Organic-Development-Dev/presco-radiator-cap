@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Dropdown, Space } from 'antd';
+import { Dropdown, Popover, Space, Typography } from 'antd';
 import SvgArrowDown from './icons/ArrowDown';
 import SearchIcon from './icons/Search';
 import { useRouter } from 'next/router';
 import DrawerCategory from './DrawerCategory';
 import dynamic from 'next/dynamic';
+// import ModalSearch from './ModalSearch';
 
 const dataChildSolutionAndProduct = {
   title: 'Products & Solutions',
@@ -20,6 +21,7 @@ const dataChildSolutionAndProduct = {
         { name: 'Japanese Caps', slug: 'japanese-caps' },
         { name: 'Reservior Caps', slug: 'reservior-caps' },
         { name: 'Oil Caps', slug: 'oil-caps' },
+        
       ],
     },
     {
@@ -28,6 +30,7 @@ const dataChildSolutionAndProduct = {
         { name: 'Oil Caps', slug: 'oil' },
         { name: 'Fuel Caps', slug: 'fuel' },
         { name: 'Radiator Caps', slug: 'radiator' },
+        
         { name: 'Engine Parts', slug: 'other-applications' },
       ],
     },
@@ -89,6 +92,7 @@ const dataNavs = [
     ],
   },
   {
+    // name: 'Quality',
     tab: 2,
     slug: '/quality',
     label: <Link href='/quality'>Quality</Link>,
@@ -121,37 +125,39 @@ const dataNavs = [
     ],
   },
   {
-    tab: 3,
-    slug: '/about-us',
-    label: <Link href='/about-us'>About Us</Link>,
-    children: [
-      {
-        key: '1',
-        label: (
-          <ul>
-            <li
-              className='font-semibold'
-              style={{ color: 'var(--primary-color)' }}
-            >
-              <Link href='/about-us'>History</Link>
-            </li>
-            <li
-              className='font-semibold'
-              style={{ color: 'var(--primary-color)' }}
-            >
-              <Link href='/about-us'>Meet the team</Link>
-            </li>
-            <li
-              className='font-semibold'
-              style={{ color: 'var(--primary-color)' }}
-            >
-              <Link href='/contact-us'>Visit us</Link>
-            </li>
-          </ul>
-        ),
-      },
-    ],
-  },
+  // name: 'About Us',
+  tab: 3,
+  slug: '/about-us',
+  label: <Link href='/about-us'>About Us</Link>,
+  children: [
+    {
+      key: '1',
+      label: (
+        <ul>
+          <li
+            className='font-semibold'
+            style={{ color: 'var(--primary-color)' }}
+          >
+            <Link href='/about-us'>History</Link>
+          </li>
+          <li
+            className='font-semibold'
+            style={{ color: 'var(--primary-color)' }}
+          >
+            <Link href='/about-us'>Meet the team</Link>
+          </li>
+          <li
+            className='font-semibold'
+            style={{ color: 'var(--primary-color)' }}
+          >
+            <Link href='/contact-us'>Visit us</Link>
+          </li>
+        </ul>
+      ),
+    },
+  ],
+},
+
   {
     name: 'News',
     tab: 4,
@@ -264,7 +270,7 @@ const Nav = () => {
           </div>
         </div>
 
-        {/*Menu in mobile*/}
+        {/*MMenu in mobile*/}
         <DrawerCategory
           open={openDrawer}
           onClose={() => setOpenDrawer(false)}
