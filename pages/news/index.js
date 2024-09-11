@@ -5,7 +5,8 @@ import GET_BLOGS from '../../src/queries/get-blogs';
 import client from '../../src/components/ApolloClient';
 import {DEFAULT_PRODUCT_HOME_IMG_URL} from "../../src/constants/urls";
 
-const des =
+const des = '';
+
   
 function Index(props) {
   const router = useRouter();
