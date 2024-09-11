@@ -1,7 +1,47 @@
-import { Collapse, Drawer } from 'antd';
-import CloseIcon from './icons/Close';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { Dropdown, Space } from 'antd';
+import SvgArrowDown from './icons/ArrowDown';
+import SearchIcon from './icons/Search';
+import { useRouter } from 'next/router';
+import DrawerCategory from './DrawerCategory';
+import dynamic from 'next/dynamic';
+
+const dataChildSolutionAndProduct = {
+  title: 'Products & Solutions',
+  children: [
+    {
+      title: 'auto',
+      children: [
+        { name: 'Expansion Tank', slug: 'expansion-tank' },
+        { name: 'Fuel Caps', slug: 'fuel-caps' },
+        { name: 'Radiator Wing Caps', slug: 'radiator-wing-caps' },
+        { name: 'Japanese Caps', slug: 'japanese-caps' },
+        { name: 'Reservior Caps', slug: 'reservior-caps' },
+        { name: 'Oil Caps', slug: 'oil-caps' },
+      ],
+    },
+    {
+      title: 'Agricultural',
+      children: [
+        { name: 'Oil Caps', slug: 'oil' },
+        { name: 'Fuel Caps', slug: 'fuel' },
+        { name: 'Radiator Caps', slug: 'radiator' },
+        { name: 'Engine Parts', slug: 'other-applications' },
+      ],
+    },
+    {
+      title: 'Other Applications',
+      children: [
+        { name: 'Truck & Commercial', slug: 'commercial-caps' },
+        { name: 'Radiator Necks', slug: 'radiator-necks' },
+        { name: 'Sealing Caps', slug: 'sealing-caps' },
+        { name: 'Ad Blue Caps', slug: 'ad-blue-caps' },
+      ],
+    },
+  ],
+};
 
 const dataNavs = [
   {
@@ -10,152 +50,229 @@ const dataNavs = [
     slug: '/',
     children: [
       {
-        key: 1,
-        name: 'Auto',
-        children: [
-          { name: 'Expansion Tank', slug: '/product-category/expansion-tank' },
-          { name: 'Fuel Caps', slug: '/product-category/fuel-caps' },
-          { name: 'Radiator Wing Caps', slug: '/product-category/radiator-wing-caps' },
-          { name: 'Japanese Caps', slug: '/product-category/japanese-caps' },
-          { name: 'Reservior Caps', slug: '/product-category/reservior-caps' },
-          { name: 'Oil Caps', slug: '/product-category/oil-caps' },
-          { name: 'Radiator Necks', slug: '/product-category/radiator-necks' },
-        ],
-      },
-      {
-        key: 2,
-        name: 'Agricultural',
-        children: [
-          { name: 'Oil Caps', slug: '/product-category/oil' },
-          { name: 'Fuel Caps', slug: '/product-category/fuel' },
-          { name: 'Radiator Caps', slug: '/product-category/radiator' },
-          { name: 'Radiator Necks', slug: '/product-category/radiator-necks-agricultural' },
-          { name: 'Engine Parts', slug: '/product-category/other-applications' },
-        ],
-      },
-      {
-        key: 3,
-        name: 'Other Applications',
-        children: [
-          { name: 'Auto', slug: '/product-category/auto' },
-          { name: 'Agricultural', slug: '/product-category/agricultural' },
-          { name: 'Truck & Commercial', slug: '/product-category/commercial-caps' },
-          { name: 'Radiator Necks', slug: '/product-category/radiator-necks' },
-          { name: 'Sealing Caps', slug: '/product-category/sealing-caps' },
-          { name: 'Ad Blue Caps', slug: '/product-category/ad-blue-caps' },
-        ],
+        key: '1',
+        label: (
+          <div
+            style={{
+              color: 'var(--primary-color)',
+              width: 750,
+              padding: '20px 50px',
+            }}
+          >
+            <div className='text-lg font-semibold text-center'>
+              {dataChildSolutionAndProduct.title}
+            </div>
+            <div className='flex justify-between mt-4'>
+              {dataChildSolutionAndProduct.children.map((childNav) => (
+                <div key={childNav.title}>
+                  <div
+                    style={{ backgroundColor: 'var(--primary-color)' }}
+                    className='uppercase px-2 text-white font-semibold inline-block rounded-lg mb-2'
+                  >
+                    {childNav.title}
+                  </div>
+                  <ul>
+                    {childNav.children.map((item) => (
+                      <li key={item.name}>
+                        <Link href={`/product-category/${item.slug}`}>
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        ),
       },
     ],
   },
   {
+    tab: 2,
+    slug: '/quality',
+    label: <Link href='/quality'>Quality</Link>,
     children: [
       {
-        slug: '/about-us',
-        label: <Link href='/about-us'>About Us</Link>,
-        children: [
-          { name: 'Packaging', slug: '/packaging' },
-          { name: 'Inspection & Testing', slug: '/inspection-testing' }
-        ],
+        key: '1',
+        label: (
+          <ul>
+            <li
+              className='font-semibold'
+              style={{ color: 'var(--primary-color)' }}
+            >
+              <Link href='/iso'>ISO</Link>
+            </li>
+            <li
+              className='font-semibold'
+              style={{ color: 'var(--primary-color)' }}
+            >
+              <Link href='/inspection-testing'>Inspection & Testing</Link>
+            </li>
+            <li
+              className='font-semibold'
+              style={{ color: 'var(--primary-color)' }}
+            >
+              <Link href='/packaging'>Packaging</Link>
+            </li>
+          </ul>
+        ),
+      },
+    ],
+  },
+  {
+    tab: 3,
+    slug: '/about-us',
+    label: <Link href='/about-us'>About Us</Link>,
+    children: [
+      {
+        key: '1',
+        label: (
+          <ul>
+            <li
+              className='font-semibold'
+              style={{ color: 'var(--primary-color)' }}
+            >
+              <Link href='/about-us'>History</Link>
+            </li>
+            <li
+              className='font-semibold'
+              style={{ color: 'var(--primary-color)' }}
+            >
+              <Link href='/about-us'>Meet the team</Link>
+            </li>
+            <li
+              className='font-semibold'
+              style={{ color: 'var(--primary-color)' }}
+            >
+              <Link href='/contact-us'>Visit us</Link>
+            </li>
+          </ul>
+        ),
       },
     ],
   },
   {
     name: 'News',
-    tab: 3,
+    tab: 4,
     slug: '/news',
   },
   {
     name: 'Contact Us',
-    tab: 4,
+    tab: 5,
     slug: '/contact-us',
   },
 ];
 
-function DrawerCategory(props) {
-  const { open, onClose } = props;
-  const router = useRouter();
+const ModalSearch = dynamic(() => import('/src/components/ModalSearch.js'), {
+  ssr: false,
+});
 
+const Nav = () => {
+  const router = useRouter();
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
   return (
-    <Drawer
-      id='drawer-category'
-      open={open}
-      onClose={onClose}
-      closeIcon={null}
-      placement='left'
-      title={
-        <div
-          onClick={onClose}
-          className='p-1 rounded-lg inline-block float-right'
-          style={{ backgroundColor: 'var(--primary-color)' }}
-        >
-          <CloseIcon fill='#fff' width={20} height={20} />
+    <nav className='bg-white py-4'>
+      <div className='flex items-center justify-between flex-wrap container mx-auto'>
+        <div className='flex items-center flex-shrink-0'>
+          <span className='font-semibold text-xl tracking-tight'>
+            <Link href='/'>
+              <div style={{ width: 172 }}>
+                <Image
+                  src='/img/logo.png'
+                  layout='responsive'
+                  width={172}
+                  height={72}
+                  alt='logo'
+                />
+              </div>
+            </Link>
+          </span>
         </div>
-      }
-    >
-      {dataNavs.map((nav) => (
-        <>
-          {nav.name && (
-            <div key={nav.key}>
+
+        <div className='gap-10 items-center hidden lg:flex'>
+          {dataNavs.map((nav, id) =>
+            nav?.children ? (
+              <Dropdown
+                key={id}
+                menu={{ items: nav?.children }}
+                placement='bottom'
+                className='cursor-pointer'
+              >
+                <div
+                  style={{ color: 'var(--primary-color)' }}
+                  className='font-semibold text-base'
+                >
+                  <Space>
+                    {nav.name ?? nav.label}
+                    {nav?.children && (
+                      <SvgArrowDown
+                        width={20}
+                        height={20}
+                        fill='var(--primary-color)'
+                      />
+                    )}
+                  </Space>
+                </div>
+              </Dropdown>
+            ) : (
               <div
                 style={{ color: 'var(--primary-color)' }}
-                className='font-semibold uppercase text-lg mb-4 px-3'
-                onClick={() => {
-                  router.push(nav.slug);
-                  onClose();
-                }}
+                className='font-semibold text-base cursor-pointer'
+                onClick={() => router.push(nav.slug)}
+                key={id}
               >
                 {nav.name}
               </div>
-            </div>
+            )
           )}
-          <Collapse
-            key={nav.slug}
-            bordered={false}
-            // defaultActiveKey={['1']}
-            // expandIcon={({ isActive }) => (
-            //   <CaretRightOutlined rotate={isActive ? 90 : 0} />
-            // )}
-            // style={{ background: token.colorBgContainer }}
-            style={{ background: '#fff' }}
-            expandIconPosition='end'
-            items={nav?.children?.map((childNav, idx) => {
-              return {
-                key: childNav.key,
-                label: (
-                  <div
-                    style={{ color: 'var(--primary-color)' }}
-                    className='text-base cursor-pointer font-semibold uppercase'
-                    key={idx}
-                  >
-                    {childNav.name || childNav.label}
-                  </div>
-                ),
-                children: childNav?.children ? (
-                  <ul className='pb-2 pl-4'>
-                    {childNav?.children?.map((child, id) => (
-                      <li
-                        style={{ color: 'var(--primary-color)' }}
-                        className='text-base cursor-pointer list-disc'
-                        onClick={() => {
-                          router.push(`${child.slug}`);
-                          onClose();
-                        }}
-                        key={id}
-                      >
-                        {child.name}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null,
 
-                style: { border: 'none' },
-              };
-            })}
+          <div
+            style={{ backgroundColor: 'var(--primary-color)' }}
+            className='p-2 rounded-full'
+            onClick={() => setOpenSearch(true)}
+          >
+            <SearchIcon width={15} height={15} />
+          </div>
+        </div>
+
+        {/*Menu button*/}
+        <div className='lg:hidden flex gap-2 items-center'>
+          <SearchIcon
+            onClick={() => setOpenSearch(true)}
+            stroke='var(--primary-color)'
+            width={25}
+            height={25}
           />
-        </>
-      ))}
-    </Drawer>
-  );
-}
+          <div className='menu-btn'>
+            <button
+              onClick={() => setOpenDrawer(true)}
+              className='flex items-center px-3 py-2'
+            >
+              <svg
+                height='auto'
+                width='100'
+                className='fill-current h-6 w-6'
+                fill='var(--primary-color)'
+                viewBox='0 0 20 20'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path d='M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z' />
+              </svg>
+            </button>
+          </div>
+        </div>
 
-export default DrawerCategory;
+        {/*Menu in mobile*/}
+        <DrawerCategory
+          open={openDrawer}
+          onClose={() => setOpenDrawer(false)}
+        />
+        <ModalSearch open={openSearch} onClose={() => setOpenSearch(false)} />
+      </div>
+    </nav>
+  );
+};
+
+export default Nav;
