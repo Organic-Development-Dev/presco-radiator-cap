@@ -1,148 +1,176 @@
+import { Breadcrumb, ConfigProvider, Image, Pagination } from 'antd';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { fetchAttributesWithTermByCategoryId } from '../utils/products';
-import { Button, Checkbox, Drawer, Space } from 'antd';
-import CloseIcon from './icons/Close';
+import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import MenuIcon from './icons/Menu';
+import DrawerFilterProduct from './DrawerFilterProduct';
+import { DEFAULT_PRODUCT_HOME_IMG_URL } from '../constants/urls';
+import { sortProducts } from '../utils/sort';  // Adjust the path as needed
 
-const DrawerFilterProduct = (props) => {
-  const { open, onClose, handlerFilter, categoryId, products } = props;
-  const [dataAttributes, setDataAttributes] = useState({});
-  const [selectedFilters, setSelectedFilters] = useState({});
+export default function ProductsCategory(props) {
+  const { dataCategory, products } = props;
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [dataProducts, setDataProducts] = useState(products);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(16);
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
 
   useEffect(() => {
-    if (products?.length > 0) {
-      const dataAttrRes = fetchAttributesWithTermByCategoryId(products);
-      setDataAttributes(dataAttrRes);
-    }
+    let attributesMap = {};
+    products.forEach((product) => {
+      product.attributes.forEach((attr) => {
+        if (!attributesMap[attr.name]) {
+          attributesMap[attr.name] = new Set(); // Use a Set to avoid duplicate terms
+        }
+        attr.options.forEach((option) => {
+          attributesMap[attr.name].add(option);
+        });
+      });
+    });
+
+    Object.keys(attributesMap).forEach((key) => {
+      attributesMap[key] = Array.from(attributesMap[key]);
+    });
+
+    // Sort products before setting the state
+    setDataProducts(sortProducts(products));
   }, [products]);
 
-  const handleCheckboxChange = (attribute, value, checked) => {
-    setSelectedFilters((prev) => {
-      const currentValues = prev[attribute] || [];
-      if (checked) {
-        // Thêm giá trị nếu người dùng đánh dấu chọn
-        return { ...prev, [attribute]: [...currentValues, value] };
-      } else {
-        // Xóa giá trị nếu người dùng bỏ đánh dấu
-        const updatedValues = currentValues.filter((v) => v !== value);
-        // Nếu sau khi bỏ chọn, mảng trống, thì xóa key đó khỏi đối tượng
-        if (updatedValues.length === 0) {
-          const { [attribute]: _, ...rest } = prev;
-          return rest;
-        }
-        // Ngược lại, cập nhật giá trị mới cho key
-        return { ...prev, [attribute]: updatedValues };
-      }
-    });
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = dataProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handlerFilter = (selectedFilters) => {
+    const filtered = products.filter((product) =>
+      Object.keys(selectedFilters).every((attribute) =>
+        product.attributes.some(
+          (attr) =>
+            attr.name === attribute &&
+            selectedFilters[attribute].some((value) =>
+              attr.options.includes(value)
+            )
+        )
+      )
+    );
+
+    // Sort filtered products
+    setDataProducts(sortProducts(filtered));
+    setOpenDrawer(false);
   };
 
   return (
-    <Drawer
-      width={360}
-      onClose={onClose}
-      closeIcon={
+    <>
+      <Head>
+        <title>Presco Radiator Caps - {dataCategory.name}</title>
+        <meta content={dataCategory.name} />
+      </Head>
+      <div className='container mx-auto py-4'>
+        <Breadcrumb
+          style={{ color: 'var(--primary-color)' }}
+          items={[
+            {
+              title: 'Product & Solutions',
+            },
+            {
+              title: dataCategory.name,
+            },
+          ]}
+        />
+      </div>
+      <div className='py-4' style={{ backgroundColor: '#F6F6F6' }}>
         <div
-          className='p-1 rounded-lg'
-          style={{ backgroundColor: 'var(--primary-color)', right: 0 }}
+          className='container mx-auto flex gap-4 items-center'
+          onClick={() => setOpenDrawer(true)}
         >
-          <CloseIcon fill='#fff' width={20} height={20} />
-        </div>
-      }
-      footer={
-        <Space style={{ float: 'right' }}>
-          <Button>Cancel</Button>
-          <Button onClick={() => handlerFilter(selectedFilters)} type='primary'>
+          <MenuIcon fill='var(--primary-color)' width={30} height={30} />
+          <div
+            className='uppercase text-3xl font-semibold'
+            style={{ color: 'var(--primary-color)' }}
+          >
             Filter
-          </Button>
-        </Space>
-      }
-      open={open}
-      placement='left'
-    >
-      {Object.entries(dataAttributes).map(([attribute, terms]) => (
-        <div
-          key={attribute}
-          style={{
-            borderTop: '8px solid var(--primary-color)',
-            backgroundColor: '#F0F0F0',
-            padding: '16px 24px',
-            marginBottom: 24,
-          }}
-        >
-          <div
-            style={{ color: 'var(--primary-color)' }}
-            className='pb-2 text-2xl font-semibold uppercase'
-          >
-            {attribute}
           </div>
-          <Checkbox.Group
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-              gap: 10,
-            }}
-          >
-            {terms.map((term) => (
-              <Checkbox
-                onChange={(e) =>
-                  handleCheckboxChange(attribute, term, e.target.checked)
-                }
-                value={term}
-              >
-                <div className='flex justify-between' style={{ width: 200 }}>
-                  <span>{term}</span>
-                </div>
-              </Checkbox>
-            ))}
-          </Checkbox.Group>
         </div>
-      ))}
-      {/* {dataAttributes.map((att) => (
-        <div
-          key={att.id}
-          style={{
-            borderTop: '8px solid var(--primary-color)',
-            backgroundColor: '#F0F0F0',
-            padding: '16px 24px',
-            marginBottom: 24,
-          }}
-        >
-          <div
-            style={{ color: 'var(--primary-color)' }}
-            className='pb-2 text-2xl font-semibold uppercase'
-          >
-            {att.name}
-          </div>
-          <Checkbox.Group
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-              gap: 10,
-            }}
-          >
-            {att.terms.map((term) => (
-              <Checkbox
-                checked={
-                  selectedFilters[att.name] &&
-                  selectedFilters[att.name].includes(term.slug)
-                }
-                onChange={(e) =>
-                  handleCheckboxChange(att.name, term.name, e.target.checked)
-                }
-                value={term.slug}
-              >
-                <div className='flex justify-between' style={{ width: 200 }}>
-                  <span>{term.name}</span>
-                </div>
-              </Checkbox>
-            ))}
-          </Checkbox.Group>
-        </div>
-      ))} */}
-    </Drawer>
-  );
-};
+      </div>
 
-export default DrawerFilterProduct;
+      <div className='container mx-auto py-4'>
+        <div
+          className='font-semibold text-xl uppercase'
+          style={{ color: 'var(--primary-color)' }}
+        >
+          {dataCategory?.name}
+        </div>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorBorderSecondary: 'transparent',
+            },
+            components: {
+              Tabs: {
+                itemHoverColor: 'var(--primary-color)',
+                itemColor: 'var(--primary-color)',
+                itemSelectedColor: 'var(--primary-color)',
+                itemActiveColor: 'var(--primary-color)',
+              },
+            },
+          }}
+        >
+          <div className='grid grid-cols-2 md:grid-cols-4 gap-y-20 py-4'>
+            {currentProducts.map((product) => (
+              <div
+                onClick={() => router.push(`/product/${product.id}`)}
+                key={product.id}
+                className='text-center rounded-xl'
+              >
+                <div>
+                  <Image
+                    src={
+                      product?.images[0]?.src ?? DEFAULT_PRODUCT_HOME_IMG_URL
+                    }
+                    alt='product'
+                    height={120}
+                    preview={false}
+                    style={{ objectFit: 'contain' }}
+                  />
+                </div>
+                <div
+                  style={{ backgroundColor: 'var(--primary-color)' }}
+                  className='py-1 px-4 rounded-lg text-white inline-block text-xs mt-4 cursor-pointer'
+                >
+                  {product.name}
+                </div>
+              </div>
+            ))}
+          </div>
+        </ConfigProvider>
+        <Pagination
+          current={currentPage}
+          total={dataProducts.length}
+          pageSize={productsPerPage}
+          onChange={paginate}
+          style={{ textAlign: 'center', paddingTop: '20px' }}
+        />
+        {products.length > 0 && (
+          <DrawerFilterProduct
+            open={openDrawer}
+            onClose={() => setOpenDrawer(false)}
+            handlerFilter={(selectedFilters) => handlerFilter(selectedFilters)}
+            products={products}
+          />
+        )}
+      </div>
+    </>
+  );
+}
