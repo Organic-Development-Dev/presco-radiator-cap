@@ -24,7 +24,7 @@ export function sortProducts(products) {
       const numA = extractNumber(nameA);
       const numB = extractNumber(nameB);
   
-      return numA - numB;
+      return numB - numA;
     });
   }
   
