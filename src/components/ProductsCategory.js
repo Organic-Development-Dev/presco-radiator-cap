@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import MenuIcon from './icons/Menu';
 import DrawerFilterProduct from './DrawerFilterProduct';
 import { DEFAULT_PRODUCT_HOME_IMG_URL } from '../constants/urls';
+import { sortProducts } from '../utils/sort';  // Adjust the path as needed
 
 export default function ProductsCategory(props) {
   const { dataCategory, products } = props;
@@ -37,7 +38,8 @@ export default function ProductsCategory(props) {
       attributesMap[key] = Array.from(attributesMap[key]);
     });
 
-    setDataProducts(products);
+    // Sort products before setting the state
+    setDataProducts(sortProducts(products));
   }, [products]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -64,7 +66,8 @@ export default function ProductsCategory(props) {
       )
     );
 
-    setDataProducts(filtered);
+    // Sort filtered products
+    setDataProducts(sortProducts(filtered));
     setOpenDrawer(false);
   };
 
