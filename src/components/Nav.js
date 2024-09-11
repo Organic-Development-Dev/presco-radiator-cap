@@ -125,7 +125,7 @@ const dataNavs = [
     ],
   },
   // name: 'About Us',
-  tab: 2,
+  tab: 3,
   slug: '/about-us',
   label: <Link href='/about-us'>About Us</Link>,
   children: [
@@ -158,12 +158,12 @@ const dataNavs = [
 },
   {
     name: 'News',
-    tab: 3,
+    tab: 4,
     slug: '/news',
   },
   {
     name: 'Contact Us',
-    tab: 4,
+    tab: 5,
     slug: '/contact-us',
   },
 ];
