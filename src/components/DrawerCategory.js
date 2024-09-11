@@ -19,7 +19,7 @@ const dataNavs = [
           { name: 'Japanese Caps', slug: '/product-category/japanese-caps' },
           { name: 'Reservior Caps', slug: '/product-category/reservior-caps' },
           { name: 'Oil Caps', slug: '/product-category/oil-caps' },
-          { name: 'Radiator Necks', slug: '/product-category/radiator-necks' },
+          
         ],
       },
       {
@@ -29,7 +29,6 @@ const dataNavs = [
           { name: 'Oil Caps', slug: '/product-category/oil' },
           { name: 'Fuel Caps', slug: '/product-category/fuel' },
           { name: 'Radiator Caps', slug: '/product-category/radiator' },
-          { name: 'Radiator Necks', slug: '/product-category/radiator-necks-agricultural' },
           { name: 'Engine Parts', slug: '/product-category/other-applications' },
         ],
       },
@@ -46,7 +45,7 @@ const dataNavs = [
     ],
   },
   {
-    name: 'Quality',
+    //name: 'Quality',
     tab: 2,
     slug: '/quality',
     children: [
@@ -62,7 +61,7 @@ const dataNavs = [
     ],
   },
   {
-    name: 'About Us',
+    //name: 'About Us',
     tab: 3,
     slug: '/about-us',
     children: [
