@@ -102,7 +102,8 @@ const Footer = () => {
                     <div>
                       <Link href='/privacy-policy'>Privacy Policy</Link>
                     </div>
-                    <div><Link href='/terms-and-conditions'>Terms and Conditions</Link></div>
+                    <div><Link href='/terms-and-conditions'>Terms and Conditions</Link>
+                    </div>
                     <div>
                       <Link href='/disclaimer'>Disclaimer</Link>
                     </div>
@@ -117,7 +118,7 @@ const Footer = () => {
         className="text-white p-4 text-center font-thin text-xs"
         style={{ backgroundColor: "#333333" }}
       >
-        Copyright © presco-radiator-caps.com 2010-2024. All Rights Reserved
+        Copyright © presco-radiator-caps.com 2010-2025. All Rights Reserved
       </div>
     </div>
   );
