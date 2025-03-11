@@ -102,7 +102,7 @@ const Footer = () => {
                     <div>
                       <Link href='/privacy-policy'>Privacy Policy</Link>
                     </div>
-                    <div><Link href='/wp-content/uploads/2025/02/Presco-Radiator-Caps-Ltd-standard-terms-and-conditions-for-the-supply-of-goods_PRE7774_2_522645171-1.pdf'>Terms and Conditions</Link>
+                    <div><Link href='/terms'>Terms and Conditions</Link>
                     </div>
                     <div>
                       <Link href='/disclaimer'>Disclaimer</Link>
