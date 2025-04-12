@@ -9,11 +9,13 @@
     "start": "next start",
     "sitemap": "next-sitemap --config next-sitemap.config.js",
     "svg": "svgr -d src/components/icons src/components/icons/svgs",
+    "prebuild": "npm run optimize-lcp",
     "postbuild": "next-sitemap && npm run purgecss",
     "purgecss": "purgecss --config purgecss.config.js",
     "lint": "next lint",
     "test": "jest",
-    "optimize-images": "node scripts/optimize-images.js"
+    "optimize-images": "node scripts/optimize-images.js",
+    "optimize-lcp": "node scripts/optimize/optimize-lcp.js"
   },
   "dependencies": {
     "@ant-design/icons": "^4.8.1",
@@ -70,6 +72,7 @@
     "postcss-preset-env": "^9.3.0",
     "precss": "^4.0.0",
     "purgecss": "^5.0.0",
+    "sharp": "^0.34.1",
     "tailwindcss": "^3.4.1",
     "typescript": "5.3.3",
     "webpack-bundle-analyzer": "^4.10.1"
