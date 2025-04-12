@@ -72,8 +72,6 @@ async function fetchAuthToken() {
         Number(AUTH_KEY_TIMEOUT || 30000),
     );
 
-    console.log('vdvvv');
-
     return authToken;
 }
 
