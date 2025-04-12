@@ -1,7 +1,7 @@
 import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {
-  // Feature detection for modern optimizations
+  // Feature detection for modern optimizations - avoiding Image constructor
   const featureDetection = `
     (function() {
       // Create feature detection flags for modern browser capabilities
@@ -13,21 +13,50 @@ export default function Document() {
         supportsFetchPriority: 'fetchPriority' in document.createElement('img')
       };
       
-      // Test for WebP support
-      var webP = new Image();
-      webP.onload = function() { window.__features.supportsWebP = (webP.width === 1); };
-      webP.onerror = function() { window.__features.supportsWebP = false; };
-      webP.src = 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vuUAAA=';
+      // Test for WebP support using createElement instead of new Image()
+      function testWebP(callback) {
+        var webP = document.createElement('img');
+        webP.style.display = 'none';
+        webP.onload = function() { 
+          callback(true);
+          document.body.removeChild(webP);
+        };
+        webP.onerror = function() { 
+          callback(false);
+          document.body.removeChild(webP);
+        };
+        webP.src = 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vuUAAA=';
+        document.body.appendChild(webP);
+      }
       
-      // Test for AVIF support
-      var avif = new Image();
-      avif.onload = function() { window.__features.supportsAvif = (avif.width === 1); };
-      avif.onerror = function() { window.__features.supportsAvif = false; };
-      avif.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A=';
+      // Test for AVIF support using createElement
+      function testAVIF(callback) {
+        var avif = document.createElement('img');
+        avif.style.display = 'none';
+        avif.onload = function() { 
+          callback(true);
+          document.body.removeChild(avif);
+        };
+        avif.onerror = function() { 
+          callback(false);
+          document.body.removeChild(avif);
+        };
+        avif.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A=';
+        document.body.appendChild(avif);
+      }
       
-      // Preload the LCP image based on best format support
-      var preferredFormat = window.__features.supportsAvif ? 'avif' : 
-                          window.__features.supportsWebP ? 'webp' : 'png';
+      // Set up tests when DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        // Test WebP support
+        testWebP(function(hasWebP) {
+          window.__features.supportsWebP = hasWebP;
+        });
+        
+        // Test AVIF support
+        testAVIF(function(hasAVIF) {
+          window.__features.supportsAvif = hasAVIF;
+        });
+      });
       
       // Mark start time for performance measurement
       if (window.performance && window.performance.mark) {
@@ -47,7 +76,7 @@ export default function Document() {
     })();
   `;
 
-  // LCP optimization - eager load optimized banner image
+  // LCP optimization - eager load optimized banner image - avoiding Image constructor
   const preloadBanner = `
     window.addEventListener('load', function() {
       // Mark page load complete for performance measurement
@@ -57,11 +86,24 @@ export default function Document() {
         window.performance.measure('page-load-time', 'app-init', 'page-loaded');
       }
 
-      // Preload the rest of the banner images after page load
-      ['/img/banner2.webp', '/img/banner3.webp'].forEach(function(src) {
-        var img = new Image();
+      // Preload the rest of the banner images after page load - using createElement
+      function preloadImage(src) {
+        var img = document.createElement('img');
+        img.style.display = 'none';
+        img.onload = function() {
+          // Remove from DOM after loading
+          if (img.parentNode) {
+            document.body.removeChild(img);
+          }
+        };
         img.src = src;
-      });
+        document.body.appendChild(img);
+      }
+      
+      // Delay preloading slightly to prioritize visible content first
+      setTimeout(function() {
+        ['/img/banner2.webp', '/img/banner3.webp'].forEach(preloadImage);
+      }, 300);
     });
   `;
 
@@ -98,7 +140,7 @@ export default function Document() {
           fetchpriority="low"
         />
         
-        {/* Core web vitals optimization - preload critical resources with highest priority */}
+        {/* Only preload banner image - it's directly used in the banner element */}
         <link 
           rel="preload" 
           as="image" 
@@ -107,15 +149,6 @@ export default function Document() {
           media="(min-width: 641px)"
           fetchpriority="high" 
         />
-        <link 
-          rel="preload" 
-          as="image" 
-          href="/img/optimized/banner1-lcp-sm.webp" 
-          type="image/webp"
-          media="(max-width: 640px)" 
-          fetchpriority="high" 
-        />
-        <link rel="preload" as="image" href="/img/logo.png" fetchpriority="high" />
         
         {/* Add resource hints for domains we'll connect to */}
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
