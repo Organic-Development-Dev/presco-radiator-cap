@@ -3,6 +3,7 @@ import "../src/styles/grid.css";
 import "../src/styles/custom.css";
 import "../src/styles/main.scss";
 import "../src/styles/style.scss";
+import "../src/styles/mobile-fixes.css";
 
 import { useRouter } from 'next/router';
 import NProgress from 'nprogress';

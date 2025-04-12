@@ -188,33 +188,41 @@ function Banner() {
             {/* Other banners - loaded with lower priority only if needed */}
             {currentSlide === 1 || imagesLoaded[0] ? (
               <div className={`banner-image ${currentSlide === 1 ? 'active' : ''}`}>
-                <Image
-                  src="/img/optimized/banner2-lcp.webp"
-                  alt="High-Performance Radiator Caps for All Vehicle Types"
-                  fill
-                  sizes="100vw"
-                  quality={65}
-                  loading="lazy"
-                  placeholder="blur"
-                  blurDataURL={BLUR_DATA_URL}
-                  onLoad={() => handleImageLoad(1)}
-                />
+                <Link href="/product-category/auto">
+                  <a className="block w-full h-full">
+                    <Image
+                      src="/img/optimized/banner2-lcp.webp"
+                      alt="High-Performance Radiator Caps for All Vehicle Types"
+                      fill
+                      sizes="100vw"
+                      quality={65}
+                      loading="lazy"
+                      placeholder="blur"
+                      blurDataURL={BLUR_DATA_URL}
+                      onLoad={() => handleImageLoad(1)}
+                    />
+                  </a>
+                </Link>
               </div>
             ) : null}
             
             {currentSlide === 2 || imagesLoaded[0] ? (
               <div className={`banner-image ${currentSlide === 2 ? 'active' : ''}`}>
-                <Image
-                  src="/img/optimized/banner3-lcp.webp"
-                  alt="Quality Engineered Cooling System Components"
-                  fill
-                  sizes="100vw"
-                  quality={65}
-                  loading="lazy"
-                  placeholder="blur"
-                  blurDataURL={BLUR_DATA_URL}
-                  onLoad={() => handleImageLoad(2)}
-                />
+                <Link href="/products">
+                  <a className="block w-full h-full">
+                    <Image
+                      src="/img/optimized/banner3-lcp.webp"
+                      alt="Quality Engineered Cooling System Components"
+                      fill
+                      sizes="100vw"
+                      quality={65}
+                      loading="lazy"
+                      placeholder="blur"
+                      blurDataURL={BLUR_DATA_URL}
+                      onLoad={() => handleImageLoad(2)}
+                    />
+                  </a>
+                </Link>
               </div>
             ) : null}
             
@@ -262,35 +270,42 @@ const SwiperBanner = () => {
   const slides = [
     {
       src: '/img/banner1.webp',
-      alt: 'Presco Radiator Caps - Premium Automotive Components'
+      alt: 'Presco Radiator Caps - Premium Automotive Components',
+      link: '/product-category/radiator-caps'
     },
     {
       src: '/img/banner2.webp',
-      alt: 'High-Performance Radiator Caps for All Vehicle Types'
+      alt: 'High-Performance Radiator Caps for All Vehicle Types',
+      link: '/product-category/auto'
     },
     {
       src: '/img/banner3.webp',
-      alt: 'Quality Engineered Cooling System Components'
+      alt: 'Quality Engineered Cooling System Components',
+      link: '/products'
     }
   ];
   
   return (
     <div className="banner-placeholder relative">
-      {/* Render all slides */}
+      {/* Render all slides with links */}
       {slides.map((slide, index) => (
         <div 
           key={index} 
           className={`banner-image ${activeSlide === index ? 'active' : ''}`}
         >
-          <Image
-            src={slide.src}
-            alt={slide.alt}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-            loading={index === 0 ? "eager" : "lazy"}
-            quality={index === 0 ? 80 : 70}
-            className="object-cover"
-          />
+          <Link href={slide.link}>
+            <a className="block w-full h-full">
+              <Image
+                src={slide.src}
+                alt={slide.alt}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+                loading={index === 0 ? "eager" : "lazy"}
+                quality={index === 0 ? 80 : 70}
+                className="object-cover"
+              />
+            </a>
+          </Link>
         </div>
       ))}
       
