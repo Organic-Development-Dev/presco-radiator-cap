@@ -1,14 +1,7 @@
 import { Breadcrumb, Button, Col, Form, Image, Input, Row } from 'antd';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
-import GalleryCarousel from '../../src/components/single-product/gallery-carousel';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
+import { useCallback, useState, useEffect } from 'react';
 import { DEFAULT_PRODUCT_HOME_IMG_URL } from '../../src/constants/urls';
 import Head from 'next/head';
 
@@ -23,7 +16,8 @@ function Index(props) {
   const { product, relatedProducts } = props;
   const [openModal, setOpenModal] = useState(false);
   const [typeModal, setTypeModal] = useState(1);
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [currentImage, setCurrentImage] = useState(0);
+  const [currentRelatedSlide, setCurrentRelatedSlide] = useState(0);
   const router = useRouter();
 
   console.log(product);
@@ -70,56 +64,41 @@ function Index(props) {
         <div className='w-5/6 mx-auto'>
           <Row gutter={80}>
             <Col xs={{ span: 24 }} md={{ span: 16 }}>
-              <Swiper
-                style={{
-                  '--swiper-navigation-color': 'var(--primary-color)',
-                  '--swiper-pagination-color': 'var(--primary-color)',
-                }}
-                spaceBetween={10}
-                navigation={true}
-                thumbs={{ swiper: thumbsSwiper }}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className='mySwiper2'
-              >
-                {product.images.map((product) => (
-                  <SwiperSlide key={product.id}>
-                    {product.src && (
+              {/* Main image display */}
+              <div className="mb-4">
+                {product.images[currentImage]?.src && (
+                  <Image
+                    src={product.images[currentImage].src}
+                    alt={product.name}
+                    className="rounded-lg"
+                    width="100%"
+                    height="100%"
+                  />
+                )}
+              </div>
+              
+              {/* Thumbnail navigation */}
+              <div className="flex flex-wrap gap-2 justify-center">
+                {product.images.map((img, index) => (
+                  <div 
+                    key={img.id}
+                    className={`cursor-pointer transition-all duration-200 ${currentImage === index ? 'border-2 border-primary' : 'border border-gray-300'}`}
+                    onClick={() => setCurrentImage(index)}
+                  >
+                    {img.src && (
                       <Image
-                        src={product.src}
-                        alt='product'
-                        className='rounded-lg'
-                        width='100%'
-                        height='100%'
-                      />
-                    )}
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-              <Swiper
-                onSwiper={setThumbsSwiper}
-                spaceBetween={10}
-                slidesPerView={4}
-                freeMode={true}
-                watchSlidesProgress={true}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className='mySwiper'
-              >
-                {product.images.map((product) => (
-                  <SwiperSlide key={product.id}>
-                    {product.src && (
-                      <Image
-                        src={product.src}
-                        alt='product'
-                        className='rounded-lg'
-                        width='100%'
-                        height={120}
+                        src={img.src}
+                        alt={`${product.name} thumbnail ${index + 1}`}
+                        className="rounded-lg"
+                        width={80}
+                        height={80}
                         preview={false}
                         style={{ objectFit: 'contain' }}
                       />
                     )}
-                  </SwiperSlide>
+                  </div>
                 ))}
-              </Swiper>
+              </div>
             </Col>
             <Col xs={{ span: 24 }} md={{ span: 8 }}>
               <div
@@ -201,11 +180,15 @@ function Index(props) {
             ))}
           </div>
           <div className='sm:hidden pt-8'>
-            <Swiper slidesPerView={3} spaceBetween={30} loop={true}>
-              {relatedProducts.map((product) => (
-                <SwiperSlide key={product.id}>
+            {/* Mobile related products carousel */}
+            <div className="relative px-4">
+              {/* Show only 3 visible slides at a time on mobile */}
+              <div className="flex overflow-x-auto pb-4 gap-4 hide-scrollbar">
+                {relatedProducts.slice(0, 6).map((product) => (
                   <div
-                    className='rounded-xl flex flex-col items-center'
+                    key={product.id}
+                    className='rounded-xl flex-shrink-0 flex flex-col items-center'
+                    style={{ width: '100px' }}
                     onClick={() => router.push(`/product/${product.id}`)}
                   >
                     <Image
@@ -225,9 +208,9 @@ function Index(props) {
                       {product?.name}
                     </div>
                   </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
