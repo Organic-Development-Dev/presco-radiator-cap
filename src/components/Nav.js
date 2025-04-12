@@ -257,7 +257,7 @@ const Nav = () => {
               className='flex items-center px-3 py-2'
             >
               <svg
-                height='auto'
+                height='24'
                 width='100'
                 className='fill-current h-6 w-6'
                 fill='var(--primary-color)'

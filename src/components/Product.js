@@ -16,9 +16,9 @@ const Product = (props) => {
 					<img
 						className="object-cover bg-gray-100"
 						width="100%"
-						height="auto"
+						height="225"
 						src={product?.image?.sourceUrl ?? DEFAULT_PRODUCT_HOME_IMG_URL}
-						alttext={product?.image?.altText ?? product?.slug}
+						alt={product?.image?.altText ?? product?.slug}
 					/>
 				</Link>
 				<div className="product-info">
