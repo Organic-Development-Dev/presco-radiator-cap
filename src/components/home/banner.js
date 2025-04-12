@@ -228,153 +228,68 @@ function Banner() {
   );
 }
 
-// Separated Swiper component that loads dynamically
+// Simplified static component instead of Swiper
 const SwiperBanner = () => {
-  // Dynamically import Swiper components
-  const [SwiperComponents, setSwiperComponents] = useState(null);
-  const [isImportingSwiper, setIsImportingSwiper] = useState(false);
+  // Use simple state for the slide instead of Swiper to avoid errors
+  const [activeSlide, setActiveSlide] = useState(0);
   
+  // Change slide every 5 seconds
   useEffect(() => {
-    // Import the Swiper components dynamically
-    const loadSwiperComponents = async () => {
-      if (isImportingSwiper) return; // Prevent duplicate loads
-      
-      try {
-        setIsImportingSwiper(true);
-        
-        // Use dynamic import with low priority
-        let SwiperModule, SwiperCoreModule;
-        
-        // Import components in parallel for better performance
-        [SwiperModule, SwiperCoreModule] = await Promise.all([
-          import('swiper/react'),
-          import('swiper/modules'),
-          import('swiper/css'),
-          import('swiper/css/pagination')
-        ]);
-        
-        // Set the modules - but only if component is still mounted
-        if (typeof setSwiperComponents === 'function') {
-          setSwiperComponents({
-            Swiper: SwiperModule.Swiper,
-            SwiperSlide: SwiperModule.SwiperSlide,
-            Autoplay: SwiperCoreModule.Autoplay,
-            Pagination: SwiperCoreModule.Pagination,
-          });
-        }
-      } catch (error) {
-        // Silence errors in production
-        if (process.env.NODE_ENV !== 'production') {
-          console.error('Failed to load Swiper components:', error);
-        }
-      } finally {
-        setIsImportingSwiper(false);
-      }
-    };
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % 3);
+    }, 5000);
     
-    // Use requestIdleCallback to load Swiper when the browser is idle
-    if (typeof window !== 'undefined') {
-      if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(loadSwiperComponents, { timeout: 3000 });
-      } else {
-        // Fallback to setTimeout for browsers without requestIdleCallback
-        setTimeout(loadSwiperComponents, 100);
-      }
+    return () => clearInterval(interval);
+  }, []);
+  
+  // Create array of slides for easier rendering
+  const slides = [
+    {
+      src: '/img/banner1.webp',
+      alt: 'Presco Radiator Caps - Premium Automotive Components'
+    },
+    {
+      src: '/img/banner2.webp',
+      alt: 'High-Performance Radiator Caps for All Vehicle Types'
+    },
+    {
+      src: '/img/banner3.webp',
+      alt: 'Quality Engineered Cooling System Components'
     }
-    
-    // Cleanup
-    return () => {
-      // Cancel any pending callbacks or imports if component unmounts
-    };
-  }, [isImportingSwiper]);
-  
-  // If Swiper components aren't loaded yet, maintain the simple banner
-  if (!SwiperComponents) {
-    return (
-      <div className="banner-placeholder relative">
-        <Image
-          src="/img/optimized/banner1-lcp.webp"
-          alt="Presco Radiator Caps - Premium Automotive Components"
-          priority={false} // We already have this loaded from the initial banner
-          fill
-          sizes="100vw"
-          quality={75}
-          loading="eager" // Already visible content should use eager loading
-          placeholder="blur"
-          blurDataURL={BLUR_DATA_URL}
-          className="banner-image active"
-        />
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          <div className="w-2 h-2 rounded-full bg-primary"></div>
-          <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-          <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-        </div>
-      </div>
-    );
-  }
-  
-  const { Swiper, SwiperSlide, Autoplay, Pagination } = SwiperComponents;
+  ];
   
   return (
-    <Swiper
-      style={{ paddingBottom: '40px' }}
-      slidesPerView={1}
-      spaceBetween={0}
-      autoplay={{
-        delay: 5000,
-        disableOnInteraction: false,
-      }}
-      pagination={{
-        clickable: true,
-      }}
-      loop={true}
-      modules={[Autoplay, Pagination]}
-      preloadImages={false} // Don't preload all images at once
-      lazy={{ 
-        loadPrevNext: true,
-        loadPrevNextAmount: 1
-      }}
-    >
-      <SwiperSlide>
-        <div className='relative' style={{ paddingTop: '30%', backgroundColor: '#f5f5f5' }}>
+    <div className="banner-placeholder relative">
+      {/* Render all slides */}
+      {slides.map((slide, index) => (
+        <div 
+          key={index} 
+          className={`banner-image ${activeSlide === index ? 'active' : ''}`}
+        >
           <Image
-            src='/img/banner1.webp'
-            alt='Presco Radiator Caps - Premium Automotive Components'
-            className='absolute object-cover'
+            src={slide.src}
+            alt={slide.alt}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-            loading="eager"
-            quality={80}
+            loading={index === 0 ? "eager" : "lazy"}
+            quality={index === 0 ? 80 : 70}
+            className="object-cover"
           />
         </div>
-      </SwiperSlide>
-      <SwiperSlide>
-        <div className='relative' style={{ paddingTop: '30%', backgroundColor: '#f5f5f5' }}>
-          <Image
-            src='/img/banner2.webp'
-            alt='High-Performance Radiator Caps for All Vehicle Types'
-            className='absolute object-cover'
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-            loading="lazy"
-            quality={70}
+      ))}
+      
+      {/* Simple navigation dots */}
+      <div className="banner-dots">
+        {[0, 1, 2].map((index) => (
+          <button
+            key={index}
+            className={`banner-dot ${activeSlide === index ? 'active' : ''}`}
+            onClick={() => setActiveSlide(index)}
+            aria-label={`Go to slide ${index + 1}`}
           />
-        </div>
-      </SwiperSlide>
-      <SwiperSlide>
-        <div className='relative' style={{ paddingTop: '30%', backgroundColor: '#f5f5f5' }}>
-          <Image
-            src='/img/banner3.webp'
-            alt='Quality Engineered Cooling System Components'
-            className='absolute object-cover'
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-            loading="lazy"
-            quality={70}
-          />
-        </div>
-      </SwiperSlide>
-    </Swiper>
+        ))}
+      </div>
+    </div>
   );
 };
 
