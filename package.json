@@ -31,8 +31,8 @@
     "micro": "^10.0.1",
     "next": "^14.0.4",
     "next-sitemap": "^4.2.3",
-    "next-stripe": "^1.0.0",
-    "node-fetch": "^3.3.2",
+    "next-stripe": "^1.0.0-beta.9",
+    "node-fetch": "^2.6.9",
     "nprogress": "^0.2.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -65,5 +65,8 @@
     "precss": "^4.0.0",
     "tailwindcss": "^3.4.1",
     "typescript": "5.3.3"
+  },
+  "resolutions": {
+    "glob": "^9.3.5"
   }
 }

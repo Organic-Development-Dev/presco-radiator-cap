@@ -1,5 +1,5 @@
 import React from 'react';
-import GET_PAGE_BY_ID from '../../src/queries/get-page-by-title';
+import GET_PAGE_BY_SLUG from '../../src/queries/get-page-by-slug';
 import client from '../../src/components/ApolloClient';
 import { Breadcrumb } from "antd";
 import SEO from '../../src/components/SEO';
@@ -61,24 +61,60 @@ export default TermsAndConditions;
 
 export async function getStaticProps(context) {
   try {
+    // Use the slug to fetch the page - this is more reliable than using IDs
     const {data} = await client.query({
-      query: GET_PAGE_BY_ID,
-      variables: {id: 'cG9zdDo1NzI3'}, // Use the Terms & Conditions page ID from WordPress
+      query: GET_PAGE_BY_SLUG,
+      variables: {slug: 'terms-and-conditions'}, // Use the slug instead of ID
     });
 
-    if (data?.page) {
+    if (data?.pageBy) {
+      // Return the page data if found
       return {
         props: {
-          data: data.page,
+          data: data.pageBy,
         },
+        // Revalidate every 24 hours
+        revalidate: 86400,
       };
     } else {
+      // Try to fetch by alternative slug
+      try {
+        const altData = await client.query({
+          query: GET_PAGE_BY_SLUG,
+          variables: {slug: 'terms'}, // Try alternative slug
+        });
+        
+        if (altData?.data?.pageBy) {
+          return {
+            props: {
+              data: altData.data.pageBy,
+            },
+            revalidate: 86400,
+          };
+        }
+      } catch (altError) {
+        console.error('Error fetching with alternative slug:', altError);
+      }
+      
       // If page not found, return a fallback page
       return {
         props: {
           data: {
             title: 'Terms and Conditions',
-            content: '<h1>Terms and Conditions</h1><p>The terms and conditions page is currently being updated. Please check back later.</p>',
+            content: `
+              <h2>Terms and Conditions</h2>
+              <p>Welcome to Presco Radiator Caps Ltd. These Terms and Conditions govern your use of our website and the purchase of products from our online store.</p>
+              <p>By accessing our website or purchasing our products, you agree to these Terms and Conditions in full. If you disagree with any part of these terms, please do not use our website or services.</p>
+              <p>Our website is currently being updated with our complete terms and conditions. Please check back soon for the full details or contact our customer service team for more information.</p>
+              <p>For any questions regarding our terms and conditions, please contact us at:</p>
+              <p>
+                <strong>Presco Radiator Caps Ltd.</strong><br />
+                Unit D86, Blackpole Trading Estate<br />
+                West, Worcester, England, WR3 8TJ<br />
+                Email: sales@presco-radiator-caps.com<br />
+                Phone: +44 (0)1905 755656
+              </p>
+            `,
             seo: {
               metaDesc: 'Terms and Conditions - Presco Radiator Caps',
               opengraphSiteName: 'Presco Radiator Caps',
@@ -97,7 +133,20 @@ export async function getStaticProps(context) {
       props: {
         data: {
           title: 'Terms and Conditions',
-          content: '<h1>Terms and Conditions</h1><p>The terms and conditions page is currently being updated. Please check back later.</p>',
+          content: `
+            <h2>Terms and Conditions</h2>
+            <p>Welcome to Presco Radiator Caps Ltd. These Terms and Conditions govern your use of our website and the purchase of products from our online store.</p>
+            <p>By accessing our website or purchasing our products, you agree to these Terms and Conditions in full. If you disagree with any part of these terms, please do not use our website or services.</p>
+            <p>Our website is currently being updated with our complete terms and conditions. Please check back soon for the full details or contact our customer service team for more information.</p>
+            <p>For any questions regarding our terms and conditions, please contact us at:</p>
+            <p>
+              <strong>Presco Radiator Caps Ltd.</strong><br />
+              Unit D86, Blackpole Trading Estate<br />
+              West, Worcester, England, WR3 8TJ<br />
+              Email: sales@presco-radiator-caps.com<br />
+              Phone: +44 (0)1905 755656
+            </p>
+          `,
           seo: {
             metaDesc: 'Terms and Conditions - Presco Radiator Caps',
             opengraphSiteName: 'Presco Radiator Caps',
