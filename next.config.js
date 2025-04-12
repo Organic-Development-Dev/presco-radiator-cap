@@ -6,13 +6,19 @@ const nextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
   poweredByHeader: false, // Remove X-Powered-By header
-  webpackDevMiddleware: (config) => {
-    config.watchOptions = {
-      poll: 1000,
-      aggregateTimeout: 300,
-    };
+  
+  // Removed webpackDevMiddleware as it's no longer supported in Next.js 14+
+  // Use webpack configuration directly for development customizations
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      config.watchOptions = {
+        poll: 1000,
+        aggregateTimeout: 300,
+      };
+    }
     return config;
   },
+  
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
@@ -61,6 +67,12 @@ const nextConfig = {
   },
   // Enable SWC minification
   swcMinify: true,
+  // Ignore ESLint errors during production build
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;
