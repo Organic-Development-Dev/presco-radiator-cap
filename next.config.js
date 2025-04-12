@@ -23,6 +23,44 @@ const nextConfig = {
       path: false,
     };
     
+    // Add bundle analyzer in production when needed
+    if (process.env.ANALYZE === 'true') {
+      const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+      config.plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'server',
+          analyzerPort: 8888,
+          openAnalyzer: true,
+        })
+      );
+    }
+    
+    // Tree shake unused CSS
+    if (!dev && !isServer) {
+      // Find the TerserPlugin in the webpack config
+      const terserPluginIndex = config.optimization.minimizer.findIndex(
+        (plugin) => plugin.constructor.name === 'TerserPlugin'
+      );
+      
+      if (terserPluginIndex > -1) {
+        // Get the TerserPlugin instance
+        const terserPlugin = config.optimization.minimizer[terserPluginIndex];
+        
+        // Update the terserOptions to remove console.log and debugger statements
+        terserPlugin.options.terserOptions = {
+          ...terserPlugin.options.terserOptions,
+          compress: {
+            ...terserPlugin.options.terserOptions.compress,
+            drop_console: true,
+            drop_debugger: true,
+          },
+        };
+      }
+      
+      // Enable module concatenation for better tree shaking
+      config.optimization.concatenateModules = true;
+    }
+    
     return config;
   },
   
@@ -37,8 +75,11 @@ const nextConfig = {
   images: {
     domains: [allowedImageWordPressDomain, 'via.placeholder.com'],
     formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 31536000, // 1 year for static images
   },
-  // Add security headers
+  // Add security headers and caching policies
   async headers() {
     return [
       {
@@ -68,6 +109,43 @@ const nextConfig = {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
           },
+        ],
+      },
+      // Add caching headers for static assets
+      {
+        source: '/img/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          }
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          }
+        ],
+      },
+      {
+        source: '/_next/image/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          }
+        ],
+      },
+      {
+        source: '/fonts/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          }
         ],
       },
     ];
