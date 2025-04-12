@@ -19,10 +19,11 @@ const Footer = () => {
                 <div className="md:w-48 lg:w-64">
                   <Image
                     src="/img/logo-bg-white.png"
-                    layout="responsive"
                     width={240}
                     height={72}
-                    alt="logo"
+                    style={{ width: '100%', height: 'auto' }}
+                    alt="Presco Radiator Caps Logo"
+                    priority
                   />
                 </div>
                 <div className="md:w-64 flex gap-8 justify-between sm:justify-start mt-4">
