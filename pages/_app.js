@@ -8,7 +8,8 @@ import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
 import { useEffect, useState } from "react";
 import Layout from "../src/components/Layout";
-import ErrorBoundary from "../src/components/ErrorBoundary";
+import dynamic from 'next/dynamic';
+const ErrorBoundary = dynamic(() => import('../src/components/ErrorBoundary'), { ssr: false });
 import Head from "next/head";
 // Import TagManager dynamically to avoid impacting initial loading
 // import TagManager from 'react-gtm-module';
@@ -121,11 +122,10 @@ function MyApp({ Component, pageProps }) {
           }}
         />
       </Head>
-      <ErrorBoundary>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ErrorBoundary>
+      {/* No ErrorBoundary here - it's been moved to Layout component */}
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </>
   );
 }
