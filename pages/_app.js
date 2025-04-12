@@ -10,25 +10,31 @@ import { useEffect, useState } from "react";
 import Layout from "../src/components/Layout";
 import ErrorBoundary from "../src/components/ErrorBoundary";
 import Head from "next/head";
-import TagManager from 'react-gtm-module';
+// Import TagManager dynamically to avoid impacting initial loading
+// import TagManager from 'react-gtm-module';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
-  // Initialize Google Tag Manager asynchronously with low priority to improve LCP
+  // Ultimate GTM lazy-loading to prioritize LCP
   useEffect(() => {
-    // Only load GTM after the page has loaded (all critical content is displayed)
+    // Only load GTM long after the page has fully loaded and user has interacted
     if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_GTM_ID) {
-      // Use requestIdleCallback to load GTM during browser idle time
-      const loadGTM = () => {
+      // Create a function to dynamically import and initialize TagManager
+      const importAndInitializeGTM = async () => {
         try {
+          // Dynamically import TagManager only when needed
+          const TagManagerModule = await import('react-gtm-module');
+          const TagManager = TagManagerModule.default;
+          
+          // Initialize with performance tracking
           TagManager.initialize({ 
             gtmId: process.env.NEXT_PUBLIC_GTM_ID,
             // Use dataLayer variables to optimize GTM
             dataLayer: {
               'gtm.start': new Date().getTime(),
               event: 'gtm.js',
-              'optimizeLoad': true, // Custom flag to use in GTM for optimized loading
+              'optimizeLoad': true, // Custom flag for optimized loading
               'pageLoadTime': window.performance && 
                 window.performance.timing ? 
                 (window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart) : 
@@ -43,20 +49,36 @@ function MyApp({ Component, pageProps }) {
         }
       };
 
-      // Load GTM after initial page render is complete
-      if ('requestIdleCallback' in window) {
-        // Modern browsers - use requestIdleCallback
-        window.requestIdleCallback(loadGTM, { timeout: 2000 });
-      } else if ('requestAnimationFrame' in window) {
-        // Fallback - use requestAnimationFrame with a delay
-        window.addEventListener('load', () => {
-          setTimeout(() => window.requestAnimationFrame(loadGTM), 1000);
+      // Use passive interaction detection to delay GTM until user interaction
+      const initializeAfterInteraction = () => {
+        // Define events that indicate user engagement
+        const interactionEvents = ['scroll', 'click', 'mousemove', 'touchstart'];
+        
+        // Function that loads GTM and removes all event listeners
+        const loadGTMAndCleanup = () => {
+          // Clean up event listeners before import
+          interactionEvents.forEach(event => {
+            window.removeEventListener(event, loadGTMAndCleanup, { passive: true });
+          });
+          
+          // Delay import even after interaction for better performance
+          setTimeout(importAndInitializeGTM, 2000);
+        };
+        
+        // Add passive event listeners for interaction events
+        interactionEvents.forEach(event => {
+          window.addEventListener(event, loadGTMAndCleanup, { passive: true, once: true });
         });
+        
+        // Fallback: load GTM after a long timeout even without interaction
+        setTimeout(loadGTMAndCleanup, 10000);
+      };
+      
+      // Wait for the page to fully load before setting up interaction detection
+      if (document.readyState === 'complete') {
+        initializeAfterInteraction();
       } else {
-        // Legacy fallback - use window load with timeout
-        window.addEventListener('load', () => {
-          setTimeout(loadGTM, 1500);
-        });
+        window.addEventListener('load', initializeAfterInteraction);
       }
     }
   }, []);

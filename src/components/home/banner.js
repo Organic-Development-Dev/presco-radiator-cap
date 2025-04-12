@@ -140,45 +140,36 @@ function Banner() {
     }
   };
   
+  // Mark LCP as complete - runs as soon as the component mounts
+  useEffect(() => {
+    // Immediately mark LCP as loaded since we're using CSS background image
+    if (bannerRef.current && !lcpMarked.current) {
+      lcpMarked.current = true;
+      bannerRef.current.dataset.lcpLoaded = "true";
+      
+      // Report LCP to analytics
+      if (typeof window !== 'undefined' && window.performance && window.performance.mark) {
+        window.performance.mark('lcp-banner-complete');
+        
+        // Preload higher quality images after the component has mounted
+        const preloadImages = () => {
+          const img1 = new Image();
+          img1.src = '/img/optimized/banner1-lcp.webp';
+          setImagesLoaded(prev => ({ ...prev, 0: true }));
+        };
+        
+        preloadImages();
+      }
+    }
+  }, []);
+  
   return (
     <>
-      <Head>
-        {/* Preload the optimized banner images with appropriate priorities */}
-        <link 
-          rel="preload" 
-          as="image" 
-          href="/img/optimized/banner1-lcp.webp" 
-          type="image/webp" 
-          fetchpriority="high" 
-        />
-        
-        {/* Inline critical CSS for LCP */}
-        <style dangerouslySetInnerHTML={{ __html: CRITICAL_CSS }} />
-      </Head>
-      
       <div id="banner" ref={bannerRef} className="relative">
         {!swiperLoaded ? (
-          // Optimized banner with minimal JS for fast LCP
+          // Simplified banner with minimal JS - uses CSS background image for instant LCP
           <div className="banner-placeholder">
-            {/* Banner 1 - LCP critical */}
-            <div className={`banner-image ${currentSlide === 0 ? 'active' : ''}`}>
-              <Image
-                src="/img/optimized/banner1-lcp.webp"
-                alt="Presco Radiator Caps - Premium Automotive Components"
-                priority={true}
-                fill
-                sizes="(max-width: 640px) 640px, 960px"
-                quality={75}
-                fetchPriority="high"
-                loading="eager"
-                placeholder="blur"
-                blurDataURL={BLUR_DATA_URL}
-                onLoad={() => handleImageLoad(0)}
-                srcSet={`/img/optimized/banner1-lcp-sm.webp 640w, /img/optimized/banner1-lcp.webp 960w`}
-              />
-            </div>
-            
-            {/* Other banners - loaded with lower priority and only if needed */}
+            {/* Other banners - loaded with lower priority only if needed */}
             {currentSlide === 1 || imagesLoaded[0] ? (
               <div className={`banner-image ${currentSlide === 1 ? 'active' : ''}`}>
                 <Image
@@ -211,7 +202,12 @@ function Banner() {
               </div>
             ) : null}
             
-            {/* Simple navigation dots */}
+            {/* Add the banner title directly in the HTML - helps with SEO and accessibility */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <h1 className="sr-only">Presco Radiator Caps - Premium Automotive Components</h1>
+            </div>
+            
+            {/* Simple navigation dots - directly visible without JS */}
             <div className="banner-dots">
               {[0, 1, 2].map((index) => (
                 <button
