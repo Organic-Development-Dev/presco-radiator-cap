@@ -73,18 +73,48 @@ export default function Document() {
         <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin="anonymous" />
         
         {/* Feature detection script - execute as early as possible */}
-        <script dangerouslySetInnerHTML={{ __html: featureDetection }} strategy="beforeInteractive" />
+        <script dangerouslySetInnerHTML={{ __html: featureDetection }} />
         
-        {/* Only load the font styles we need initially */}
+        {/* Load critical fonts first, other weights later - using the display=swap pattern */}
         <link
-          href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap'
+          href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap'
           rel='stylesheet'
           media="print"
           onLoad="this.media='all'"
         />
+        <noscript>
+          <link
+            href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap'
+            rel='stylesheet'
+          />
+        </noscript>
+        
+        {/* Non-critical font weights loaded with low priority */}
+        <link
+          href='https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=optional'
+          rel='stylesheet' 
+          media="print"
+          onLoad="this.media='all'"
+          fetchpriority="low"
+        />
         
         {/* Core web vitals optimization - preload critical resources with highest priority */}
-        <link rel="preload" as="image" href="/img/optimized/banner1-lcp.webp" type="image/webp" fetchpriority="high" />
+        <link 
+          rel="preload" 
+          as="image" 
+          href="/img/optimized/banner1-lcp.webp" 
+          type="image/webp" 
+          media="(min-width: 641px)"
+          fetchpriority="high" 
+        />
+        <link 
+          rel="preload" 
+          as="image" 
+          href="/img/optimized/banner1-lcp-sm.webp" 
+          type="image/webp"
+          media="(max-width: 640px)" 
+          fetchpriority="high" 
+        />
         <link rel="preload" as="image" href="/img/logo.png" fetchpriority="high" />
         
         {/* Add resource hints for domains we'll connect to */}

@@ -53,8 +53,8 @@ const CRITICAL_CSS = `
   }
 `;
 
-// Placeholder base64 data for blur effect
-const BLUR_DATA_URL = 'data:image/webp;base64,UklGRpQAAABXRUJQVlA4WAoAAAAQAAAADwAAAwAAQUxQSBIAAAABFyKRbQrInf6Ko0xERGAG/RMRAFZQOCAiAAAADAEAnQEqEAAEAAEAHCWkAANwAP77+DAAXgA=';
+// Placeholder base64 data for blur effect - ultra-optimized (112 bytes)
+const BLUR_DATA_URL = 'data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAADQAQCdASoQAAQABUB8JaQAA3AA/vd52Kf/7gAAAA==';
 
 // Optimized banner component - no swiper on initial load
 function Banner() {
@@ -82,22 +82,46 @@ function Banner() {
   
   // Import Swiper dynamically to reduce initial JS bundle
   useEffect(() => {
-    // Define function to dynamically import swiper
-    const loadSwiper = async () => {
+    // Define function to dynamically import swiper with ultra-low priority
+    const loadSwiper = () => {
       try {
-        // Only start loading Swiper after LCP is marked or after 3 seconds
-        const delay = imagesLoaded[0] ? 200 : 3000;
-        await new Promise(resolve => setTimeout(resolve, delay));
-        
-        // Mark swiper as loaded
-        setSwiperLoaded(true);
+        // Use requestIdleCallback for better performance during idle time
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(() => {
+            // Only set swiperLoaded to true when browser is idle
+            // and the first image has been loaded (for best performance)
+            if (imagesLoaded[0]) {
+              setSwiperLoaded(true);
+            } else {
+              // If image isn't loaded yet, check again in 500ms
+              setTimeout(() => {
+                if (imagesLoaded[0] || document.readyState === 'complete') {
+                  setSwiperLoaded(true);
+                }
+              }, 500);
+            }
+          }, { timeout: 4000 }); // 4 second maximum timeout
+        } else {
+          // Fallback for browsers without requestIdleCallback
+          // Wait for a longer time to ensure LCP is complete
+          setTimeout(() => {
+            setSwiperLoaded(true);
+          }, imagesLoaded[0] ? 300 : 4000);
+        }
       } catch (error) {
         console.error('Failed to load Swiper:', error);
       }
     };
     
-    // Start loading Swiper
-    loadSwiper();
+    // Start loading Swiper only after page has fully loaded
+    if (typeof window !== 'undefined') {
+      if (document.readyState === 'complete') {
+        loadSwiper();
+      } else {
+        window.addEventListener('load', loadSwiper);
+        return () => window.removeEventListener('load', loadSwiper);
+      }
+    }
   }, [imagesLoaded]);
   
   // Mark image as loaded
@@ -143,13 +167,14 @@ function Banner() {
                 alt="Presco Radiator Caps - Premium Automotive Components"
                 priority={true}
                 fill
-                sizes="100vw"
+                sizes="(max-width: 640px) 640px, 960px"
                 quality={75}
                 fetchPriority="high"
                 loading="eager"
                 placeholder="blur"
                 blurDataURL={BLUR_DATA_URL}
                 onLoad={() => handleImageLoad(0)}
+                srcSet={`/img/optimized/banner1-lcp-sm.webp 640w, /img/optimized/banner1-lcp.webp 960w`}
               />
             </div>
             
@@ -211,39 +236,85 @@ function Banner() {
 const SwiperBanner = () => {
   // Dynamically import Swiper components
   const [SwiperComponents, setSwiperComponents] = useState(null);
+  const [isImportingSwiper, setIsImportingSwiper] = useState(false);
   
   useEffect(() => {
     // Import the Swiper components dynamically
     const loadSwiperComponents = async () => {
+      if (isImportingSwiper) return; // Prevent duplicate loads
+      
       try {
-        // Import necessary components
-        const SwiperModule = await import('swiper/react');
-        const SwiperCoreModule = await import('swiper/modules');
+        setIsImportingSwiper(true);
         
-        // Import CSS
-        await import('swiper/css');
-        await import('swiper/css/pagination');
+        // Use dynamic import with low priority
+        let SwiperModule, SwiperCoreModule;
         
-        // Set the modules
-        setSwiperComponents({
-          Swiper: SwiperModule.Swiper,
-          SwiperSlide: SwiperModule.SwiperSlide,
-          Autoplay: SwiperCoreModule.Autoplay,
-          Pagination: SwiperCoreModule.Pagination,
-        });
+        // Import components in parallel for better performance
+        [SwiperModule, SwiperCoreModule] = await Promise.all([
+          import('swiper/react'),
+          import('swiper/modules'),
+          import('swiper/css'),
+          import('swiper/css/pagination')
+        ]);
+        
+        // Set the modules - but only if component is still mounted
+        if (typeof setSwiperComponents === 'function') {
+          setSwiperComponents({
+            Swiper: SwiperModule.Swiper,
+            SwiperSlide: SwiperModule.SwiperSlide,
+            Autoplay: SwiperCoreModule.Autoplay,
+            Pagination: SwiperCoreModule.Pagination,
+          });
+        }
       } catch (error) {
-        console.error('Failed to load Swiper components:', error);
+        // Silence errors in production
+        if (process.env.NODE_ENV !== 'production') {
+          console.error('Failed to load Swiper components:', error);
+        }
+      } finally {
+        setIsImportingSwiper(false);
       }
     };
     
-    loadSwiperComponents();
-  }, []);
+    // Use requestIdleCallback to load Swiper when the browser is idle
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(loadSwiperComponents, { timeout: 3000 });
+      } else {
+        // Fallback to setTimeout for browsers without requestIdleCallback
+        setTimeout(loadSwiperComponents, 100);
+      }
+    }
+    
+    // Cleanup
+    return () => {
+      // Cancel any pending callbacks or imports if component unmounts
+    };
+  }, [isImportingSwiper]);
   
-  // If Swiper components aren't loaded yet, show a minimal loader
+  // If Swiper components aren't loaded yet, maintain the simple banner
   if (!SwiperComponents) {
-    return <div className="h-20 flex items-center justify-center">
-      <div className="animate-pulse bg-gray-200 rounded-md w-32 h-6"></div>
-    </div>;
+    return (
+      <div className="banner-placeholder relative">
+        <Image
+          src="/img/optimized/banner1-lcp.webp"
+          alt="Presco Radiator Caps - Premium Automotive Components"
+          priority={false} // We already have this loaded from the initial banner
+          fill
+          sizes="100vw"
+          quality={75}
+          loading="eager" // Already visible content should use eager loading
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
+          className="banner-image active"
+        />
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+          <div className="w-2 h-2 rounded-full bg-primary"></div>
+          <div className="w-2 h-2 rounded-full bg-gray-300"></div>
+          <div className="w-2 h-2 rounded-full bg-gray-300"></div>
+        </div>
+      </div>
+    );
   }
   
   const { Swiper, SwiperSlide, Autoplay, Pagination } = SwiperComponents;
@@ -262,6 +333,11 @@ const SwiperBanner = () => {
       }}
       loop={true}
       modules={[Autoplay, Pagination]}
+      preloadImages={false} // Don't preload all images at once
+      lazy={{ 
+        loadPrevNext: true,
+        loadPrevNextAmount: 1
+      }}
     >
       <SwiperSlide>
         <div className='relative' style={{ paddingTop: '30%', backgroundColor: '#f5f5f5' }}>
@@ -272,7 +348,7 @@ const SwiperBanner = () => {
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
             loading="eager"
-            quality={85}
+            quality={80}
           />
         </div>
       </SwiperSlide>
@@ -285,7 +361,7 @@ const SwiperBanner = () => {
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
             loading="lazy"
-            quality={75}
+            quality={70}
           />
         </div>
       </SwiperSlide>
@@ -298,7 +374,7 @@ const SwiperBanner = () => {
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
             loading="lazy"
-            quality={75}
+            quality={70}
           />
         </div>
       </SwiperSlide>

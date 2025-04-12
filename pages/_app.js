@@ -15,16 +15,48 @@ import TagManager from 'react-gtm-module';
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
-  // Initialize Google Tag Manager
+  // Initialize Google Tag Manager asynchronously with low priority to improve LCP
   useEffect(() => {
+    // Only load GTM after the page has loaded (all critical content is displayed)
     if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_GTM_ID) {
-      try {
-        TagManager.initialize({ gtmId: process.env.NEXT_PUBLIC_GTM_ID });
-      } catch (error) {
-        // Silently catch errors in production
-        if (process.env.NODE_ENV !== 'production') {
-          console.error('Failed to initialize TagManager:', error);
+      // Use requestIdleCallback to load GTM during browser idle time
+      const loadGTM = () => {
+        try {
+          TagManager.initialize({ 
+            gtmId: process.env.NEXT_PUBLIC_GTM_ID,
+            // Use dataLayer variables to optimize GTM
+            dataLayer: {
+              'gtm.start': new Date().getTime(),
+              event: 'gtm.js',
+              'optimizeLoad': true, // Custom flag to use in GTM for optimized loading
+              'pageLoadTime': window.performance && 
+                window.performance.timing ? 
+                (window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart) : 
+                'unavailable'
+            }
+          });
+        } catch (error) {
+          // Silently catch errors in production
+          if (process.env.NODE_ENV !== 'production') {
+            console.error('Failed to initialize TagManager:', error);
+          }
         }
+      };
+
+      // Load GTM after initial page render is complete
+      if ('requestIdleCallback' in window) {
+        // Modern browsers - use requestIdleCallback
+        window.requestIdleCallback(loadGTM, { timeout: 2000 });
+      } else if ('requestAnimationFrame' in window) {
+        // Fallback - use requestAnimationFrame with a delay
+        window.addEventListener('load', () => {
+          setTimeout(() => window.requestAnimationFrame(loadGTM), 1000);
+        });
+      } else {
+        // Legacy fallback - use window load with timeout
+        window.addEventListener('load', () => {
+          setTimeout(loadGTM, 1500);
+        });
       }
     }
   }, []);

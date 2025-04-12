@@ -4,24 +4,34 @@ const sharp = require('sharp');
 
 console.log('Optimizing LCP image...');
 
-// Path to banner images
+// Path to banner images with optimized sizes
+// The first image is the most important for LCP
 const bannerImages = [
   {
     source: '../../public/img/banner1.webp',
     target: '../../public/img/optimized/banner1-lcp.webp',
-    width: 1200,
+    // Create a smaller image for faster loading on first paint
+    // Width is constrained for better initial load time
+    width: 960, // Optimal size for most desktop viewports while loading fast
+    priority: true
+  },
+  // Optimized size for smaller screens
+  {
+    source: '../../public/img/banner1.webp',
+    target: '../../public/img/optimized/banner1-lcp-sm.webp',
+    width: 640, // For mobile devices
     priority: true
   },
   {
     source: '../../public/img/banner2.webp',
     target: '../../public/img/optimized/banner2-lcp.webp',
-    width: 1200,
+    width: 960,
     priority: false
   },
   {
     source: '../../public/img/banner3.webp',
     target: '../../public/img/optimized/banner3-lcp.webp',
-    width: 1200,
+    width: 960,
     priority: false
   }
 ];
@@ -49,12 +59,18 @@ async function optimizeImages() {
       await sharp(sourcePath)
         .resize({ 
           width: image.width,
-          withoutEnlargement: true
+          withoutEnlargement: true,
+          kernel: sharp.kernel.lanczos3, // Higher quality downsampling
+          fit: 'cover'
         })
         .webp({ 
-          quality: quality,  // Control quality based on priority
-          effort: effort,    // Lower effort = faster encoding
-          reductionEffort: 3 // Medium reduction effort for good balance
+          quality: quality,      // Control quality based on priority
+          effort: effort,        // Lower effort = faster encoding
+          reductionEffort: 4,    // Higher reduction effort for better compression
+          lossless: false,       // Lossy compression for smaller file size
+          nearLossless: false,   // Lossy compression for smaller file size
+          smartSubsample: true,  // Intelligent chroma subsampling
+          mixed: true            // Allow mixed compression modes for better quality/size
         })
         .toFile(targetPath);
       
@@ -64,16 +80,27 @@ async function optimizeImages() {
       if (image.priority) {
         const placeholderPath = path.resolve(__dirname, image.target.replace('.webp', '-placeholder.webp'));
         
-        // Create a tiny placeholder for blur effect
+        // Create an ultra-tiny placeholder for blur effect (optimized for inline Base64)
         await sharp(sourcePath)
           .resize({ 
-            width: 20, 
-            height: 10
+            width: 16, 
+            height: 8,
+            fit: 'cover',
+            kernel: sharp.kernel.nearest // Use nearest neighbor for tiny image
           })
           .webp({ 
-            quality: 20
+            quality: 20,
+            reductionEffort: 6, // Maximum compression for tiny placeholder
+            smartSubsample: true,
+            mixed: true
           })
           .toFile(placeholderPath);
+          
+        // Generate and print base64 data for easier embedding
+        const placeholderBuffer = await sharp(placeholderPath).toBuffer();
+        const base64Placeholder = `data:image/webp;base64,${placeholderBuffer.toString('base64')}`;
+        console.log(`✓ Generated base64 placeholder (${placeholderBuffer.length} bytes)`);
+        // Uncomment to log base64 string: console.log(base64Placeholder);
         
         console.log(`✓ Created blur placeholder for ${path.basename(sourcePath)}`);
       }
