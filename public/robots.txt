@@ -1,20 +1,9 @@
-# Allow all robots complete access
+# *
 User-agent: *
 Allow: /
 
-# Disallow admin-related pages
-Disallow: /wp-admin/
-Disallow: /wp-login.php
-Disallow: /wp-includes/
-Disallow: /api/
-
-# Disallow specific files
-Disallow: /*.json$
-Disallow: /*.xml$
-
 # Host
-Host: https://presco-radiator-caps.com
+Host: https://bd.presco-radiator-caps.com/
 
 # Sitemaps
-Sitemap: https://presco-radiator-caps.com/sitemap.xml
-Sitemap: https://presco-radiator-caps.com/sitemap-0.xml
+Sitemap: https://bd.presco-radiator-caps.com/sitemap.xml
