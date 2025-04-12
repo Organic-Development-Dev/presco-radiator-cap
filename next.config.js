@@ -7,7 +7,7 @@ const nextConfig = {
   trailingSlash: true,
   poweredByHeader: false, // Remove X-Powered-By header
   
-  // Configure webpack to handle Ant Design's ESM imports
+  // Configure webpack for development and to handle module resolution
   webpack: (config, { dev, isServer }) => {
     if (dev) {
       config.watchOptions = {
@@ -16,11 +16,11 @@ const nextConfig = {
       };
     }
     
-    // Fix for ESM modules in Ant Design
-    // This tells webpack to handle the @ant-design/icons as CommonJS
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@ant-design/icons': path.resolve(__dirname, 'node_modules/@ant-design/icons/lib'),
+    // Ensure proper resolution of moment.js and other problematic imports
+    config.resolve.fallback = { 
+      ...config.resolve.fallback,
+      fs: false,
+      path: false,
     };
     
     return config;
@@ -81,7 +81,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   
-  // Transpile modules
+  // Transpile modules - using a more targeted list for Ant Design v4
   transpilePackages: [
     'antd',
     '@ant-design/icons',
@@ -91,7 +91,11 @@ const nextConfig = {
     'rc-picker',
     'rc-table',
     'rc-tree',
-    'rc-select'
+    'rc-select',
+    'rc-field-form',
+    'rc-dropdown',
+    'rc-menu',
+    'rc-virtual-list'
   ],
 };
 
