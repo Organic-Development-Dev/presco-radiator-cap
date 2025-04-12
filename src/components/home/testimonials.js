@@ -1,9 +1,5 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-import 'swiper/css';
-import 'swiper/css/navigation';
-
-import { Navigation } from 'swiper/modules';
+// Import React instead of Swiper to avoid errors
+import { useEffect, useState } from 'react';
 import { Avatar } from 'antd';
 import Image from 'next/image';
 
@@ -35,78 +31,48 @@ function Testimonials() {
           What our clients say
         </div>
       </div>
-      <div>
-        <Swiper
-          style={{
-            padding: '40px 0',
-            '--swiper-navigation-color': 'var(--primary-color)',
-            '--swiper-navigation-sides-offset': '300px',
-            '--swiper-pagination-bullet-size': '12px',
-            '--swiper-pagination-bottom': '50px',
-            '--swiper-pagination-color': '#fff',
-          }}
-          slidesPerView={1}
-          spaceBetween={30}
-          loop={true}
-          navigation={true}
-          modules={[Navigation]}
-          breakpoints={{
-            320: {
-              navigation: {
-                enabled: false,
-                disabledClass: 'display-none',
-              },
-            },
-            640: {
-              navigation: {
-                enabled: true,
-              },
-            },
-          }}
-        >
-          {dataFeedBack.map((feedback) => (
-            <SwiperSlide key={feedback.avatar}>
-                <div
-                    className='text-center rounded-3xl mx-auto p-4 testimonials-slider-item pb-8'
-                    style={{
-                        boxShadow: '0 4px 4px 0 rgba(0, 0, 0, 0.25)',
-                    }}
-                >
-                    <div style={{width: 18}} className='mx-auto pt-4'>
-                        <Image
-                            src='/img/feed-back.png'
-                            layout='responsive'
-                            alt='feedback'
-                            width={78}
-                            height={78}
-                        />
-                    </div>
-                    <div
-                        style={{color: '#3A3A3A'}}
-                        className='font-thin text-xs pt-4'
-                        dangerouslySetInnerHTML={{__html: feedback.description}}
+      <div className="py-10">
+        {/* Simple non-swiper testimonial display */}
+        {dataFeedBack.map((feedback) => (
+            <div 
+                key={feedback.avatar}
+                className='text-center rounded-3xl mx-auto p-4 testimonials-slider-item pb-8 max-w-4xl'
+                style={{
+                    boxShadow: '0 4px 4px 0 rgba(0, 0, 0, 0.25)',
+                }}
+            >
+                <div style={{width: 18}} className='mx-auto pt-4'>
+                    <Image
+                        src='/img/feed-back.png'
+                        alt='feedback'
+                        width={78}
+                        height={78}
                     />
-                    <div
-                        className='font-semibold name text-xs uppercase pt-6'
-                    >
-                        {feedback.name}
-                    </div>
-                    <div
-                        className='font-normal subname text-xs pt-2'
-                        style={{color: '#3A3A3A'}}
-                    >
-                        {feedback.subname}
-                    </div>
-                    <div
-                        className='font-normal position text-xs pt-2'
-                        style={{color: '#3A3A3A'}}
-                    >
-                        {feedback.position}
-                    </div>
                 </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+                <div
+                    style={{color: '#3A3A3A'}}
+                    className='font-thin text-xs pt-4'
+                    dangerouslySetInnerHTML={{__html: feedback.description}}
+                />
+                <div
+                    className='font-semibold name text-xs uppercase pt-6'
+                >
+                    {feedback.name}
+                </div>
+                <div
+                    className='font-normal subname text-xs pt-2'
+                    style={{color: '#3A3A3A'}}
+                >
+                    {feedback.subname}
+                </div>
+                <div
+                    className='font-normal position text-xs pt-2'
+                    style={{color: '#3A3A3A'}}
+                >
+                    {feedback.position}
+                </div>
+            </div>
+        ))}
       </div>
     </div>
   );
