@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Head from 'next/head';
+import Link from 'next/link';
 
 // Inline critical CSS to avoid render-blocking
 const CRITICAL_CSS = `
@@ -187,42 +188,42 @@ function Banner() {
           <div className="banner-placeholder">
             {/* Other banners - loaded with lower priority only if needed */}
             {currentSlide === 1 || imagesLoaded[0] ? (
-              <div className={`banner-image ${currentSlide === 1 ? 'active' : ''}`}>
-                <Link href="/product-category/auto">
-                  <a className="block w-full h-full">
-                    <Image
-                      src="/img/optimized/banner2-lcp.webp"
-                      alt="High-Performance Radiator Caps for All Vehicle Types"
-                      fill
-                      sizes="100vw"
-                      quality={65}
-                      loading="lazy"
-                      placeholder="blur"
-                      blurDataURL={BLUR_DATA_URL}
-                      onLoad={() => handleImageLoad(1)}
-                    />
-                  </a>
-                </Link>
+              <div 
+                className={`banner-image ${currentSlide === 1 ? 'active' : ''}`}
+                onClick={() => window.location.href = '/product-category/auto'}
+                style={{cursor: 'pointer'}}
+              >
+                <Image
+                  src="/img/optimized/banner2-lcp.webp"
+                  alt="High-Performance Radiator Caps for All Vehicle Types"
+                  fill
+                  sizes="100vw"
+                  quality={65}
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL={BLUR_DATA_URL}
+                  onLoad={() => handleImageLoad(1)}
+                />
               </div>
             ) : null}
             
             {currentSlide === 2 || imagesLoaded[0] ? (
-              <div className={`banner-image ${currentSlide === 2 ? 'active' : ''}`}>
-                <Link href="/products">
-                  <a className="block w-full h-full">
-                    <Image
-                      src="/img/optimized/banner3-lcp.webp"
-                      alt="Quality Engineered Cooling System Components"
-                      fill
-                      sizes="100vw"
-                      quality={65}
-                      loading="lazy"
-                      placeholder="blur"
-                      blurDataURL={BLUR_DATA_URL}
-                      onLoad={() => handleImageLoad(2)}
-                    />
-                  </a>
-                </Link>
+              <div 
+                className={`banner-image ${currentSlide === 2 ? 'active' : ''}`}
+                onClick={() => window.location.href = '/products'}
+                style={{cursor: 'pointer'}}
+              >
+                <Image
+                  src="/img/optimized/banner3-lcp.webp"
+                  alt="Quality Engineered Cooling System Components"
+                  fill
+                  sizes="100vw"
+                  quality={65}
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL={BLUR_DATA_URL}
+                  onLoad={() => handleImageLoad(2)}
+                />
               </div>
             ) : null}
             
@@ -292,20 +293,18 @@ const SwiperBanner = () => {
         <div 
           key={index} 
           className={`banner-image ${activeSlide === index ? 'active' : ''}`}
+          onClick={() => window.location.href = slide.link}
+          style={{cursor: 'pointer'}}
         >
-          <Link href={slide.link}>
-            <a className="block w-full h-full">
-              <Image
-                src={slide.src}
-                alt={slide.alt}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-                loading={index === 0 ? "eager" : "lazy"}
-                quality={index === 0 ? 80 : 70}
-                className="object-cover"
-              />
-            </a>
-          </Link>
+          <Image
+            src={slide.src}
+            alt={slide.alt}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+            loading={index === 0 ? "eager" : "lazy"}
+            quality={index === 0 ? 80 : 70}
+            className="object-cover"
+          />
         </div>
       ))}
       

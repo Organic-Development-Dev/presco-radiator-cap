@@ -113,15 +113,16 @@ function DrawerCategory(props) {
         <div key={nav.tab}>
           {nav.name && (
             <div>
-              <Link href={nav.slug}>
-                <a 
-                  style={{ color: 'var(--primary-color)' }}
-                  className='font-semibold uppercase text-lg mb-4 px-3 block'
-                  onClick={onClose}
-                >
-                  {nav.name}
-                </a>
-              </Link>
+              <div
+                onClick={() => {
+                  onClose();
+                  router.push(nav.slug);
+                }}
+                style={{ color: 'var(--primary-color)' }}
+                className='font-semibold uppercase text-lg mb-4 px-3 block cursor-pointer'
+              >
+                {nav.name}
+              </div>
             </div>
           )}
           <Collapse
@@ -145,10 +146,12 @@ function DrawerCategory(props) {
                       style={{ color: 'var(--primary-color)' }}
                       className='text-base cursor-pointer list-disc'
                       key={child.name}
+                      onClick={() => {
+                        onClose();
+                        router.push(child.slug);
+                      }}
                     >
-                      <Link href={child.slug}>
-                        <a onClick={onClose} className="block py-1">{child.name}</a>
-                      </Link>
+                      <span className="block py-1">{child.name}</span>
                     </li>
                   ))}
                 </ul>
