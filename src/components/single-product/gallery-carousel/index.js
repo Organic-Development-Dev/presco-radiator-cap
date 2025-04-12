@@ -38,7 +38,7 @@ const GalleryCarousel = ({ gallery }) => {
     setSlide(slideRef.current);
   };
 
-  console.log(gallery);
+  // Remove console.log for production
 
   return (
     <div className='banner flex flex-col sm:flex-row justify-between overflow-hidden md:mr-4'>
@@ -62,15 +62,21 @@ const GalleryCarousel = ({ gallery }) => {
           );
         })}
         <div className='slider-button'>
-          <button className='focus:outline-none' onClick={nextSlide}>
+          <button 
+            className='focus:outline-none' 
+            onClick={nextSlide} 
+            aria-label="Previous image"
+          >
             <svg
               width='25px'
-              height='auto'
+              height='25px'
               className='inline-block mr-3'
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
               viewBox='0 0 24 24'
               stroke='currentColor'
+              aria-hidden="true"
+              role="img"
             >
               <path
                 strokeLinecap='round'
@@ -80,15 +86,21 @@ const GalleryCarousel = ({ gallery }) => {
               />
             </svg>
           </button>
-          <button className='focus:outline-none' onClick={nextSlide}>
+          <button 
+            className='focus:outline-none' 
+            onClick={nextSlide}
+            aria-label="Next image"
+          >
             <svg
               width='25px'
-              height='auto'
+              height='25px'
               className='inline-block'
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
               viewBox='0 0 24 24'
               stroke='currentColor'
+              aria-hidden="true"
+              role="img"
             >
               <path
                 strokeLinecap='round'

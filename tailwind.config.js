@@ -1,12 +1,9 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  // @see https://tailwindcss.com/docs/upcoming-changes
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
-  },
-  purge: [
-    './src/components/**/*.js',
-    './pages/**/*.js'],
+  content: [
+    './src/components/**/*.{js,ts,jsx,tsx}',
+    './pages/**/*.{js,ts,jsx,tsx}',
+  ],
   theme: {
     extend: {
       height: {
@@ -17,12 +14,14 @@ module.exports = {
         '308px': '19.25rem',
         '600px': '37.5rem',
       },
+      colors: {
+        'primary': 'var(--primary-color)',
+        'secondary': 'var(--secondary-color)',
+      },
     },
   },
-  variants: {},
   plugins: [
-    require( 'tailwindcss' ),
-    require( 'precss' ),
-    require( 'autoprefixer' )
-  ]
+    require('precss'),
+    require('autoprefixer')
+  ],
 }

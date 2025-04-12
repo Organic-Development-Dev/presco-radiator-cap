@@ -2,7 +2,7 @@
 
 import { Breadcrumb, Button, Col, Form, Input, Row } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { Select } from 'antd';
 import ReCAPTCHA from 'react-google-recaptcha';
@@ -13,24 +13,41 @@ const siteKeyReCaptcha = process.env.NEXT_PUBLIC_SITE_KEY;
 function ContactUs({ data: dataPage }) {
   const [message, setMessage] = useState('');
   const [isVerify, setIsVerify] = useState(false);
+  const [form] = Form.useForm();
   const submitHandler = async (values) => {
     try {
-      const data = await axios.post('/api/get-data-contact/', values);
-
-      setMessage(data.data.status);
+      const { data } = await axios.post('/api/get-data-contact/', values);
+      setMessage(data.status);
+      
+      // Reset form if submission was successful
+      if (data.success) {
+        form.resetFields();
+        setIsVerify(false);
+      }
     } catch (error) {
-      console.log(error);
+      // Import the error handler only when needed (dynamic import)
+      const { handleApiError } = await import('../utils/errorHandler');
+      
+      handleApiError(error, {
+        showToUser: setMessage,
+        userMessage: 'An error occurred while sending your message. Please try again later.'
+      });
     }
   };
 
-  const submitFailed = (error) => {
-    console.log('error', error);
+  const submitFailed = (errorInfo) => {
+    setMessage('Please correct the errors in the form and try again.');
+    
+    // Log validation errors for debugging but not in production
+    if (process.env.NODE_ENV !== 'production') {
+      console.error('Form validation errors:', errorInfo);
+    }
   };
   return (
     <>
       <Head>
         <title>{dataPage.title}</title>
-        <meta content={dataPage?.seo?.metaDesc ? dataPage.seo.metaDesc : 'Presco Radiator Caps'}/>
+        <meta name="content" content={dataPage?.seo?.metaDesc ? dataPage.seo.metaDesc : 'Presco Radiator Caps'}/>
         <meta name="description" content={dataPage?.seo?.metaDesc ? dataPage.seo.metaDesc : 'Presco Radiator Caps'}/>
         <meta property="og:locale" content="en_US"/>
         <meta property="og:site_name" content={dataPage?.seo?.opengraphSiteName ? dataPage.seo.opengraphSiteName : 'Presco Radiator Caps'}/>
@@ -73,6 +90,7 @@ function ContactUs({ data: dataPage }) {
             </div>
             <div>
               <Form
+                form={form}
                 layout='vertical'
                 autoComplete='off'
                 onFinish={submitHandler}
@@ -111,8 +129,12 @@ function ContactUs({ data: dataPage }) {
                   </Col>
 
                   <Col span={24}>
-                    <Form.Item label='Select' name='avia_3_1'>
-                      <Select>
+                    <Form.Item 
+                      label='Enquiry Type' 
+                      name='avia_3_1'
+                      aria-label="Select enquiry type"
+                    >
+                      <Select aria-label="Select enquiry type">
                         <Select.Option value='Product Questions'>
                           Product Questions
                         </Select.Option>
@@ -182,6 +204,8 @@ function ContactUs({ data: dataPage }) {
   allowFullScreen=""
   loading="lazy"
   referrerPolicy="no-referrer-when-downgrade"
+  title="Map showing Presco Radiator Caps Ltd location"
+  aria-label="Google Maps showing Presco Radiator Caps Ltd location"
 />
 
             </div>
