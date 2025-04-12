@@ -1,8 +1,9 @@
 import { Collapse, Drawer } from 'antd';
 import CloseIcon from './icons/Close';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
+import { useState } from 'react';
 
+// Data for navigation
 const dataNavs = [
   {
     name: 'Products & Solutions',
@@ -19,7 +20,6 @@ const dataNavs = [
           { name: 'Japanese Caps', slug: '/product-category/japanese-caps' },
           { name: 'Reservior Caps', slug: '/product-category/reservior-caps' },
           { name: 'Oil Caps', slug: '/product-category/oil-caps' },
-          
         ],
       },
       {
@@ -91,6 +91,79 @@ const dataNavs = [
 function DrawerCategory(props) {
   const { open, onClose } = props;
   const router = useRouter();
+  const [expandedKeys, setExpandedKeys] = useState([]);
+
+  // Handle navigation
+  const handleNavigation = (url) => {
+    onClose();
+    router.push(url);
+  };
+
+  // Simplified drawer items to avoid complex nesting
+  const getCollapseItems = () => {
+    return dataNavs.map(nav => {
+      if (!nav.children) {
+        return (
+          <div key={nav.tab} className="mb-4">
+            <div
+              onClick={() => handleNavigation(nav.slug)}
+              style={{ color: 'var(--primary-color)' }}
+              className='font-semibold uppercase text-lg px-3 py-2 cursor-pointer'
+            >
+              {nav.name}
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div key={nav.tab} className="mb-4">
+          {nav.name && (
+            <div
+              onClick={() => handleNavigation(nav.slug)}
+              style={{ color: 'var(--primary-color)' }}
+              className='font-semibold uppercase text-lg px-3 py-2 cursor-pointer'
+            >
+              {nav.name}
+            </div>
+          )}
+          
+          {nav.children && nav.children.map(section => (
+            <div key={section.key} className="mb-2">
+              <div
+                onClick={() => {
+                  const newKeys = expandedKeys.includes(section.key)
+                    ? expandedKeys.filter(k => k !== section.key)
+                    : [...expandedKeys, section.key];
+                  setExpandedKeys(newKeys);
+                }}
+                style={{ color: 'var(--primary-color)' }}
+                className='text-base cursor-pointer font-semibold uppercase px-3 py-2 flex justify-between'
+              >
+                <span>{section.name}</span>
+                <span>{expandedKeys.includes(section.key) ? '−' : '+'}</span>
+              </div>
+              
+              {expandedKeys.includes(section.key) && section.children && (
+                <ul className='pl-8 pb-2'>
+                  {section.children.map(item => (
+                    <li
+                      key={item.name}
+                      onClick={() => handleNavigation(item.slug)}
+                      style={{ color: 'var(--primary-color)' }}
+                      className='text-base cursor-pointer py-2 list-disc'
+                    >
+                      {item.name}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+      );
+    });
+  };
 
   return (
     <Drawer
@@ -109,58 +182,7 @@ function DrawerCategory(props) {
         </div>
       }
     >
-      {dataNavs.map((nav) => (
-        <div key={nav.tab}>
-          {nav.name && (
-            <div>
-              <div
-                onClick={() => {
-                  onClose();
-                  router.push(nav.slug);
-                }}
-                style={{ color: 'var(--primary-color)' }}
-                className='font-semibold uppercase text-lg mb-4 px-3 block cursor-pointer'
-              >
-                {nav.name}
-              </div>
-            </div>
-          )}
-          <Collapse
-            bordered={false}
-            style={{ background: '#fff' }}
-            expandIconPosition='end'
-            items={nav.children?.map((childNav) => ({
-              key: childNav.key,
-              label: (
-                <div
-                  style={{ color: 'var(--primary-color)' }}
-                  className='text-base cursor-pointer font-semibold uppercase'
-                >
-                  {childNav.name}
-                </div>
-              ),
-              children: childNav.children ? (
-                <ul className='pb-2 pl-4'>
-                  {childNav.children.map((child) => (
-                    <li
-                      style={{ color: 'var(--primary-color)' }}
-                      className='text-base cursor-pointer list-disc'
-                      key={child.name}
-                      onClick={() => {
-                        onClose();
-                        router.push(child.slug);
-                      }}
-                    >
-                      <span className="block py-1">{child.name}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : null,
-              style: { border: 'none' },
-            }))}
-          />
-        </div>
-      ))}
+      {getCollapseItems()}
     </Drawer>
   );
 }

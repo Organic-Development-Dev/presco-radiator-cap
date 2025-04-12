@@ -1,273 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Head from 'next/head';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-// Inline critical CSS to avoid render-blocking
-const CRITICAL_CSS = `
-  .banner-placeholder {
-    position: relative;
-    width: 100%;
-    padding-top: 30%;
-    background-color: #f5f5f5;
-    overflow: hidden;
-  }
-  
-  .banner-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-  }
-  
-  .banner-image.active {
-    opacity: 1;
-  }
-  
-  .banner-dots {
-    position: absolute;
-    bottom: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    z-index: 10;
-  }
-  
-  .banner-dot {
-    width: 10px;
-    height: 10px;
-    margin: 0 5px;
-    border-radius: 50%;
-    background-color: rgba(255,255,255,0.5);
-    cursor: pointer;
-    border: none;
-    padding: 0;
-    transition: background-color 0.3s;
-  }
-  
-  .banner-dot.active {
-    background-color: #A11A36;
-  }
-`;
-
-// Placeholder base64 data for blur effect - ultra-optimized (112 bytes)
-const BLUR_DATA_URL = 'data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAADQAQCdASoQAAQABUB8JaQAA3AA/vd52Kf/7gAAAA==';
-
-// Optimized banner component - no swiper on initial load
+// Ultra-simplified banner implementation to fix React errors
 function Banner() {
-  const [swiperLoaded, setSwiperLoaded] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [imagesLoaded, setImagesLoaded] = useState({ 0: false, 1: false, 2: false });
-  const timeoutRef = useRef(null);
-  const bannerRef = useRef(null);
-  const lcpMarked = useRef(false);
+  const router = useRouter();
   
-  // Load next slide after time interval (simple carousel before Swiper loads)
-  useEffect(() => {
-    if (swiperLoaded) return;
-    
-    timeoutRef.current = setTimeout(() => {
-      setCurrentSlide((prev) => (prev + 1) % 3);
-    }, 5000);
-    
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [currentSlide, swiperLoaded]);
-  
-  // Import Swiper dynamically to reduce initial JS bundle
-  useEffect(() => {
-    // Define function to dynamically import swiper with ultra-low priority
-    const loadSwiper = () => {
-      try {
-        // Use requestIdleCallback for better performance during idle time
-        if ('requestIdleCallback' in window) {
-          window.requestIdleCallback(() => {
-            // Only set swiperLoaded to true when browser is idle
-            // and the first image has been loaded (for best performance)
-            if (imagesLoaded[0]) {
-              setSwiperLoaded(true);
-            } else {
-              // If image isn't loaded yet, check again in 500ms
-              setTimeout(() => {
-                if (imagesLoaded[0] || document.readyState === 'complete') {
-                  setSwiperLoaded(true);
-                }
-              }, 500);
-            }
-          }, { timeout: 4000 }); // 4 second maximum timeout
-        } else {
-          // Fallback for browsers without requestIdleCallback
-          // Wait for a longer time to ensure LCP is complete
-          setTimeout(() => {
-            setSwiperLoaded(true);
-          }, imagesLoaded[0] ? 300 : 4000);
-        }
-      } catch (error) {
-        console.error('Failed to load Swiper:', error);
-      }
-    };
-    
-    // Start loading Swiper only after page has fully loaded
-    if (typeof window !== 'undefined') {
-      if (document.readyState === 'complete') {
-        loadSwiper();
-      } else {
-        window.addEventListener('load', loadSwiper);
-        return () => window.removeEventListener('load', loadSwiper);
-      }
-    }
-  }, [imagesLoaded]);
-  
-  // Mark image as loaded
-  const handleImageLoad = (index) => {
-    setImagesLoaded(prev => ({ ...prev, [index]: true }));
-    
-    // Mark LCP only once and only for the first slide
-    if (index === 0 && !lcpMarked.current && bannerRef.current) {
-      lcpMarked.current = true;
-      bannerRef.current.dataset.lcpLoaded = "true";
-      
-      // Report LCP to analytics if needed
-      if (window.performance && window.performance.mark) {
-        window.performance.mark('lcp-banner-complete');
-      }
-    }
-  };
-  
-  // Mark LCP as complete - runs as soon as the component mounts
-  useEffect(() => {
-    // Immediately mark LCP as loaded since we're using CSS background image
-    if (bannerRef.current && !lcpMarked.current) {
-      lcpMarked.current = true;
-      bannerRef.current.dataset.lcpLoaded = "true";
-      
-      // Report LCP to analytics
-      if (typeof window !== 'undefined' && window.performance && window.performance.mark) {
-        window.performance.mark('lcp-banner-complete');
-        
-        // Preload higher quality images after the component has mounted
-        // Use a safer approach to avoid constructor issues
-        const preloadImages = () => {
-          if (typeof window !== 'undefined') {
-            // Use a safer approach for image preloading
-            const imgElement = document.createElement('img');
-            imgElement.style.display = 'none';
-            imgElement.onload = () => {
-              setImagesLoaded(prev => ({ ...prev, 0: true }));
-              // Remove from DOM after loading
-              if (imgElement.parentNode) {
-                imgElement.parentNode.removeChild(imgElement);
-              }
-            };
-            imgElement.src = '/img/optimized/banner1-lcp.webp';
-            // Append to body temporarily to ensure loading
-            document.body.appendChild(imgElement);
-          }
-        };
-        
-        // Only run in browser
-        if (typeof window !== 'undefined') {
-          preloadImages();
-        }
-      }
-    }
-  }, []);
-  
-  return (
-    <>
-      <div id="banner" ref={bannerRef} className="relative">
-        {!swiperLoaded ? (
-          // Simplified banner with minimal JS - uses CSS background image for instant LCP
-          <div className="banner-placeholder">
-            {/* Other banners - loaded with lower priority only if needed */}
-            {currentSlide === 1 || imagesLoaded[0] ? (
-              <div 
-                className={`banner-image ${currentSlide === 1 ? 'active' : ''}`}
-                onClick={() => window.location.href = '/product-category/auto'}
-                style={{cursor: 'pointer'}}
-              >
-                <Image
-                  src="/img/optimized/banner2-lcp.webp"
-                  alt="High-Performance Radiator Caps for All Vehicle Types"
-                  fill
-                  sizes="100vw"
-                  quality={65}
-                  loading="lazy"
-                  placeholder="blur"
-                  blurDataURL={BLUR_DATA_URL}
-                  onLoad={() => handleImageLoad(1)}
-                />
-              </div>
-            ) : null}
-            
-            {currentSlide === 2 || imagesLoaded[0] ? (
-              <div 
-                className={`banner-image ${currentSlide === 2 ? 'active' : ''}`}
-                onClick={() => window.location.href = '/products'}
-                style={{cursor: 'pointer'}}
-              >
-                <Image
-                  src="/img/optimized/banner3-lcp.webp"
-                  alt="Quality Engineered Cooling System Components"
-                  fill
-                  sizes="100vw"
-                  quality={65}
-                  loading="lazy"
-                  placeholder="blur"
-                  blurDataURL={BLUR_DATA_URL}
-                  onLoad={() => handleImageLoad(2)}
-                />
-              </div>
-            ) : null}
-            
-            {/* Add the banner title directly in the HTML - helps with SEO and accessibility */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <h1 className="sr-only">Presco Radiator Caps - Premium Automotive Components</h1>
-            </div>
-            
-            {/* Simple navigation dots - directly visible without JS */}
-            <div className="banner-dots">
-              {[0, 1, 2].map((index) => (
-                <button
-                  key={index}
-                  className={`banner-dot ${currentSlide === index ? 'active' : ''}`}
-                  onClick={() => setCurrentSlide(index)}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-        ) : (
-          // Load Swiper dynamically once initial LCP is complete
-          <SwiperBanner />
-        )}
-      </div>
-    </>
-  );
-}
-
-// Simplified static component instead of Swiper
-const SwiperBanner = () => {
-  // Use simple state for the slide instead of Swiper to avoid errors
-  const [activeSlide, setActiveSlide] = useState(0);
-  
-  // Change slide every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % 3);
-    }, 5000);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  // Create array of slides for easier rendering
+  // Simple slides data
   const slides = [
     {
       src: '/img/banner1.webp',
@@ -285,42 +25,61 @@ const SwiperBanner = () => {
       link: '/products'
     }
   ];
+
+  // Simple auto-rotation
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    
+    return () => clearInterval(timer);
+  }, [slides.length]);
+  
+  // Simple navigation handler
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
+
+  // Navigation handler
+  const navigateToLink = (link) => {
+    router.push(link);
+  };
   
   return (
-    <div className="banner-placeholder relative">
-      {/* Render all slides with links */}
-      {slides.map((slide, index) => (
-        <div 
-          key={index} 
-          className={`banner-image ${activeSlide === index ? 'active' : ''}`}
-          onClick={() => window.location.href = slide.link}
-          style={{cursor: 'pointer'}}
-        >
-          <Image
-            src={slide.src}
-            alt={slide.alt}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-            loading={index === 0 ? "eager" : "lazy"}
-            quality={index === 0 ? 80 : 70}
-            className="object-cover"
-          />
-        </div>
-      ))}
+    <div id="banner" className="relative banner-placeholder">
+      {/* Render current slide only */}
+      <div 
+        className="banner-image active" 
+        onClick={() => navigateToLink(slides[currentSlide].link)}
+        style={{cursor: 'pointer'}}
+      >
+        <img
+          src={slides[currentSlide].src}
+          alt={slides[currentSlide].alt}
+          style={{
+            width: '100%',
+            height: '100%', 
+            objectFit: 'cover',
+            position: 'absolute',
+            top: 0,
+            left: 0
+          }}
+        />
+      </div>
       
       {/* Simple navigation dots */}
       <div className="banner-dots">
-        {[0, 1, 2].map((index) => (
+        {slides.map((_, index) => (
           <button
             key={index}
-            className={`banner-dot ${activeSlide === index ? 'active' : ''}`}
-            onClick={() => setActiveSlide(index)}
+            className={`banner-dot ${currentSlide === index ? 'active' : ''}`}
+            onClick={() => goToSlide(index)}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
     </div>
   );
-};
+}
 
 export default Banner;
