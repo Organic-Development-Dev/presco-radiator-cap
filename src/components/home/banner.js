@@ -152,13 +152,29 @@ function Banner() {
         window.performance.mark('lcp-banner-complete');
         
         // Preload higher quality images after the component has mounted
+        // Use a safer approach to avoid constructor issues
         const preloadImages = () => {
-          const img1 = new Image();
-          img1.src = '/img/optimized/banner1-lcp.webp';
-          setImagesLoaded(prev => ({ ...prev, 0: true }));
+          if (typeof window !== 'undefined') {
+            // Use a safer approach for image preloading
+            const imgElement = document.createElement('img');
+            imgElement.style.display = 'none';
+            imgElement.onload = () => {
+              setImagesLoaded(prev => ({ ...prev, 0: true }));
+              // Remove from DOM after loading
+              if (imgElement.parentNode) {
+                imgElement.parentNode.removeChild(imgElement);
+              }
+            };
+            imgElement.src = '/img/optimized/banner1-lcp.webp';
+            // Append to body temporarily to ensure loading
+            document.body.appendChild(imgElement);
+          }
         };
         
-        preloadImages();
+        // Only run in browser
+        if (typeof window !== 'undefined') {
+          preloadImages();
+        }
       }
     }
   }, []);
