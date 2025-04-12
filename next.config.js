@@ -7,8 +7,7 @@ const nextConfig = {
   trailingSlash: true,
   poweredByHeader: false, // Remove X-Powered-By header
   
-  // Removed webpackDevMiddleware as it's no longer supported in Next.js 14+
-  // Use webpack configuration directly for development customizations
+  // Configure webpack to handle Ant Design's ESM imports
   webpack: (config, { dev, isServer }) => {
     if (dev) {
       config.watchOptions = {
@@ -16,6 +15,14 @@ const nextConfig = {
         aggregateTimeout: 300,
       };
     }
+    
+    // Fix for ESM modules in Ant Design
+    // This tells webpack to handle the @ant-design/icons as CommonJS
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@ant-design/icons': path.resolve(__dirname, 'node_modules/@ant-design/icons/lib'),
+    };
+    
     return config;
   },
   
@@ -73,6 +80,19 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  
+  // Transpile modules
+  transpilePackages: [
+    'antd',
+    '@ant-design/icons',
+    '@ant-design/icons-svg',
+    'rc-util',
+    'rc-pagination',
+    'rc-picker',
+    'rc-table',
+    'rc-tree',
+    'rc-select'
+  ],
 };
 
 module.exports = nextConfig;
