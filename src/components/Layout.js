@@ -2,21 +2,24 @@ import Head from 'next/head';
 import { AppProvider } from './context/AppContext';
 import Header from './Header';
 import Footer from './Footer';
-import client, { getApolloClient } from './ApolloClient';
+import { initializeApollo } from './ApolloClient';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import { ApolloProvider } from '@apollo/client';
-import React from 'react';
+import React, { useMemo } from 'react';
 import Subscribe from './home/subscriber';
 import ErrorBoundary from './ErrorBoundary';
 
-Router.events.on('routeChangeStart', () => NProgress.start());
-Router.events.on('routeChangeComplete', () => NProgress.done());
-Router.events.on('routeChangeError', () => NProgress.done());
+// Use the Router events outside of the component to avoid excessive re-renders
+if (typeof window !== 'undefined') {
+  Router.events.on('routeChangeStart', () => NProgress.start());
+  Router.events.on('routeChangeComplete', () => NProgress.done());
+  Router.events.on('routeChangeError', () => NProgress.done());
+}
 
 const Layout = (props) => {
-  // Use React.useMemo to ensure client doesn't change between renders
-  const apolloClient = React.useMemo(() => client, []);
+  // Initialize Apollo with useMemo to prevent unnecessary recreations
+  const apolloClient = useMemo(() => initializeApollo(), []);
   
   return (
     <ErrorBoundary>
