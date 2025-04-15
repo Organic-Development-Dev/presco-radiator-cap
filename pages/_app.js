@@ -108,6 +108,19 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
+        {/* Critical CSS for mobile */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            @media (max-width: 767px) {
+              #banner button { width: 8px !important; height: 8px !important; padding: 0 !important; }
+              .footer [style*="cursor: pointer"] { min-height: 44px !important; padding: 12px 8px !important; }
+              .text-center [style*="borderRadius: 50%"] { cursor: pointer !important; }
+              .action-button button { min-height: 44px !important; min-width: 100px !important; }
+              .footer .md\\:w-64.flex.gap-8 { display: flex !important; justify-content: space-between !important; }
+              .container { padding-left: 16px !important; padding-right: 16px !important; }
+            }
+          `
+        }} />
         {/* Script to detect modern browsers and serve specific JavaScript */}
         <script
           dangerouslySetInnerHTML={{
@@ -118,6 +131,19 @@ function MyApp({ Component, pageProps }) {
                               'fetch' in window && 
                               'CustomEvent' in window;
                 document.documentElement.className = isModern ? 'modern-browser' : 'legacy-browser';
+                
+                // Add mobile detection class
+                var isMobile = window.innerWidth < 768 || 
+                              window.matchMedia('(max-width: 767px)').matches ||
+                              (('ontouchstart' in window) && window.innerWidth < 1024);
+                if (isMobile) {
+                  document.documentElement.classList.add('is-mobile-device');
+                  // Force repaint to ensure styles are applied
+                  document.body && (document.body.style.opacity = '0.99');
+                  setTimeout(function() {
+                    document.body && (document.body.style.opacity = '1');
+                  }, 10);
+                }
               })();
             `,
           }}
