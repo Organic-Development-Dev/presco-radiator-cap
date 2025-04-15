@@ -64,21 +64,23 @@ function OurProducts() {
             <div className='text-center'>
               <div
                 style={{ width: product.width ?? 150, height: 140 }}
-                className='rounded-full mx-auto'
+                className='rounded-full mx-auto cursor-pointer'
+                onClick={() => window.location.href = product.href}
               >
                 <img
                   src={`/img/${product.image}`}
-                  alt='product'
+                  alt={product.name}
                   width={180}
                   height={150}
                   style={{ objectFit: 'cover' }}
                 />
               </div>
               <div
-                className='font-extrabold text-xl py-4 uppercase'
+                className='font-extrabold text-xl py-4 uppercase cursor-pointer'
                 style={{ color: 'var(--primary-color)' }}
+                onClick={() => window.location.href = product.href}
               >
-                <Link href={`${product.href}`}>{product.name}</Link>
+                {product.name}
               </div>
               <div
                 style={{ color: '#3A3A3A' }}
@@ -86,14 +88,13 @@ function OurProducts() {
                 dangerouslySetInnerHTML={{ __html: product.desc }}
               />
               <div className='action-button'>
-                <Link href={`${product.href}`}>
-                  <a
-                    className='rounded-full px-2 py-1 text-white text-xs'
-                    style={{ backgroundColor: 'var(--primary-color)' }}
-                  >
-                    View More
-                  </a>
-                </Link>
+                <button
+                  onClick={() => window.location.href = product.href}
+                  className='rounded-full px-4 py-2 text-white text-xs'
+                  style={{ backgroundColor: 'var(--primary-color)', cursor: 'pointer' }}
+                >
+                  View More
+                </button>
               </div>
             </div>
 
