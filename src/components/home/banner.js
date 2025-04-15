@@ -42,32 +42,31 @@ function Banner() {
       backgroundColor: '#f5f5f5',
     }}>
       {/* Current slide with proper Link */}
-      <Link href={slides[currentSlide].link} passHref>
-        <a
+      <Link 
+        href={slides[currentSlide].link}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          cursor: 'pointer',
+          zIndex: 10,
+          display: 'block'
+        }}
+      >
+        <img
+          src={slides[currentSlide].src}
+          alt={slides[currentSlide].alt}
           style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
             width: '100%',
             height: '100%',
-            cursor: 'pointer',
-            zIndex: 10,
-            display: 'block'
+            objectFit: 'cover',
+            position: 'absolute',
+            top: 0,
+            left: 0
           }}
-        >
-          <img
-            src={slides[currentSlide].src}
-            alt={slides[currentSlide].alt}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              position: 'absolute',
-              top: 0,
-              left: 0
-            }}
-          />
-        </a>
+        />
       </Link>
       
       {/* Navigation dots */}

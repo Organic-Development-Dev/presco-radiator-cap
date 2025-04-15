@@ -74,46 +74,47 @@ function OurProducts() {
               backgroundColor: 'rgba(255, 255, 255, 0.2)',
               maxWidth: '100%'
             }}>
-              <Link href={product.href} passHref>
-                <a className="block w-full">
-                  <div
+              <Link 
+                href={product.href}
+                className="block w-full"
+              >
+                <div
+                  style={{
+                    width: product.width ?? 150,
+                    height: 140,
+                    margin: '0 auto',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    border: '3px solid transparent',
+                    transition: 'all 0.3s ease',
+                    position: 'relative'
+                  }}
+                  className="hover:border-primary"
+                >
+                  <img
+                    src={`/img/${product.image}`}
+                    alt={product.name}
+                    width={180}
+                    height={150}
                     style={{
-                      width: product.width ?? 150,
-                      height: 140,
-                      margin: '0 auto',
-                      borderRadius: '50%',
-                      overflow: 'hidden',
-                      cursor: 'pointer',
-                      border: '3px solid transparent',
-                      transition: 'all 0.3s ease',
-                      position: 'relative'
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '50%'
                     }}
-                    className="hover:border-primary"
-                  >
-                    <img
-                      src={`/img/${product.image}`}
-                      alt={product.name}
-                      width={180}
-                      height={150}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        borderRadius: '50%'
-                      }}
-                    />
-                  </div>
-                  
-                  <div
-                    className='font-extrabold text-xl py-4 uppercase'
-                    style={{
-                      color: 'var(--primary-color)',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {product.name}
-                  </div>
-                </a>
+                  />
+                </div>
+                
+                <div
+                  className='font-extrabold text-xl py-4 uppercase'
+                  style={{
+                    color: 'var(--primary-color)',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {product.name}
+                </div>
               </Link>
               
               <div
@@ -123,17 +124,16 @@ function OurProducts() {
               />
               
               <div className='action-button'>
-                <Link href={product.href} passHref>
-                  <a
-                    className='rounded-full text-white text-xs inline-block'
-                    style={{
-                      backgroundColor: 'var(--primary-color)',
-                      cursor: 'pointer',
-                      padding: '8px 16px'
-                    }}
-                  >
-                    View More
-                  </a>
+                <Link 
+                  href={product.href}
+                  className='rounded-full text-white text-xs inline-block'
+                  style={{
+                    backgroundColor: 'var(--primary-color)',
+                    cursor: 'pointer',
+                    padding: '8px 16px'
+                  }}
+                >
+                  View More
                 </Link>
               </div>
             </div>
