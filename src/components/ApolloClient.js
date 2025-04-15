@@ -1,6 +1,3 @@
-// Use built-in fetch for client side and node-fetch for server side
-const customFetch = typeof window !== 'undefined' ? window.fetch.bind(window) : require('node-fetch');
-
 import {
   ApolloClient,
   ApolloLink,
@@ -13,49 +10,59 @@ import { isEmpty } from 'lodash';
 import { onError } from '@apollo/client/link/error';
 import { getSessionToken } from '../utils/configql';
 
+// Use built-in fetch for client side and node-fetch for server side
+const customFetch = typeof window !== 'undefined' 
+  ? window.fetch.bind(window) 
+  : (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
 /**
  * Middleware operation
  * If we have a session token in localStorage, add it to the GraphQL request as a Session header.
  */
 export const middleware = new ApolloLink((operation, forward) => {
-  let headersData = null;
+  // Safe localStorage access that works in SSR and CSR
+  const getLocalStorageItem = (key) => {
+    if (typeof window === 'undefined') return null;
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(`Error reading localStorage key "${key}":`, e);
+      }
+      return null;
+    }
+  };
 
-  /**
-   * If session data exist in local storage, set value as session header.
-   */
-  const session = process.browser ? localStorage.getItem('woo-session') : null;
-
+  // Initialize headers object
+  let headersToAdd = {};
+  
+  // Get session from localStorage safely
+  const session = getLocalStorageItem('woo-session');
   if (session) {
+    headersToAdd['woocommerce-session'] = `Session ${session}`;
+  }
+
+  // Get auth token from localStorage safely
+  try {
+    const auth = getLocalStorageItem('auth') ? JSON.parse(getLocalStorageItem('auth')) : null;
+    const token = !isEmpty(auth) ? auth.authToken : null;
+    
+    if (!isEmpty(token)) {
+      headersToAdd.authorization = `Bearer ${token}`;
+    }
+  } catch (e) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn('Error parsing auth data:', e);
+    }
+  }
+
+  // Apply headers if we have any to add
+  if (!isEmpty(headersToAdd)) {
     operation.setContext(({ headers = {} }) => ({
       headers: {
-        'woocommerce-session': `Session ${session}`,
-      },
-    }));
-  }
-
-  /**
-   * If auth token exist in local storage, set value as authorization header.
-   */
-  const auth = process.browser
-    ? JSON.parse(localStorage.getItem('auth'))
-    : null;
-  const token = !isEmpty(auth) ? auth.authToken : null;
-
-  // Remove console log in production to avoid performance issues
-  if (process.env.NODE_ENV !== 'production' && token) {
-    console.log('Auth token available'); // More secure logging
-  }
-
-  if (!isEmpty(token)) {
-    headersData = {
-      ...headersData,
-      authorization: token ? `Bearer ${token}` : '',
-    };
-  }
-
-  if (!isEmpty(headersData)) {
-    operation.setContext(({ headers = {} }) => ({
-      headers: headersData,
+        ...headers,
+        ...headersToAdd
+      }
     }));
   }
 
@@ -131,27 +138,68 @@ export const createErrorLink = onError(
 
 export const afterware = new ApolloLink((operation, forward) => {
   return forward(operation).map((response) => {
-    if (!process.browser) {
+    // Only run in browser environment 
+    if (typeof window === 'undefined') {
       return response;
     }
+
+    // Safe localStorage operations
+    const safeLocalStorage = {
+      setItem: (key, value) => {
+        try {
+          localStorage.setItem(key, value);
+        } catch (e) {
+          if (process.env.NODE_ENV !== 'production') {
+            console.warn(`Error writing to localStorage key "${key}":`, e);
+          }
+        }
+      },
+      removeItem: (key) => {
+        try {
+          localStorage.removeItem(key);
+        } catch (e) {
+          if (process.env.NODE_ENV !== 'production') {
+            console.warn(`Error removing localStorage key "${key}":`, e);
+          }
+        }
+      },
+      getItem: (key) => {
+        try {
+          return localStorage.getItem(key);
+        } catch (e) {
+          if (process.env.NODE_ENV !== 'production') {
+            console.warn(`Error reading localStorage key "${key}":`, e);
+          }
+          return null;
+        }
+      }
+    };
 
     /**
      * Check for session header and update session in local storage accordingly.
      */
-    const context = operation.getContext();
-    const {
-      response: { headers },
-    } = context;
-    const session = headers.get('woocommerce-session');
-
-    if (session) {
-      // Remove session data if session destroyed.
-      if ('false' === session) {
-        localStorage.removeItem('woo-session');
-
-        // Update session new data if changed.
-      } else if (localStorage.getItem('woo-session') !== session) {
-        localStorage.setItem('woo-session', headers.get('woocommerce-session'));
+    try {
+      const context = operation.getContext();
+      const { response: { headers } } = context;
+      
+      // Safe access to headers
+      if (headers && typeof headers.get === 'function') {
+        const session = headers.get('woocommerce-session');
+  
+        if (session) {
+          // Remove session data if session destroyed.
+          if (session === 'false') {
+            safeLocalStorage.removeItem('woo-session');
+          }
+          // Update session new data if changed.
+          else if (safeLocalStorage.getItem('woo-session') !== session) {
+            safeLocalStorage.setItem('woo-session', session);
+          }
+        }
+      }
+    } catch (error) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Error in Apollo afterware:', error);
       }
     }
 
@@ -209,21 +257,31 @@ export function getApolloClient() {
   });
 }
 
-// Singleton instance for client side
+// Singleton pattern for Apollo Client that's compatible with Next.js 14 and React 18
 let apolloClient = null;
 
-// Get the singleton instance
-function initializeApollo() {
-  // Create a new client if none exists
-  if (!apolloClient) {
-    apolloClient = getApolloClient();
+export function initializeApollo(initialState = null) {
+  const _apolloClient = apolloClient ?? getApolloClient();
+
+  // If your page has Next.js data fetching methods that use Apollo Client,
+  // the initial state gets hydrated here
+  if (initialState) {
+    // Get existing cache, loaded during client-side data fetching
+    const existingCache = _apolloClient.extract();
+
+    // Restore the cache using the data passed from getStaticProps/getServerSideProps
+    // combined with the existing cached data
+    _apolloClient.cache.restore({ ...existingCache, ...initialState });
   }
-  return apolloClient;
+
+  // For SSG and SSR always create a new Apollo Client
+  if (typeof window === 'undefined') return _apolloClient;
+  
+  // Create the Apollo Client once in the client
+  if (!apolloClient) apolloClient = _apolloClient;
+
+  return _apolloClient;
 }
 
-// Export a singleton client instance
-// During server-side rendering, create a new client each time to avoid shared cache issues
-// During client-side rendering, use the singleton pattern
-const client = typeof window !== 'undefined' ? initializeApollo() : getApolloClient();
-
-export default client;
+// Export the initialized Apollo Client
+export default initializeApollo();
