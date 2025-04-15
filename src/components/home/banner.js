@@ -68,11 +68,30 @@ function Banner() {
       </div>
       
       {/* Simple navigation dots */}
-      <div className="banner-dots">
+      <div className="banner-dots" style={{
+        position: 'absolute',
+        bottom: '16px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        display: 'flex',
+        zIndex: 20
+      }}>
         {slides.map((_, index) => (
           <button
             key={index}
             className={`banner-dot ${currentSlide === index ? 'active' : ''}`}
+            style={{
+              width: '8px',
+              height: '8px',
+              margin: '0 5px',
+              borderRadius: '50%',
+              backgroundColor: currentSlide === index ? '#A11A36' : 'rgba(255,255,255,0.5)',
+              cursor: 'pointer',
+              border: 'none',
+              padding: 0,
+              transition: 'background-color 0.3s',
+              touchAction: 'manipulation'
+            }}
             onClick={() => goToSlide(index)}
             aria-label={`Go to slide ${index + 1}`}
           />
