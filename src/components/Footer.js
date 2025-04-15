@@ -27,20 +27,23 @@ const Footer = () => {
                   />
                 </div>
                 <div className="md:w-64 flex gap-8 justify-between sm:justify-start mt-4">
-                  <Link href="https://facebook.com" passHref>
-                    <a style={{ minHeight: '36px', display: 'flex', alignItems: 'center' }}>
-                      <SvgFacebook />
-                    </a>
+                  <Link 
+                    href="https://facebook.com" 
+                    style={{ minHeight: '36px', display: 'flex', alignItems: 'center' }}
+                  >
+                    <SvgFacebook />
                   </Link>
-                  <Link href="https://twitter.com" passHref>
-                    <a style={{ minHeight: '36px', display: 'flex', alignItems: 'center' }}>
-                      <SvgTwitter />
-                    </a>
+                  <Link 
+                    href="https://twitter.com" 
+                    style={{ minHeight: '36px', display: 'flex', alignItems: 'center' }}
+                  >
+                    <SvgTwitter />
                   </Link>
-                  <Link href="https://instagram.com" passHref>
-                    <a style={{ minHeight: '36px', display: 'flex', alignItems: 'center' }}>
-                      <SvgInstagram />
-                    </a>
+                  <Link 
+                    href="https://instagram.com" 
+                    style={{ minHeight: '36px', display: 'flex', alignItems: 'center' }}
+                  >
+                    <SvgInstagram />
                   </Link>
                 </div>
               </div>
@@ -73,31 +76,35 @@ const Footer = () => {
                       OUR PRODUCT
                     </div>
                     <div>
-                      <Link href="/product-category/auto" passHref>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>
-                          Europe Auto
-                        </a>
+                      <Link 
+                        href="/product-category/auto" 
+                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
+                      >
+                        Europe Auto
                       </Link>
                     </div>
                     <div>
-                      <Link href="/product-category/japanese-caps" passHref>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>
-                          Japanese Auto
-                        </a>
+                      <Link 
+                        href="/product-category/japanese-caps" 
+                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
+                      >
+                        Japanese Auto
                       </Link>
                     </div>
                     <div>
-                      <Link href="/product-category/agricultural" passHref>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>
-                          Agricultural
-                        </a>
+                      <Link 
+                        href="/product-category/agricultural" 
+                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
+                      >
+                        Agricultural
                       </Link>
                     </div>
                     <div>
-                      <Link href="/product-category/commercial-caps" passHref>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>
-                          Trucks & Commercials
-                        </a>
+                      <Link 
+                        href="/product-category/commercial-caps" 
+                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
+                      >
+                        Trucks & Commercials
                       </Link>
                     </div>
                   </div>
@@ -108,59 +115,67 @@ const Footer = () => {
                       IMPORTANT LINKS
                     </div>
                     <div>
-                      <Link href="/packaging" passHref>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>
-                          Packaging
-                        </a>
+                      <Link 
+                        href="/packaging" 
+                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
+                      >
+                        Packaging
                       </Link>
                     </div>
                     <div>
-                      <Link href="/inspection-testing" passHref>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>
-                          Inspection & Testing
-                        </a>
+                      <Link 
+                        href="/inspection-testing" 
+                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
+                      >
+                        Inspection & Testing
                       </Link>
                     </div>
                     <div>
-                      <Link href="/about-us" passHref>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>
-                          About Us
-                        </a>
+                      <Link 
+                        href="/about-us" 
+                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
+                      >
+                        About Us
                       </Link>
                     </div>
                     <div>
-                      <Link href="/news" passHref>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>
-                          Blog
-                        </a>
+                      <Link 
+                        href="/news" 
+                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
+                      >
+                        Blog
                       </Link>
                     </div>
                     <div>
-                      <Link href="/contact-us" passHref>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>
-                          Contact Us
-                        </a>
+                      <Link 
+                        href="/contact-us" 
+                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
+                      >
+                        Contact Us
                       </Link>
                     </div>
                     <div>
-                      <Link href="/privacy-policy" passHref>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>
-                          Privacy Policy
-                        </a>
+                      <Link 
+                        href="/privacy-policy" 
+                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
+                      >
+                        Privacy Policy
                       </Link>
                     </div>
                     <div>
-                      <Link href="/terms-and-conditions" passHref>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>
-                          Terms and Conditions
-                        </a>
+                      <Link 
+                        href="/terms-and-conditions" 
+                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
+                      >
+                        Terms and Conditions
                       </Link>
                     </div>
                     <div>
-                      <Link href="/disclaimer" passHref>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>
-                          Disclaimer
-                        </a>
+                      <Link 
+                        href="/disclaimer" 
+                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
+                      >
+                        Disclaimer
                       </Link>
                     </div>
                   </div>

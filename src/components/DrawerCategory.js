@@ -134,21 +134,20 @@ function DrawerCategory(props) {
           <div key={nav.tab} style={{ marginBottom: '16px' }}>
             {/* Main navigation item */}
             {nav.name && (
-              <Link href={nav.slug} passHref>
-                <a
-                  onClick={handleLinkClick}
-                  style={{
-                    color: 'var(--primary-color)',
-                    fontWeight: 600,
-                    textTransform: 'uppercase',
-                    fontSize: '18px',
-                    padding: '12px 16px',
-                    cursor: 'pointer',
-                    display: 'block'
-                  }}
-                >
-                  {nav.name}
-                </a>
+              <Link 
+                href={nav.slug}
+                onClick={handleLinkClick}
+                style={{
+                  color: 'var(--primary-color)',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  fontSize: '18px',
+                  padding: '12px 16px',
+                  cursor: 'pointer',
+                  display: 'block'
+                }}
+              >
+                {nav.name}
               </Link>
             )}
             
@@ -190,18 +189,17 @@ function DrawerCategory(props) {
                           cursor: 'pointer'
                         }}
                       >
-                        <Link href={item.slug} passHref>
-                          <a 
-                            onClick={handleLinkClick}
-                            style={{
-                              color: 'var(--primary-color)',
-                              padding: '12px 8px',
-                              display: 'block',
-                              width: '100%'
-                            }}
-                          >
-                            {item.name}
-                          </a>
+                        <Link 
+                          href={item.slug}
+                          onClick={handleLinkClick}
+                          style={{
+                            color: 'var(--primary-color)',
+                            padding: '12px 8px',
+                            display: 'block',
+                            width: '100%'
+                          }}
+                        >
+                          {item.name}
                         </Link>
                       </li>
                     ))}
