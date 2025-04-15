@@ -1,8 +1,9 @@
 import { Divider } from 'antd';
+import Image from 'next/image';
 import { Fragment, useEffect, useState } from 'react';
+import Link from 'next/link';
 import GET_PAGE_BY_ID from '../../queries/get-page-by-title';
 import client from '../ApolloClient';
-import { useRouter } from 'next/router';
 
 // Product data
 const dataProducts = [
@@ -40,12 +41,6 @@ const dataProducts = [
 
 function OurProducts() {
   const [data, setData] = useState(null);
-  const router = useRouter();
-  
-  // Navigation handler
-  const handleNavigation = (url) => {
-    router.push(url);
-  };
   
   useEffect(() => {
     (async () => {
@@ -79,88 +74,67 @@ function OurProducts() {
               backgroundColor: 'rgba(255, 255, 255, 0.2)',
               maxWidth: '100%'
             }}>
-              {/* Image - made clickable */}
-              <div
-                onClick={() => handleNavigation(product.href)}
-                style={{
-                  width: product.width ?? 150,
-                  height: 140,
-                  margin: '0 auto',
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  cursor: 'pointer',
-                  border: '3px solid transparent',
-                  transition: 'all 0.3s ease',
-                  position: 'relative'
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.borderColor = '#A11A36';
-                  e.currentTarget.style.transform = 'scale(1.05)';
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.borderColor = 'transparent';
-                  e.currentTarget.style.transform = 'scale(1)';
-                }}
-              >
-                <img
-                  src={`/img/${product.image}`}
-                  alt={product.name}
-                  width={180}
-                  height={150}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    borderRadius: '50%'
-                  }}
-                />
-              </div>
+              <Link href={product.href} passHref>
+                <a className="block w-full">
+                  <div
+                    style={{
+                      width: product.width ?? 150,
+                      height: 140,
+                      margin: '0 auto',
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      cursor: 'pointer',
+                      border: '3px solid transparent',
+                      transition: 'all 0.3s ease',
+                      position: 'relative'
+                    }}
+                    className="hover:border-primary"
+                  >
+                    <img
+                      src={`/img/${product.image}`}
+                      alt={product.name}
+                      width={180}
+                      height={150}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: '50%'
+                      }}
+                    />
+                  </div>
+                  
+                  <div
+                    className='font-extrabold text-xl py-4 uppercase'
+                    style={{
+                      color: 'var(--primary-color)',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {product.name}
+                  </div>
+                </a>
+              </Link>
               
-              {/* Title - made clickable */}
-              <div
-                onClick={() => handleNavigation(product.href)}
-                className='font-extrabold text-xl py-4 uppercase'
-                style={{
-                  color: 'var(--primary-color)',
-                  cursor: 'pointer',
-                  transition: 'color 0.3s ease'
-                }}
-                onMouseOver={(e) => e.currentTarget.style.color = '#d23651'} 
-                onMouseOut={(e) => e.currentTarget.style.color = 'var(--primary-color)'}
-              >
-                {product.name}
-              </div>
-              
-              {/* Description */}
               <div
                 style={{ color: '#3A3A3A' }}
                 className='text-xs pb-4'
                 dangerouslySetInnerHTML={{ __html: product.desc }}
               />
               
-              {/* Button - made more prominent */}
               <div className='action-button'>
-                <button
-                  onClick={() => handleNavigation(product.href)}
-                  className='rounded-full text-white text-xs'
-                  style={{
-                    backgroundColor: 'var(--primary-color)',
-                    cursor: 'pointer',
-                    padding: '8px 16px',
-                    border: 'none',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = '#d23651';
-                    e.currentTarget.style.transform = 'scale(1.05)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = 'var(--primary-color)';
-                    e.currentTarget.style.transform = 'scale(1)';
-                  }}
-                >
-                  View More
-                </button>
+                <Link href={product.href} passHref>
+                  <a
+                    className='rounded-full text-white text-xs inline-block'
+                    style={{
+                      backgroundColor: 'var(--primary-color)',
+                      cursor: 'pointer',
+                      padding: '8px 16px'
+                    }}
+                  >
+                    View More
+                  </a>
+                </Link>
               </div>
             </div>
 
