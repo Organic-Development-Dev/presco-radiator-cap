@@ -67,16 +67,24 @@ const Footer = () => {
                       OUR PRODUCT
                     </div>
                     <div>
-                      <Link href='/product-category/auto'>Europe Auto</Link>
+                      <Link href='/product-category/auto'>
+                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Europe Auto</a>
+                      </Link>
                     </div>
                     <div>
-                      <Link href='/product-category/japanese-caps'>Japanese Auto</Link>
+                      <Link href='/product-category/japanese-caps'>
+                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Japanese Auto</a>
+                      </Link>
                     </div>
                     <div>
-                      <Link href='/product-category/agricultural'>Agricultural</Link>
+                      <Link href='/product-category/agricultural'>
+                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Agricultural</a>
+                      </Link>
                     </div>
                     <div>
-                      <Link href='/product-category/commercial-caps'>Trucks & Commercials</Link>
+                      <Link href='/product-category/commercial-caps'>
+                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Trucks & Commercials</a>
+                      </Link>
                     </div>
                   </div>
                 </Col>
@@ -86,27 +94,44 @@ const Footer = () => {
                       IMPORTANT LINKS
                     </div>
                     <div>
-                      <Link href='/packaging'>Packaging</Link>
+                      <Link href='/packaging'>
+                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Packaging</a>
+                      </Link>
                     </div>
                     <div>
-                      <Link href='/inspection-testing'>Inspection & Testing</Link>
+                      <Link href='/inspection-testing'>
+                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Inspection & Testing</a>
+                      </Link>
                     </div>
                     <div>
-                      <Link href='/about-us'>About Us</Link>
+                      <Link href='/about-us'>
+                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>About Us</a>
+                      </Link>
                     </div>
                     <div>
-                      <Link href='/news'>Blog</Link>
+                      <Link href='/news'>
+                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Blog</a>
+                      </Link>
                     </div>
                     <div>
-                      <Link href='/contact-us'>Contact Us</Link>
+                      <Link href='/contact-us'>
+                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Contact Us</a>
+                      </Link>
                     </div>
                     <div>
-                      <Link href='/privacy-policy'>Privacy Policy</Link>
-                    </div>
-                    <div><Link href='/terms-and-conditions'>Terms and Conditions</Link>
+                      <Link href='/privacy-policy'>
+                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Privacy Policy</a>
+                      </Link>
                     </div>
                     <div>
-                      <Link href='/disclaimer'>Disclaimer</Link>
+                      <Link href='/terms-and-conditions'>
+                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Terms and Conditions</a>
+                      </Link>
+                    </div>
+                    <div>
+                      <Link href='/disclaimer'>
+                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Disclaimer</a>
+                      </Link>
                     </div>
                   </div>
                 </Col>

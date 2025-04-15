@@ -63,16 +63,36 @@ function OurProducts() {
           <Fragment key={product.name}>
             <div className='text-center'>
               <div
-                style={{ width: product.width ?? 150, height: 140 }}
-                className='rounded-full mx-auto cursor-pointer'
+                style={{ 
+                  width: product.width ?? 150, 
+                  height: 140,
+                  cursor: 'pointer',
+                  position: 'relative',
+                  zIndex: 2,
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  border: '3px solid transparent',
+                  transition: 'border-color 0.3s' 
+                }}
+                className='mx-auto'
                 onClick={() => window.location.href = product.href}
+                onMouseOver={(e) => e.currentTarget.style.borderColor = '#A11A36'}
+                onMouseOut={(e) => e.currentTarget.style.borderColor = 'transparent'}
               >
                 <img
                   src={`/img/${product.image}`}
                   alt={product.name}
                   width={180}
                   height={150}
-                  style={{ objectFit: 'cover' }}
+                  style={{ 
+                    objectFit: 'cover',
+                    width: '100%',
+                    height: '100%',
+                    transition: 'transform 0.3s',
+                    borderRadius: '50%'
+                  }}
+                  onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                  onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 />
               </div>
               <div
