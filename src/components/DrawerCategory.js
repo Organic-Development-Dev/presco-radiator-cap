@@ -1,7 +1,7 @@
 import { Drawer } from 'antd';
 import CloseIcon from './icons/Close';
 import { useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 // Data for navigation
 const dataNavs = [
@@ -90,13 +90,15 @@ const dataNavs = [
 function DrawerCategory(props) {
   const { open, onClose } = props;
   const [expandedKeys, setExpandedKeys] = useState([]);
+  const router = useRouter();
 
-  // Handle link click to close drawer
-  const handleLinkClick = () => {
+  // Handle navigation with direct router.push
+  const handleNavigation = (url) => {
     onClose();
+    router.push(url);
   };
 
-  // Toggle section
+  // Toggle section expansion
   const toggleSection = (key) => {
     if (expandedKeys.includes(key)) {
       setExpandedKeys(expandedKeys.filter(k => k !== key));
@@ -134,9 +136,8 @@ function DrawerCategory(props) {
           <div key={nav.tab} style={{ marginBottom: '16px' }}>
             {/* Main navigation item */}
             {nav.name && (
-              <Link 
-                href={nav.slug}
-                onClick={handleLinkClick}
+              <div
+                onClick={() => handleNavigation(nav.slug)}
                 style={{
                   color: 'var(--primary-color)',
                   fontWeight: 600,
@@ -144,11 +145,10 @@ function DrawerCategory(props) {
                   fontSize: '18px',
                   padding: '12px 16px',
                   cursor: 'pointer',
-                  display: 'block'
                 }}
               >
                 {nav.name}
-              </Link>
+              </div>
             )}
             
             {/* Subcategories */}
@@ -183,24 +183,14 @@ function DrawerCategory(props) {
                     {section.children.map((item) => (
                       <li
                         key={item.name}
+                        onClick={() => handleNavigation(item.slug)}
                         style={{
                           color: 'var(--primary-color)',
-                          padding: '0',
+                          padding: '12px 8px',
                           cursor: 'pointer'
                         }}
                       >
-                        <Link 
-                          href={item.slug}
-                          onClick={handleLinkClick}
-                          style={{
-                            color: 'var(--primary-color)',
-                            padding: '12px 8px',
-                            display: 'block',
-                            width: '100%'
-                          }}
-                        >
-                          {item.name}
-                        </Link>
+                        {item.name}
                       </li>
                     ))}
                   </ul>

@@ -1,14 +1,18 @@
 import { Col, Row } from "antd";
-import { Facebook, Instagram, Tiktok, Twitter, Youtube } from "./icons";
-import Link from "next/link";
-import Image from "next/image";
 import SvgFacebook from "./icons/Facebook";
 import SvgTwitter from "./icons/Twitter";
 import SvgInstagram from "./icons/Instagram";
+import Image from "next/image";
 import { useRouter } from "next/router";
 
 const Footer = () => {
   const router = useRouter();
+  
+  // Direct navigation handler
+  const handleNavigate = (url) => {
+    router.push(url);
+  };
+
   return (
     <div className="footer text-white font-thin cursor-pointer">
       <div style={{ backgroundColor: "#4C4C4C" }}>
@@ -27,24 +31,24 @@ const Footer = () => {
                   />
                 </div>
                 <div className="md:w-64 flex gap-8 justify-between sm:justify-start mt-4">
-                  <Link 
-                    href="https://facebook.com" 
-                    style={{ minHeight: '36px', display: 'flex', alignItems: 'center' }}
+                  <div 
+                    onClick={() => window.open('https://facebook.com', '_blank')}
+                    style={{ minHeight: '36px', display: 'flex', alignItems: 'center', cursor: 'pointer' }}
                   >
                     <SvgFacebook />
-                  </Link>
-                  <Link 
-                    href="https://twitter.com" 
-                    style={{ minHeight: '36px', display: 'flex', alignItems: 'center' }}
+                  </div>
+                  <div 
+                    onClick={() => window.open('https://twitter.com', '_blank')}
+                    style={{ minHeight: '36px', display: 'flex', alignItems: 'center', cursor: 'pointer' }}
                   >
                     <SvgTwitter />
-                  </Link>
-                  <Link 
-                    href="https://instagram.com" 
-                    style={{ minHeight: '36px', display: 'flex', alignItems: 'center' }}
+                  </div>
+                  <div 
+                    onClick={() => window.open('https://instagram.com', '_blank')}
+                    style={{ minHeight: '36px', display: 'flex', alignItems: 'center', cursor: 'pointer' }}
                   >
                     <SvgInstagram />
-                  </Link>
+                  </div>
                 </div>
               </div>
             </Col>
@@ -76,36 +80,28 @@ const Footer = () => {
                       OUR PRODUCT
                     </div>
                     <div>
-                      <Link 
-                        href="/product-category/auto" 
-                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
-                      >
+                      <div onClick={() => handleNavigate('/product-category/auto')} 
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
                         Europe Auto
-                      </Link>
+                      </div>
                     </div>
                     <div>
-                      <Link 
-                        href="/product-category/japanese-caps" 
-                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
-                      >
+                      <div onClick={() => handleNavigate('/product-category/japanese-caps')} 
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
                         Japanese Auto
-                      </Link>
+                      </div>
                     </div>
                     <div>
-                      <Link 
-                        href="/product-category/agricultural" 
-                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
-                      >
+                      <div onClick={() => handleNavigate('/product-category/agricultural')} 
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
                         Agricultural
-                      </Link>
+                      </div>
                     </div>
                     <div>
-                      <Link 
-                        href="/product-category/commercial-caps" 
-                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
-                      >
+                      <div onClick={() => handleNavigate('/product-category/commercial-caps')} 
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
                         Trucks & Commercials
-                      </Link>
+                      </div>
                     </div>
                   </div>
                 </Col>
@@ -115,68 +111,52 @@ const Footer = () => {
                       IMPORTANT LINKS
                     </div>
                     <div>
-                      <Link 
-                        href="/packaging" 
-                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
-                      >
+                      <div onClick={() => handleNavigate('/packaging')}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
                         Packaging
-                      </Link>
+                      </div>
                     </div>
                     <div>
-                      <Link 
-                        href="/inspection-testing" 
-                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
-                      >
+                      <div onClick={() => handleNavigate('/inspection-testing')}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
                         Inspection & Testing
-                      </Link>
+                      </div>
                     </div>
                     <div>
-                      <Link 
-                        href="/about-us" 
-                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
-                      >
+                      <div onClick={() => handleNavigate('/about-us')}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
                         About Us
-                      </Link>
+                      </div>
                     </div>
                     <div>
-                      <Link 
-                        href="/news" 
-                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
-                      >
+                      <div onClick={() => handleNavigate('/news')}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
                         Blog
-                      </Link>
+                      </div>
                     </div>
                     <div>
-                      <Link 
-                        href="/contact-us" 
-                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
-                      >
+                      <div onClick={() => handleNavigate('/contact-us')}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
                         Contact Us
-                      </Link>
+                      </div>
                     </div>
                     <div>
-                      <Link 
-                        href="/privacy-policy" 
-                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
-                      >
+                      <div onClick={() => handleNavigate('/privacy-policy')}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
                         Privacy Policy
-                      </Link>
+                      </div>
                     </div>
                     <div>
-                      <Link 
-                        href="/terms-and-conditions" 
-                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
-                      >
+                      <div onClick={() => handleNavigate('/terms-and-conditions')}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
                         Terms and Conditions
-                      </Link>
+                      </div>
                     </div>
                     <div>
-                      <Link 
-                        href="/disclaimer" 
-                        style={{display: 'block', padding: '8px 0', minHeight: '36px'}}
-                      >
+                      <div onClick={() => handleNavigate('/disclaimer')}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
                         Disclaimer
-                      </Link>
+                      </div>
                     </div>
                   </div>
                 </Col>
@@ -196,4 +176,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
