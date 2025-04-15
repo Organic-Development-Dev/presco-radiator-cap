@@ -67,24 +67,28 @@ const Footer = () => {
                       OUR PRODUCT
                     </div>
                     <div>
-                      <Link href='/product-category/auto'>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Europe Auto</a>
-                      </Link>
+                      <div onClick={() => window.location.href = '/product-category/auto'} 
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
+                        Europe Auto
+                      </div>
                     </div>
                     <div>
-                      <Link href='/product-category/japanese-caps'>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Japanese Auto</a>
-                      </Link>
+                      <div onClick={() => window.location.href = '/product-category/japanese-caps'} 
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
+                        Japanese Auto
+                      </div>
                     </div>
                     <div>
-                      <Link href='/product-category/agricultural'>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Agricultural</a>
-                      </Link>
+                      <div onClick={() => window.location.href = '/product-category/agricultural'} 
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
+                        Agricultural
+                      </div>
                     </div>
                     <div>
-                      <Link href='/product-category/commercial-caps'>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Trucks & Commercials</a>
-                      </Link>
+                      <div onClick={() => window.location.href = '/product-category/commercial-caps'} 
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
+                        Trucks & Commercials
+                      </div>
                     </div>
                   </div>
                 </Col>
@@ -94,44 +98,52 @@ const Footer = () => {
                       IMPORTANT LINKS
                     </div>
                     <div>
-                      <Link href='/packaging'>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Packaging</a>
-                      </Link>
+                      <div onClick={() => window.location.href = '/packaging'}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
+                        Packaging
+                      </div>
                     </div>
                     <div>
-                      <Link href='/inspection-testing'>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Inspection & Testing</a>
-                      </Link>
+                      <div onClick={() => window.location.href = '/inspection-testing'}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
+                        Inspection & Testing
+                      </div>
                     </div>
                     <div>
-                      <Link href='/about-us'>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>About Us</a>
-                      </Link>
+                      <div onClick={() => window.location.href = '/about-us'}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
+                        About Us
+                      </div>
                     </div>
                     <div>
-                      <Link href='/news'>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Blog</a>
-                      </Link>
+                      <div onClick={() => window.location.href = '/news'}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
+                        Blog
+                      </div>
                     </div>
                     <div>
-                      <Link href='/contact-us'>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Contact Us</a>
-                      </Link>
+                      <div onClick={() => window.location.href = '/contact-us'}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
+                        Contact Us
+                      </div>
                     </div>
                     <div>
-                      <Link href='/privacy-policy'>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Privacy Policy</a>
-                      </Link>
+                      <div onClick={() => window.location.href = '/privacy-policy'}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
+                        Privacy Policy
+                      </div>
                     </div>
                     <div>
-                      <Link href='/terms-and-conditions'>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Terms and Conditions</a>
-                      </Link>
+                      <div onClick={() => window.location.href = '/terms-and-conditions'}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
+                        Terms and Conditions
+                      </div>
                     </div>
                     <div>
-                      <Link href='/disclaimer'>
-                        <a style={{display: 'block', padding: '8px 0', minHeight: '36px'}}>Disclaimer</a>
-                      </Link>
+                      <div onClick={() => window.location.href = '/disclaimer'}
+                           style={{display: 'block', padding: '8px 0', minHeight: '36px', cursor: 'pointer'}}>
+                        Disclaimer
+                      </div>
                     </div>
                   </div>
                 </Col>

@@ -1,4 +1,4 @@
-import { Collapse, Drawer } from 'antd';
+import { Drawer } from 'antd';
 import CloseIcon from './icons/Close';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -45,7 +45,6 @@ const dataNavs = [
     ],
   },
   {
-    //name: 'Quality',
     tab: 2,
     slug: '/quality',
     children: [
@@ -61,7 +60,6 @@ const dataNavs = [
     ],
   },
   {
-    //name: 'About Us',
     tab: 3,
     slug: '/about-us',
     children: [
@@ -88,6 +86,7 @@ const dataNavs = [
   },
 ];
 
+// Simple drawer category component
 function DrawerCategory(props) {
   const { open, onClose } = props;
   const router = useRouter();
@@ -96,73 +95,16 @@ function DrawerCategory(props) {
   // Handle navigation
   const handleNavigation = (url) => {
     onClose();
-    router.push(url);
+    window.location.href = url;
   };
 
-  // Simplified drawer items to avoid complex nesting
-  const getCollapseItems = () => {
-    return dataNavs.map(nav => {
-      if (!nav.children) {
-        return (
-          <div key={nav.tab} className="mb-4">
-            <div
-              onClick={() => handleNavigation(nav.slug)}
-              style={{ color: 'var(--primary-color)' }}
-              className='font-semibold uppercase text-lg px-3 py-2 cursor-pointer'
-            >
-              {nav.name}
-            </div>
-          </div>
-        );
-      }
-
-      return (
-        <div key={nav.tab} className="mb-4">
-          {nav.name && (
-            <div
-              onClick={() => handleNavigation(nav.slug)}
-              style={{ color: 'var(--primary-color)' }}
-              className='font-semibold uppercase text-lg px-3 py-2 cursor-pointer'
-            >
-              {nav.name}
-            </div>
-          )}
-          
-          {nav.children && nav.children.map(section => (
-            <div key={section.key} className="mb-2">
-              <div
-                onClick={() => {
-                  const newKeys = expandedKeys.includes(section.key)
-                    ? expandedKeys.filter(k => k !== section.key)
-                    : [...expandedKeys, section.key];
-                  setExpandedKeys(newKeys);
-                }}
-                style={{ color: 'var(--primary-color)' }}
-                className='text-base cursor-pointer font-semibold uppercase px-3 py-2 flex justify-between'
-              >
-                <span>{section.name}</span>
-                <span>{expandedKeys.includes(section.key) ? '−' : '+'}</span>
-              </div>
-              
-              {expandedKeys.includes(section.key) && section.children && (
-                <ul className='pl-8 pb-2'>
-                  {section.children.map(item => (
-                    <li
-                      key={item.name}
-                      onClick={() => handleNavigation(item.slug)}
-                      style={{ color: 'var(--primary-color)' }}
-                      className='text-base cursor-pointer py-2 list-disc'
-                    >
-                      {item.name}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
-        </div>
-      );
-    });
+  // Toggle section
+  const toggleSection = (key) => {
+    if (expandedKeys.includes(key)) {
+      setExpandedKeys(expandedKeys.filter(k => k !== key));
+    } else {
+      setExpandedKeys([...expandedKeys, key]);
+    }
   };
 
   return (
@@ -172,17 +114,92 @@ function DrawerCategory(props) {
       onClose={onClose}
       closeIcon={null}
       placement='left'
+      width="85%"
       title={
         <div
           onClick={onClose}
-          className='p-1 rounded-lg inline-block float-right'
-          style={{ backgroundColor: 'var(--primary-color)' }}
+          style={{
+            backgroundColor: 'var(--primary-color)',
+            padding: '8px',
+            borderRadius: '8px',
+            float: 'right',
+            cursor: 'pointer'
+          }}
         >
           <CloseIcon fill='#fff' width={20} height={20} />
         </div>
       }
+      bodyStyle={{ padding: '10px 0' }}
     >
-      {getCollapseItems()}
+      <div>
+        {dataNavs.map((nav) => (
+          <div key={nav.tab} style={{ marginBottom: '16px' }}>
+            {/* Main navigation item */}
+            {nav.name && (
+              <div
+                onClick={() => handleNavigation(nav.slug)}
+                style={{
+                  color: 'var(--primary-color)',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  fontSize: '18px',
+                  padding: '12px 16px',
+                  cursor: 'pointer'
+                }}
+              >
+                {nav.name}
+              </div>
+            )}
+            
+            {/* Subcategories */}
+            {nav.children?.map((section) => (
+              <div key={section.key} style={{ marginBottom: '8px' }}>
+                {/* Section header */}
+                <div
+                  onClick={() => toggleSection(section.key)}
+                  style={{
+                    color: 'var(--primary-color)',
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    fontSize: '16px',
+                    padding: '12px 16px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}
+                >
+                  <span>{section.name}</span>
+                  <span>{expandedKeys.includes(section.key) ? '−' : '+'}</span>
+                </div>
+                
+                {/* Section items (only shown when expanded) */}
+                {expandedKeys.includes(section.key) && section.children && (
+                  <ul style={{ 
+                    listStyleType: 'disc', 
+                    paddingLeft: '32px',
+                    margin: '0'
+                  }}>
+                    {section.children.map((item) => (
+                      <li
+                        key={item.name}
+                        onClick={() => handleNavigation(item.slug)}
+                        style={{
+                          color: 'var(--primary-color)',
+                          padding: '12px 8px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {item.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </Drawer>
   );
 }

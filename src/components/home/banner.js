@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-// Ultra-simplified banner implementation to fix React errors
+// Simple banner component without Next.js Image or Link components
 function Banner() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const router = useRouter();
@@ -26,7 +25,7 @@ function Banner() {
     }
   ];
 
-  // Simple auto-rotation
+  // Auto-rotate slides
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -35,30 +34,38 @@ function Banner() {
     return () => clearInterval(timer);
   }, [slides.length]);
   
-  // Simple navigation handler
-  const goToSlide = (index) => {
-    setCurrentSlide(index);
-  };
-
   // Navigation handler
   const navigateToLink = (link) => {
     router.push(link);
   };
   
   return (
-    <div id="banner" className="relative banner-placeholder">
-      {/* Render current slide only */}
+    <div id="banner" style={{
+      position: 'relative',
+      width: '100%',
+      paddingTop: '40%', // Aspect ratio
+      overflow: 'hidden',
+      backgroundColor: '#f5f5f5',
+    }}>
+      {/* Current slide */}
       <div 
-        className="banner-image active" 
         onClick={() => navigateToLink(slides[currentSlide].link)}
-        style={{cursor: 'pointer'}}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          cursor: 'pointer',
+          zIndex: 10
+        }}
       >
         <img
           src={slides[currentSlide].src}
           alt={slides[currentSlide].alt}
           style={{
             width: '100%',
-            height: '100%', 
+            height: '100%',
             objectFit: 'cover',
             position: 'absolute',
             top: 0,
@@ -67,33 +74,32 @@ function Banner() {
         />
       </div>
       
-      {/* Simple navigation dots */}
-      <div className="banner-dots" style={{
+      {/* Navigation dots */}
+      <div style={{
         position: 'absolute',
         bottom: '16px',
         left: '50%',
         transform: 'translateX(-50%)',
         display: 'flex',
+        gap: '6px',
         zIndex: 20
       }}>
         {slides.map((_, index) => (
           <button
             key={index}
-            className={`banner-dot ${currentSlide === index ? 'active' : ''}`}
+            onClick={() => setCurrentSlide(index)}
+            aria-label={`Go to slide ${index + 1}`}
             style={{
               width: '8px',
               height: '8px',
-              margin: '0 5px',
               borderRadius: '50%',
               backgroundColor: currentSlide === index ? '#A11A36' : 'rgba(255,255,255,0.5)',
-              cursor: 'pointer',
               border: 'none',
               padding: 0,
+              cursor: 'pointer',
               transition: 'background-color 0.3s',
-              touchAction: 'manipulation'
+              margin: '0 2px'
             }}
-            onClick={() => goToSlide(index)}
-            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
