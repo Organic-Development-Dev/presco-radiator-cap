@@ -1,7 +1,6 @@
 import { Divider } from 'antd';
-import Image from 'next/image';
 import { Fragment, useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import GET_PAGE_BY_ID from '../../queries/get-page-by-title';
 import client from '../ApolloClient';
 
@@ -41,6 +40,7 @@ const dataProducts = [
 
 function OurProducts() {
   const [data, setData] = useState(null);
+  const router = useRouter();
   
   useEffect(() => {
     (async () => {
@@ -55,6 +55,11 @@ function OurProducts() {
       }
     })();
   }, []);
+
+  // Direct navigation handler
+  const handleNavigate = (url) => {
+    router.push(url);
+  };
 
   return (
     <div className='text-center py-8' style={{ backgroundColor: '#ECECEC' }}>
@@ -74,10 +79,8 @@ function OurProducts() {
               backgroundColor: 'rgba(255, 255, 255, 0.2)',
               maxWidth: '100%'
             }}>
-              <Link 
-                href={product.href}
-                className="block w-full"
-              >
+              {/* Image and title with onClick handler */}
+              <div onClick={() => handleNavigate(product.href)} style={{ cursor: 'pointer' }}>
                 <div
                   style={{
                     width: product.width ?? 150,
@@ -85,7 +88,6 @@ function OurProducts() {
                     margin: '0 auto',
                     borderRadius: '50%',
                     overflow: 'hidden',
-                    cursor: 'pointer',
                     border: '3px solid transparent',
                     transition: 'all 0.3s ease',
                     position: 'relative'
@@ -109,13 +111,12 @@ function OurProducts() {
                 <div
                   className='font-extrabold text-xl py-4 uppercase'
                   style={{
-                    color: 'var(--primary-color)',
-                    cursor: 'pointer'
+                    color: 'var(--primary-color)'
                   }}
                 >
                   {product.name}
                 </div>
-              </Link>
+              </div>
               
               <div
                 style={{ color: '#3A3A3A' }}
@@ -124,17 +125,18 @@ function OurProducts() {
               />
               
               <div className='action-button'>
-                <Link 
-                  href={product.href}
-                  className='rounded-full text-white text-xs inline-block'
+                <button
+                  onClick={() => handleNavigate(product.href)}
+                  className='rounded-full text-white text-xs'
                   style={{
                     backgroundColor: 'var(--primary-color)',
                     cursor: 'pointer',
-                    padding: '8px 16px'
+                    padding: '8px 16px',
+                    border: 'none'
                   }}
                 >
                   View More
-                </Link>
+                </button>
               </div>
             </div>
 

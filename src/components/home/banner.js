@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-// Simple banner component with proper Next.js Link
+// Simple banner component with direct navigation
 function Banner() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const router = useRouter();
   
   // Simple slides data
   const slides = [
@@ -33,6 +34,11 @@ function Banner() {
     return () => clearInterval(timer);
   }, [slides.length]);
   
+  // Navigation handler for direct routing
+  const handleNavigate = (url) => {
+    router.push(url);
+  };
+  
   return (
     <div id="banner" style={{
       position: 'relative',
@@ -41,9 +47,9 @@ function Banner() {
       overflow: 'hidden',
       backgroundColor: '#f5f5f5',
     }}>
-      {/* Current slide with proper Link */}
-      <Link 
-        href={slides[currentSlide].link}
+      {/* Current slide with direct click handler */}
+      <div 
+        onClick={() => handleNavigate(slides[currentSlide].link)}
         style={{
           position: 'absolute',
           top: 0,
@@ -51,8 +57,7 @@ function Banner() {
           width: '100%',
           height: '100%',
           cursor: 'pointer',
-          zIndex: 10,
-          display: 'block'
+          zIndex: 10
         }}
       >
         <img
@@ -67,7 +72,7 @@ function Banner() {
             left: 0
           }}
         />
-      </Link>
+      </div>
       
       {/* Navigation dots */}
       <div style={{
