@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
-// Simple banner component without Next.js Image or Link components
+// Simple banner component with proper Next.js Link
 function Banner() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const router = useRouter();
   
   // Simple slides data
   const slides = [
@@ -34,11 +33,6 @@ function Banner() {
     return () => clearInterval(timer);
   }, [slides.length]);
   
-  // Navigation handler
-  const navigateToLink = (link) => {
-    router.push(link);
-  };
-  
   return (
     <div id="banner" style={{
       position: 'relative',
@@ -47,32 +41,34 @@ function Banner() {
       overflow: 'hidden',
       backgroundColor: '#f5f5f5',
     }}>
-      {/* Current slide */}
-      <div 
-        onClick={() => navigateToLink(slides[currentSlide].link)}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          cursor: 'pointer',
-          zIndex: 10
-        }}
-      >
-        <img
-          src={slides[currentSlide].src}
-          alt={slides[currentSlide].alt}
+      {/* Current slide with proper Link */}
+      <Link href={slides[currentSlide].link} passHref>
+        <a
           style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
             position: 'absolute',
             top: 0,
-            left: 0
+            left: 0,
+            width: '100%',
+            height: '100%',
+            cursor: 'pointer',
+            zIndex: 10,
+            display: 'block'
           }}
-        />
-      </div>
+        >
+          <img
+            src={slides[currentSlide].src}
+            alt={slides[currentSlide].alt}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              position: 'absolute',
+              top: 0,
+              left: 0
+            }}
+          />
+        </a>
+      </Link>
       
       {/* Navigation dots */}
       <div style={{
