@@ -66,29 +66,46 @@
   /* ========== FOOTER FIXES ========== */
   /* Fix footer layout on mobile */
   .footer .text-xs > div {
-    margin-bottom: 8px !important;
-    padding: 8px 0 !important;
+    margin-bottom: 4px !important;
+    padding: 4px 0 !important;
   }
 
-  /* Make footer links easier to tap */
+  /* Fix font in footer */
+  .footer {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+  }
+
+  /* Make section headings cleaner */
+  .footer .font-semibold.text-white.text-sm.mb-4 {
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    margin-bottom: 8px !important;
+    margin-top: 16px !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  /* Make footer links easier to tap but with less spacing */
   .footer [style*="cursor: pointer"] {
     display: block !important;
-    min-height: 44px !important; /* Apple's recommendation for touch targets */
-    padding: 12px 8px !important;
-    margin: 4px 0 !important;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
+    min-height: 36px !important; /* Slightly smaller than Apple's recommendation but still good */
+    padding: 8px 4px !important;
+    margin: 0 0 2px 0 !important;
+    background-color: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    font-size: 14px !important;
+    transition: all 0.2s ease;
   }
 
   .footer [style*="cursor: pointer"]:active {
-    background-color: rgba(255, 255, 255, 0.1);
+    padding-left: 8px !important;
+    color: #fff !important;
   }
 
   /* Fix social icons in footer */
   .footer .md\:w-64.flex.gap-8 {
     display: flex !important;
-    justify-content: space-between !important;
+    justify-content: flex-start !important;
+    gap: 24px !important;
     max-width: 180px !important;
     margin-top: 16px !important;
   }
@@ -124,8 +141,9 @@
     padding: 12px 8px !important;
     margin: 4px 0 !important;
     min-height: 44px !important;
-    background-color: rgba(161, 26, 54, 0.1); /* Light primary color background */
-    border-radius: 4px;
+    /* Remove the background color */
+    background-color: transparent !important;
+    border-bottom: 1px solid rgba(161, 26, 54, 0.1) !important;
   }
 
   /* ========== GENERAL MOBILE FIXES ========== */
