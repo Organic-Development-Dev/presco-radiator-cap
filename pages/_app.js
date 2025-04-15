@@ -113,10 +113,12 @@ function MyApp({ Component, pageProps }) {
           __html: `
             @media (max-width: 767px) {
               #banner button { width: 8px !important; height: 8px !important; padding: 0 !important; }
-              .footer [style*="cursor: pointer"] { min-height: 44px !important; padding: 12px 8px !important; }
+              .footer [style*="cursor: pointer"] { min-height: 36px !important; padding: 8px 4px !important; font-size: 14px !important; margin: 0 0 2px 0 !important; background-color: transparent !important; border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important; }
+              .footer { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important; }
               .text-center [style*="borderRadius: 50%"] { cursor: pointer !important; }
               .action-button button { min-height: 44px !important; min-width: 100px !important; }
-              .footer .md\\:w-64.flex.gap-8 { display: flex !important; justify-content: space-between !important; }
+              .footer .md\\:w-64.flex.gap-8 { display: flex !important; justify-content: flex-start !important; gap: 24px !important; }
+              .ant-drawer-body > div > div > div > div[style*="cursor: pointer"] { background-color: transparent !important; border-bottom: 1px solid rgba(161, 26, 54, 0.1) !important; }
               .container { padding-left: 16px !important; padding-right: 16px !important; }
             }
           `
