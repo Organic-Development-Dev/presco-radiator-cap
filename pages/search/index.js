@@ -18,25 +18,21 @@ function Index({ products: initialProducts, search: initialSearch }) {
   
   // Update products when URL changes
   useEffect(() => {
-    if (router.query.name !== search && router.query.name) {
-      fetchProducts(router.query.name);
+    const currentSearchTerm = router.query.name || '';
+    if (currentSearchTerm !== search) {
+      fetchProducts(currentSearchTerm);
     }
   }, [router.query.name]);
-  
-  // Update products when props change
-  useEffect(() => {
-    setDataProducts(initialProducts);
-    setSearch(initialSearch);
-    setCurrentPage(1);
-  }, [initialProducts, initialSearch]);
   
   const fetchProducts = async (searchTerm) => {
     setLoading(true);
     try {
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+      const apiBaseUrl = window.location.origin;
+      console.log('Fetching products for:', searchTerm);
       const { data: products } = await axios.get(
         `${apiBaseUrl}/api/products?search=${encodeURIComponent(searchTerm)}&per_page=100`
       );
+      console.log('Fetched products:', products);
       setDataProducts(products || []);
       setSearch(searchTerm);
       setCurrentPage(1);
@@ -60,14 +56,16 @@ function Index({ products: initialProducts, search: initialSearch }) {
 
   return (
       <>
-        <SearchPage products={currentProducts} search={search} />
-        <Pagination
-            current={currentPage}
-            total={dataProducts.length}
-            pageSize={productsPerPage}
-            onChange={paginate}
-            style={{ textAlign: 'center', marginBottom: '30px' }}
-        />
+        <SearchPage products={currentProducts} search={search} loading={loading} />
+        {!loading && dataProducts.length > 0 && (
+          <Pagination
+              current={currentPage}
+              total={dataProducts.length}
+              pageSize={productsPerPage}
+              onChange={paginate}
+              style={{ textAlign: 'center', marginBottom: '30px' }}
+          />
+        )}
       </>
   );
 }
