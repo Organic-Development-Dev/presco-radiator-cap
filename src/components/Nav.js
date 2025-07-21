@@ -168,7 +168,7 @@ const dataNavs = [
   },
 ];
 
-const ModalSearch = dynamic(() => import('/src/components/ModalSearch.js'), {
+const ModalSearch = dynamic(() => import('./ModalSearch'), {
   ssr: false,
 });
 
@@ -233,10 +233,11 @@ const Nav = () => {
           )}
 
           <button
-            style={{ backgroundColor: 'var(--primary-color)' }}
+            style={{ backgroundColor: 'var(--primary-color)', position: 'relative', zIndex: 10 }}
             className='p-2 rounded-full cursor-pointer hover:opacity-80 transition-opacity'
             onClick={() => setOpenSearch(true)}
             aria-label='Search products'
+            type='button'
           >
             <SearchIcon width={15} height={15} />
           </button>
@@ -248,6 +249,8 @@ const Nav = () => {
             onClick={() => setOpenSearch(true)}
             className='p-2 -m-2 flex items-center justify-center'
             aria-label='Search products'
+            type='button'
+            style={{ position: 'relative', zIndex: 10 }}
           >
             <SearchIcon
               stroke='var(--primary-color)'
