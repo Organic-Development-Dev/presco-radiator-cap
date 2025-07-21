@@ -176,6 +176,9 @@ const Nav = () => {
   const router = useRouter();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
+  
+  console.log('openSearch state:', openSearch);
+  
   return (
     <nav className='bg-white py-4'>
       <div className='flex items-center justify-between flex-wrap container mx-auto'>
@@ -235,7 +238,10 @@ const Nav = () => {
           <button
             style={{ backgroundColor: 'var(--primary-color)', position: 'relative', zIndex: 10 }}
             className='p-2 rounded-full cursor-pointer hover:opacity-80 transition-opacity'
-            onClick={() => setOpenSearch(true)}
+            onClick={() => {
+              console.log('Desktop search clicked');
+              setOpenSearch(true);
+            }}
             aria-label='Search products'
             type='button'
           >
@@ -246,7 +252,10 @@ const Nav = () => {
         {/*Menu button*/}
         <div className='lg:hidden flex gap-4 items-center'>
           <button
-            onClick={() => setOpenSearch(true)}
+            onClick={() => {
+              console.log('Mobile search clicked');
+              setOpenSearch(true);
+            }}
             className='p-2 -m-2 flex items-center justify-center'
             aria-label='Search products'
             type='button'
