@@ -1,13 +1,14 @@
 function SearchIcon(props) {
-  const { stroke } = props;
+  const { stroke, width = 13, height = 11, ...restProps } = props;
   return (
     <svg
-      width='13'
-      height='11'
+      width={width}
+      height={height}
       viewBox='0 0 13 11'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
-      {...props}
+      style={{ pointerEvents: 'none' }}
+      {...restProps}
     >
       <circle
         cx='4.65744'
