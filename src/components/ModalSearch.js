@@ -47,7 +47,7 @@ function ModalSearch(props) {
         style={{ zIndex: 9999 }}
       >
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold">Search product by name</h3>
+          <h3 className="text-lg font-semibold">Search by name or code</h3>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
@@ -59,7 +59,7 @@ function ModalSearch(props) {
         
         <Search
           size='large'
-          placeholder='Search product'
+          placeholder='Enter product name or code'
           autoFocus
           onSearch={(value, _e, info) => {
             if (value && value.trim()) {
