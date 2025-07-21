@@ -24,7 +24,7 @@ function Index({ products, search }) {
 
   return (
       <>
-        <SearchPage products={products} search={search} />
+        <SearchPage products={currentProducts} search={search} />
         <Pagination
             current={currentPage}
             total={dataProducts.length}
@@ -40,19 +40,27 @@ export default Index;
 
 export async function getServerSideProps(context) {
   const { query } = context;
-  const name = query.name;
+  const name = query.name || '';
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-  const { data: products } = await axios.get(
-    `${apiBaseUrl}/api/products?search=${name}&per_page=100`
-  );
-  //   console.log(query);
-
-  // Bạn có thể dùng giá trị `productName` để làm gì đó, ví dụ lấy dữ liệu từ API
-
-  return {
-    props: {
-      products,
-      search: name,
-    },
-  };
+  
+  try {
+    const { data: products } = await axios.get(
+      `${apiBaseUrl}/api/products?search=${encodeURIComponent(name)}&per_page=100`
+    );
+    
+    return {
+      props: {
+        products: products || [],
+        search: name,
+      },
+    };
+  } catch (error) {
+    console.error('Search error:', error);
+    return {
+      props: {
+        products: [],
+        search: name,
+      },
+    };
+  }
 }

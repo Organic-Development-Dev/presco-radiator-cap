@@ -13,13 +13,18 @@ function ModalSearch(props) {
       onCancel={onClose}
       footer={null}
       title={'Search product by name'}
+      width='90%'
+      style={{ maxWidth: '500px' }}
+      centered
     >
       <Search
         size='large'
         placeholder='Search product'
         onSearch={(value, _e, info) => {
-          router.push(`/search?name=${value}`);
-          onClose();
+          if (value && value.trim()) {
+            router.push(`/search?name=${encodeURIComponent(value.trim())}`);
+            onClose();
+          }
         }}
       />
       {/* <div>

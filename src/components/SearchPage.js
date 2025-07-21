@@ -9,26 +9,30 @@ function SearchPage({ products, search }) {
   const router = useRouter();
   const { Title } = Typography;
   return (
-    <div className='container mx-auto py-16'>
+    <div className='container mx-auto py-16 px-4'>
       <div className='pb-4 text-center'>
         <Search
           defaultValue={search}
           placeholder='input search text'
           size='large'
-          style={{ width: 300 }}
-          onSearch={(value, _e, info) => router.push(`/search?name=${value}`)}
+          className='w-full max-w-md mx-auto'
+          onSearch={(value, _e, info) => {
+            if (value && value.trim()) {
+              router.push(`/search?name=${encodeURIComponent(value.trim())}`);
+            }
+          }}
         />
           <Title className='pt-4 text-center' level={2}>Search Result for: <span>{search}</span></Title>
       </div>
       <Divider />
       <div>
-        {products.length && (
+        {products.length > 0 ? (
           <div className='grid grid-cols-2 md:grid-cols-4 gap-y-20 py-4'>
             {products.map((product) => (
                 <div
                     onClick={() => router.push(`/product/${product.id}`)}
                     key={product.id}
-                    className='text-center'
+                    className='text-center cursor-pointer'
                 >
                     <div>
                         <Image
@@ -41,12 +45,17 @@ function SearchPage({ products, search }) {
                     </div>
                     <div
                         style={{ backgroundColor: 'var(--primary-color)' }}
-                        className='py-1 px-4 rounded-lg text-white inline-block text-xs mt-4 cursor-pointer'
+                        className='py-1 px-4 rounded-lg text-white inline-block text-xs mt-4'
                     >
                         {product.name}
                     </div>
                 </div>
             ))}
+          </div>
+        ) : (
+          <div className='text-center py-8'>
+            <Title level={4}>No products found for "{search}"</Title>
+            <p className='text-gray-500 mt-2'>Try searching with different keywords</p>
           </div>
         )}
       </div>

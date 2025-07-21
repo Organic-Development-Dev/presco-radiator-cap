@@ -244,13 +244,18 @@ const Nav = () => {
         </div>
 
         {/*Menu button*/}
-        <div className='lg:hidden flex gap-2 items-center'>
-          <SearchIcon
+        <div className='lg:hidden flex gap-4 items-center'>
+          <button
             onClick={() => setOpenSearch(true)}
-            stroke='var(--primary-color)'
-            width={25}
-            height={25}
-          />
+            className='p-2 -m-2 flex items-center justify-center'
+            aria-label='Search products'
+          >
+            <SearchIcon
+              stroke='var(--primary-color)'
+              width={24}
+              height={24}
+            />
+          </button>
           <div className='menu-btn'>
             <button
               onClick={() => setOpenDrawer(true)}
