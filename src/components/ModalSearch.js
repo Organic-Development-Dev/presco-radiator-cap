@@ -19,6 +19,9 @@ function ModalSearch(props) {
       width='90%'
       style={{ maxWidth: '500px' }}
       centered
+      zIndex={9999}
+      maskStyle={{ zIndex: 9998 }}
+      bodyStyle={{ zIndex: 9999 }}
     >
       <Search
         size='large'
