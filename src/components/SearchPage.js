@@ -1,18 +1,26 @@
-import { Divider, Image, Typography } from 'antd';
+import { Divider, Image, Typography, Spin } from 'antd';
 import Search from 'antd/es/input/Search';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 import {DEFAULT_PRODUCT_HOME_IMG_URL} from "../constants/urls";
 
-function SearchPage({ products, search }) {
+function SearchPage({ products, search, loading = false }) {
   const router = useRouter();
   const { Title } = Typography;
+  const [searchValue, setSearchValue] = useState(search);
+  
+  useEffect(() => {
+    setSearchValue(search);
+  }, [search]);
+  
   return (
     <div className='container mx-auto py-16 px-4'>
       <div className='pb-4 text-center'>
         <Search
-          defaultValue={search}
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           placeholder='input search text'
           size='large'
           className='w-full max-w-md mx-auto'
@@ -26,7 +34,12 @@ function SearchPage({ products, search }) {
       </div>
       <Divider />
       <div>
-        {products.length > 0 ? (
+        {loading ? (
+          <div className='text-center py-8'>
+            <Spin size="large" />
+            <p className='text-gray-500 mt-2'>Searching...</p>
+          </div>
+        ) : products.length > 0 ? (
           <div className='grid grid-cols-2 md:grid-cols-4 gap-y-20 py-4'>
             {products.map((product) => (
                 <div
