@@ -92,10 +92,9 @@ const dataNavs = [
     ],
   },
   {
-    // name: 'Quality',
+    name: 'Quality',
     tab: 2,
     slug: '/quality',
-    label: <Link href='/quality'>Quality</Link>,
     children: [
       {
         key: '1',
@@ -125,10 +124,9 @@ const dataNavs = [
     ],
   },
   {
-  // name: 'About Us',
+  name: 'About Us',
   tab: 3,
   slug: '/about-us',
-  label: <Link href='/about-us'>About Us</Link>,
   children: [
     {
       key: '1',
@@ -234,13 +232,14 @@ const Nav = () => {
             )
           )}
 
-          <div
+          <button
             style={{ backgroundColor: 'var(--primary-color)' }}
-            className='p-2 rounded-full'
+            className='p-2 rounded-full cursor-pointer hover:opacity-80 transition-opacity'
             onClick={() => setOpenSearch(true)}
+            aria-label='Search products'
           >
             <SearchIcon width={15} height={15} />
-          </div>
+          </button>
         </div>
 
         {/*Menu button*/}
