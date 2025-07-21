@@ -6,10 +6,13 @@ import { useRouter } from 'next/router';
 function ModalSearch(props) {
   const { open, onClose } = props;
   const router = useRouter();
+  
+  console.log('ModalSearch rendered with open:', open);
+  
   return (
     <Modal
       closeIcon={<></>}
-      open={open}
+      visible={open}
       onCancel={onClose}
       footer={null}
       title={'Search product by name'}
