@@ -173,6 +173,7 @@ type WcProduct = {
 };
 type WcCategory = {
   id: number;
+  count: number;
   name: string;
   slug: string;
   parent: number;
@@ -423,7 +424,11 @@ const productId = (wpId: number) => `product-wp-${wpId}`;
 
 async function migrateCategories(): Promise<{ docs: Doc[]; patches: Patch[] }> {
   console.log("Categories...");
-  const cats = await getAll<WcCategory>("wc/v3/products/categories", {}, true);
+  // Skip empty categories (leftover theme demo data such as "men", "women", "casual").
+  const all = await getAll<WcCategory>("wc/v3/products/categories", {}, true);
+  const cats = all.filter((c) => c.count > 0);
+  const skipped = all.filter((c) => c.count === 0).map((c) => c.slug);
+  if (skipped.length) console.log(`  skipping empty categories: ${skipped.join(", ")}`);
   const docs: Doc[] = [];
   for (const c of cats) {
     const imageId = c.image?.src ? await uploadImage(c.image.src) : undefined;
@@ -440,7 +445,7 @@ async function migrateCategories(): Promise<{ docs: Doc[]; patches: Patch[] }> {
     });
   }
   const patches = cats
-    .filter((c) => c.parent)
+    .filter((c) => c.parent && cats.some((p) => p.id === c.parent))
     .map((c) => ({ id: catId(c.id), set: { parent: { _type: "reference", _ref: catId(c.parent) } } }));
   console.log(`  ${docs.length} categories`);
   return { docs, patches };

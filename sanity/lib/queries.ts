@@ -101,3 +101,19 @@ export const SITEMAP_QUERY = defineQuery(`{
   "posts": *[_type == "post" && defined(slug.current)]{ "slug": slug.current, _updatedAt },
   "pages": *[_type == "page" && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt }
 }`);
+
+export const PAGE_SLUGS_QUERY = defineQuery(
+  `*[_type == "page" && defined(slug.current)]{ "slug": slug.current }`,
+);
+
+export const POST_SLUGS_QUERY = defineQuery(
+  `*[_type == "post" && defined(slug.current)]{ "slug": slug.current }`,
+);
+
+/** The posts either side of $slug by publish date (for previous / next links). */
+export const POST_NEIGHBOURS_QUERY = defineQuery(`*[_type == "post" && slug.current == $slug][0]{
+  "newer": *[_type == "post" && defined(slug.current) && publishedAt > ^.publishedAt]
+    | order(publishedAt asc)[0]{ title, "slug": slug.current },
+  "older": *[_type == "post" && defined(slug.current) && publishedAt < ^.publishedAt]
+    | order(publishedAt desc)[0]{ title, "slug": slug.current }
+}`);
