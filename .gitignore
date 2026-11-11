@@ -14,3 +14,12 @@ dist/
 .env
 .env*.local
 .vercel
+
+# Build output
+/out/
+next-env.d.ts
+*.tsbuildinfo
+/coverage/
+
+# Migration working files (contain WordPress exports)
+/scripts/.cache/
