@@ -9,3 +9,8 @@ dist/
 .cache
 .next
 .now
+
+# Environment files
+.env
+.env*.local
+.vercel
