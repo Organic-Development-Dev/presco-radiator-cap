@@ -5,13 +5,13 @@ import type { PostCard } from "@/lib/types";
 const dateFormat = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
 /** Latest news cards. Horizontal scroll-snap row on mobile, grid from `sm` up. */
-export function LatestNews({ posts }: { posts: PostCard[] }) {
+export function LatestNews({ posts, heading }: { posts: PostCard[]; heading?: string | null }) {
   if (!posts.length) return null;
 
   return (
     <section aria-labelledby="latest-news-heading" className="container-site py-10">
       <h2 id="latest-news-heading" className="pb-8 text-center text-lg font-bold uppercase text-primary">
-        Latest News
+        {heading || "Latest News"}
       </h2>
       <ul className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0">
         {posts.map((post) => (

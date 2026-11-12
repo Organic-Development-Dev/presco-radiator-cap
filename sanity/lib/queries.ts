@@ -13,8 +13,32 @@ const productCard = /* groq */ `
 
 const seoFields = /* groq */ `seo{ title, description, noIndex, image }`;
 
+
+/** A link's target: an internal document (resolved to a URL in lib/links.ts) or a raw URL. */
+const linkTarget = /* groq */ `"internal": internal->{ _type, "slug": slug.current }, url`;
+const navLinkFields = /* groq */ `_key, label, ${linkTarget}`;
+
 export const SITE_SETTINGS_QUERY = defineQuery(`*[_id == "siteSettings"][0]{
-  siteName, email, phone, address, socialLinks, footerText, defaultSeo
+  siteName, legalName, email, phone, fax, address, openingHours, mapEmbedUrl, socialLinks,
+  footerText, newsletterHeading, newsletterText, copyright,
+  defaultSeo{ title, description, image },
+  mainMenu[]{ _key, label, kind, ${linkTarget}, children[]{ ${navLinkFields} } },
+  footerMenus[]{ _key, title, links[]{ ${navLinkFields} } }
+}`);
+
+export const HOME_PAGE_QUERY = defineQuery(`*[_id == "homePage"][0]{
+  heading,
+  heroSlides[defined(image.asset)]{ _key, image{ ${imageFields} }, ${linkTarget} },
+  featuresHeading,
+  features[]{ _key, title, text, icon{ ${imageFields} } },
+  productsHeading,
+  productTiles[defined(image.asset)]{ _key, label, image{ ${imageFields} }, ${linkTarget} },
+  intro,
+  newsHeading,
+  testimonialsHeading,
+  testimonialsSubheading,
+  testimonials[]->{ _id, quote, name, role, company },
+  ${seoFields}
 }`);
 
 export const CATEGORIES_QUERY = defineQuery(`*[_type == "productCategory" && hidden != true]
@@ -55,7 +79,7 @@ export const PRODUCT_QUERY = defineQuery(`*[_type == "product" && slug.current =
   applications,
   pressure,
   modelInfo,
-  "categories": categories[]->{ title, "slug": slug.current },
+  "categories": categories[]->{ title, "slug": slug.current, productNoun, "isChild": defined(parent) },
   "related": relatedProducts[]->{ ${productCard} },
   ${seoFields}
 }`);
@@ -83,7 +107,7 @@ export const SEARCH_QUERY = defineQuery(`*[_type == "product" && (
   | order(_score desc, title asc)[0...60]{ ${productCard} }`);
 
 export const PAGE_QUERY = defineQuery(`*[_type == "page" && slug.current == $slug][0]{
-  _id, title, "slug": slug.current, heroImage{ ${imageFields} }, body, ${seoFields}
+  _id, _updatedAt, title, "slug": slug.current, intro, heroImage{ ${imageFields} }, body, ${seoFields}
 }`);
 
 export const POSTS_QUERY = defineQuery(`*[_type == "post" && defined(slug.current)]
@@ -92,13 +116,14 @@ export const POSTS_QUERY = defineQuery(`*[_type == "post" && defined(slug.curren
   }`);
 
 export const POST_QUERY = defineQuery(`*[_type == "post" && slug.current == $slug][0]{
-  _id, title, "slug": slug.current, publishedAt, excerpt, mainImage{ ${imageFields} }, body, ${seoFields}
+  _id, _updatedAt, title, "slug": slug.current, publishedAt, excerpt, mainImage{ ${imageFields} }, body, ${seoFields}
 }`);
 
 export const SITEMAP_QUERY = defineQuery(`{
+  "home": *[_id == "homePage"][0]._updatedAt,
   "products": *[_type == "product" && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt },
-  "categories": *[_type == "productCategory" && defined(slug.current)]{ "slug": slug.current, _updatedAt },
-  "posts": *[_type == "post" && defined(slug.current)]{ "slug": slug.current, _updatedAt },
+  "categories": *[_type == "productCategory" && defined(slug.current) && hidden != true && seo.noIndex != true]{ "slug": slug.current, _updatedAt },
+  "posts": *[_type == "post" && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt },
   "pages": *[_type == "page" && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt }
 }`);
 

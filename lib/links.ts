@@ -1,0 +1,28 @@
+import type { LinkTarget } from "./types";
+
+/** Public URL for a document, by type and slug. Mirrors the routes under app/(site). */
+export function documentHref(type: string, slug?: string | null): string | null {
+  if (type === "homePage") return "/";
+  if (!slug) return null;
+  switch (type) {
+    case "page":
+      return `/${slug}/`;
+    case "post":
+      return `/blog/${slug}/`;
+    case "product":
+      return `/product/${slug}/`;
+    case "productCategory":
+      return `/product-category/${slug}/`;
+    default:
+      return null;
+  }
+}
+
+/** Resolve a link field (internal reference or URL) to an href. */
+export function resolveHref(link: LinkTarget | null | undefined): string | null {
+  if (!link) return null;
+  if (link.internal) return documentHref(link.internal._type, link.internal.slug);
+  return link.url || null;
+}
+
+export const isExternalHref = (href: string) => /^https?:\/\//.test(href);

@@ -11,7 +11,7 @@ import { PAGE_QUERY, PAGE_SLUGS_QUERY } from "@/sanity/lib/queries";
 type Props = { params: Promise<{ slug: string }> };
 
 /** Pages rendered by their own route (or not at all) rather than this generic one. */
-const RESERVED_SLUGS = new Set(["home", "contact-us"]);
+const RESERVED_SLUGS = new Set(["contact-us", "products", "news"]);
 
 function getPage(slug: string) {
   if (RESERVED_SLUGS.has(slug)) return Promise.resolve(null);
@@ -27,7 +27,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const page = await getPage(slug);
   if (!page) return {};
-  return buildMetadata({ title: page.title, seo: page.seo, path: `/${page.slug}/` });
+  return buildMetadata({
+    title: page.title,
+    seo: page.seo,
+    path: `/${page.slug}/`,
+    fallbackDescription: page.intro,
+    fallbackImage: page.heroImage,
+  });
 }
 
 export default async function CmsPage({ params }: Props) {
@@ -40,6 +46,7 @@ export default async function CmsPage({ params }: Props) {
       <Breadcrumbs items={[{ label: page.title }]} />
       <article className="container-site py-10 sm:py-16">
         <PageHeader title={page.title} heroImage={page.heroImage} />
+        {page.intro && <p className="mb-8 max-w-3xl text-lg leading-relaxed text-gray-600">{page.intro}</p>}
         <RichText value={page.body} className="max-w-none" />
       </article>
     </>

@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
 import { cache } from "react";
-import { HeroCarousel } from "@/components/home/HeroCarousel";
+import { HeroCarousel, type CarouselSlide } from "@/components/home/HeroCarousel";
+import { Features, ProductTiles } from "@/components/home/HomeSections";
 import { LatestNews } from "@/components/home/LatestNews";
 import { Testimonials } from "@/components/home/Testimonials";
 import { RichText } from "@/components/RichText";
+import { SiteJsonLd } from "@/components/SiteJsonLd";
+import { resolveHref } from "@/lib/links";
 import { buildMetadata } from "@/lib/metadata";
+import { getSiteSettings } from "@/lib/settings";
 import { SITE_NAME } from "@/lib/site";
-import type { Page, PostCard } from "@/lib/types";
+import type { HomePage as HomePageData, PostCard, Testimonial } from "@/lib/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { PAGE_QUERY, POSTS_QUERY } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
+import { HOME_PAGE_QUERY, POSTS_QUERY } from "@/sanity/lib/queries";
 
-const getHomePage = cache(async (): Promise<Page | null> => {
+const getHomePage = cache(async (): Promise<HomePageData> => {
   try {
-    return await sanityFetch<Page | null>({ query: PAGE_QUERY, params: { slug: "home" }, tags: ["page"] });
+    return await sanityFetch<HomePageData>({ query: HOME_PAGE_QUERY, tags: ["homePage", "testimonial"] });
   } catch (error) {
-    console.error("Home: failed to load page content", error);
+    console.error("Home: failed to load homepage content", error);
     return null;
   }
 });
@@ -29,26 +34,47 @@ async function getLatestPosts(): Promise<PostCard[]> {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getHomePage();
-  const metadata = buildMetadata({ title: SITE_NAME, seo: page?.seo, path: "/" });
-  // The home page title shouldn't get the "| Presco Radiator Caps" suffix.
-  return { ...metadata, title: { absolute: page?.seo?.title || SITE_NAME } };
+  const [page, settings] = await Promise.all([getHomePage(), getSiteSettings()]);
+  const siteName = settings?.siteName || SITE_NAME;
+  return buildMetadata({
+    // The homepage title is used as-is (no "| Presco Radiator Caps" suffix).
+    title: page?.seo?.title || siteName,
+    absoluteTitle: true,
+    seo: page?.seo,
+    path: "/",
+  });
 }
 
 export default async function HomePage() {
-  const [page, posts] = await Promise.all([getHomePage(), getLatestPosts()]);
+  const [page, posts, settings] = await Promise.all([getHomePage(), getLatestPosts(), getSiteSettings()]);
+
+  const slides: CarouselSlide[] = (page?.heroSlides ?? []).map((slide) => ({
+    key: slide._key,
+    src: urlFor(slide.image).width(2000).height(800).fit("crop").url(),
+    alt: slide.image.alt ?? "",
+    href: resolveHref(slide),
+    blurDataURL: slide.image.lqip,
+  }));
+  const testimonials = (page?.testimonials ?? []).filter((t): t is Testimonial => Boolean(t?.quote));
 
   return (
     <>
-      <h1 className="sr-only">{page?.title && page.title.toLowerCase() !== "home" ? page.title : SITE_NAME}</h1>
-      <HeroCarousel />
-      {page?.body?.length ? (
+      <h1 className="sr-only">{page?.heading || settings?.siteName || SITE_NAME}</h1>
+      <HeroCarousel slides={slides} />
+      <Features heading={page?.featuresHeading} items={page?.features ?? []} />
+      <ProductTiles heading={page?.productsHeading} tiles={page?.productTiles ?? []} />
+      {page?.intro?.length ? (
         <section className="container-site overflow-hidden py-6">
-          <RichText value={page.body} />
+          <RichText value={page.intro} />
         </section>
       ) : null}
-      <LatestNews posts={posts} />
-      <Testimonials />
+      <LatestNews posts={posts} heading={page?.newsHeading} />
+      <Testimonials
+        heading={page?.testimonialsHeading}
+        subheading={page?.testimonialsSubheading}
+        testimonials={testimonials}
+      />
+      <SiteJsonLd settings={settings} />
     </>
   );
 }

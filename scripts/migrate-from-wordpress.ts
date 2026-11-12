@@ -19,6 +19,7 @@ import { builtinTypes } from "@sanity/schema/_internal";
 import { config as loadEnv } from "dotenv";
 import { JSDOM } from "jsdom";
 import pLimit from "p-limit";
+import { tidyLabel } from "../lib/text";
 
 loadEnv({ path: ".env.local" });
 loadEnv({ path: ".env" });
@@ -199,7 +200,8 @@ type WpPost = {
 const parseHtml = (html: string): Document => new JSDOM(html).window.document as unknown as Document;
 
 function decodeEntities(text: string): string {
-  return parseHtml(`<p>${text}</p>`).body.textContent?.trim() ?? "";
+  // U+FFFC is left behind by images pasted into WordPress titles.
+  return (parseHtml(`<p>${text}</p>`).body.textContent ?? "").replace(/\uFFFC/g, "").trim();
 }
 
 const plainText = (html: string) => decodeEntities(html.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
@@ -406,9 +408,15 @@ async function toBlocks(html: string | undefined) {
   return meaningful.length ? meaningful : undefined;
 }
 
+/**
+ * Only keep meta descriptions someone actually wrote in Yoast. Its fallbacks (the
+ * og_description excerpt, or "<title> - <site name>") are worse than the site's own
+ * generated descriptions.
+ */
 const seoFrom = (y?: { title?: string; description?: string; og_description?: string }) => {
-  const description = y?.description || y?.og_description;
-  return description ? { _type: "seo", description: decodeEntities(description) } : undefined;
+  const description = y?.description ? decodeEntities(y.description) : "";
+  if (!description || / - Presco Radiator Caps$/.test(description)) return undefined;
+  return { _type: "seo", description };
 };
 
 // ---------------------------------------------------------------------------
@@ -459,15 +467,6 @@ async function migrateProducts(): Promise<{ docs: Doc[]; patches: Patch[] }> {
 
   const docs = await Promise.all(
     products.map(async (p): Promise<Doc> => {
-      const images = (
-        await Promise.all(
-          p.images.map(async (img) => {
-            const assetId = await limit(() => uploadImage(img.src));
-            return assetId ? imageField(assetId, img.alt || p.name) : undefined;
-          }),
-        )
-      ).filter(Boolean);
-
       const specs: Record<string, string[]> = {};
       for (const attr of p.attributes) {
         const field = ATTRIBUTE_FIELDS[attr.slug];
@@ -477,6 +476,18 @@ async function migrateProducts(): Promise<{ docs: Doc[]; patches: Patch[] }> {
         }
         specs[field] = attr.options.map((o) => plainText(o)).filter(Boolean);
       }
+
+      // Alt text: "PAG9 Pressure Cap" rather than just the part number.
+      const name = decodeEntities(p.name);
+      const defaultAlt = [name, tidyLabel(specs.partType?.[0])].filter(Boolean).join(" ");
+      const images = (
+        await Promise.all(
+          p.images.map(async (img) => {
+            const assetId = await limit(() => uploadImage(img.src));
+            return assetId ? imageField(assetId, img.alt || defaultAlt) : undefined;
+          }),
+        )
+      ).filter(Boolean);
 
       return {
         _id: productId(p.id),
@@ -509,10 +520,20 @@ async function migratePages(): Promise<Doc[]> {
   console.log("Pages...");
   const docs: Doc[] = [];
   const fetchPage = async (wpPage: WpPost, slug: string) => {
+    if (slug === "home") {
+      // The WordPress homepage body becomes the Homepage document's intro.
+      const intro = await toBlocks(wpPage.content.rendered);
+      if (sanity && intro) {
+        await sanity.createIfNotExists({ _id: "homePage", _type: "homePage" });
+        await sanity.patch("homePage").set({ intro: clean(intro) }).commit();
+      }
+      console.log(`  home -> homePage.intro (${intro?.length ?? 0} blocks)`);
+      return;
+    }
     docs.push({
       _id: `page-${slug}`,
       _type: "page",
-      title: slug === "home" ? "Home" : decodeEntities(wpPage.title.rendered),
+      title: decodeEntities(wpPage.title.rendered),
       slug: { _type: "slug", current: slug },
       body: await toBlocks(wpPage.content.rendered),
       seo: seoFrom(wpPage.yoast_head_json),

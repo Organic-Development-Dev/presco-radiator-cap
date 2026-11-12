@@ -1,26 +1,41 @@
 import type { Metadata } from "next";
 import { CatalogueView } from "@/components/catalogue/CatalogueView";
 import { loadCatalogue } from "@/components/catalogue/load-catalogue";
-import type { SearchParams } from "@/components/catalogue/params";
+import { catalogueSeo, type SearchParams } from "@/components/catalogue/params";
 import { buildMetadata } from "@/lib/metadata";
+import { getPage } from "@/lib/pages";
 
-const TITLE = "Products & Solutions";
+const SLUG = "products";
+const BASE_PATH = `/${SLUG}/`;
 
-export const metadata: Metadata = buildMetadata({
-  title: TITLE,
-  path: "/products/",
-  fallbackDescription:
-    "Browse the full Presco range of radiator caps, pressure caps and cooling system parts. Filter by application and part type.",
-});
+type Props = { searchParams: Promise<SearchParams> };
 
-export default async function ProductsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const data = await loadCatalogue({ category: null, searchParams: await searchParams });
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const [page, sp] = await Promise.all([getPage(SLUG), searchParams]);
+  const { path, noIndex, titleSuffix } = catalogueSeo(BASE_PATH, sp);
+  const title = page?.title ?? "Products & Solutions";
+  return buildMetadata({
+    title: `${page?.seo?.title || title}${titleSuffix}`,
+    seo: page?.seo ? { ...page.seo, title: null } : null,
+    path,
+    noIndex,
+    fallbackDescription: page?.intro,
+  });
+}
+
+export default async function ProductsPage({ searchParams }: Props) {
+  const [page, data] = await Promise.all([
+    getPage(SLUG),
+    searchParams.then((sp) => loadCatalogue({ category: null, searchParams: sp })),
+  ]);
+  const title = page?.title ?? "Products & Solutions";
 
   return (
     <CatalogueView
-      title={TITLE}
-      breadcrumbs={[{ label: TITLE }]}
-      basePath="/products/"
+      title={title}
+      intro={page?.intro}
+      breadcrumbs={[{ label: title }]}
+      basePath={BASE_PATH}
       activeCategory={null}
       {...data}
     />

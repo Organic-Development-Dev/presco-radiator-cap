@@ -32,7 +32,7 @@ export type Product = ProductCard & {
   oeNumbers?: string[] | null;
   pressure?: string[] | null;
   modelInfo?: string[] | null;
-  categories?: { title: string; slug: string }[] | null;
+  categories?: { title: string; slug: string; productNoun?: string | null; isChild?: boolean }[] | null;
   related?: ProductCard[] | null;
   seo?: Seo;
 };
@@ -58,8 +58,10 @@ export type ProductFacets = { applications: string[] | null; partTypes: string[]
 
 export type Page = {
   _id: string;
+  _updatedAt?: string;
   title: string;
   slug: string;
+  intro?: string | null;
   heroImage?: SanityImage | null;
   body?: PortableTextBlock[] | null;
   seo?: Seo;
@@ -74,14 +76,66 @@ export type PostCard = {
   mainImage?: SanityImage | null;
 };
 
-export type Post = PostCard & { body?: PortableTextBlock[] | null; seo?: Seo };
+export type Post = PostCard & { _updatedAt?: string; body?: PortableTextBlock[] | null; seo?: Seo };
+
+/** A link target as returned by the `linkTarget` GROQ fragment. */
+export type LinkTarget = {
+  internal?: { _type: string; slug?: string | null } | null;
+  url?: string | null;
+};
+
+export type NavLinkData = LinkTarget & { _key: string; label: string };
+
+export type MenuItemData = LinkTarget & {
+  _key: string;
+  label: string;
+  kind: "link" | "dropdown" | "products";
+  children?: NavLinkData[] | null;
+};
+
+export type PostalAddress = {
+  streetAddress?: string | null;
+  locality?: string | null;
+  region?: string | null;
+  postalCode?: string | null;
+  country?: string | null;
+  countryCode?: string | null;
+};
 
 export type SiteSettings = {
   siteName?: string | null;
+  legalName?: string | null;
   email?: string | null;
   phone?: string | null;
-  address?: string | null;
+  fax?: string | null;
+  address?: PostalAddress | null;
+  openingHours?: string | null;
+  mapEmbedUrl?: string | null;
   socialLinks?: { _key: string; platform: string; url: string }[] | null;
   footerText?: string | null;
+  newsletterHeading?: string | null;
+  newsletterText?: string | null;
+  copyright?: string | null;
   defaultSeo?: Seo;
+  mainMenu?: MenuItemData[] | null;
+  footerMenus?: { _key: string; title: string; links?: NavLinkData[] | null }[] | null;
+} | null;
+
+export type Testimonial = { _id: string; quote: string; name: string; role?: string | null; company?: string | null };
+
+export type HeroSlide = LinkTarget & { _key: string; image: SanityImage };
+
+export type HomePage = {
+  heading?: string | null;
+  heroSlides?: HeroSlide[] | null;
+  featuresHeading?: string | null;
+  features?: { _key: string; title: string; text?: string | null; icon?: SanityImage | null }[] | null;
+  productsHeading?: string | null;
+  productTiles?: (LinkTarget & { _key: string; label: string; image: SanityImage })[] | null;
+  intro?: PortableTextBlock[] | null;
+  newsHeading?: string | null;
+  testimonialsHeading?: string | null;
+  testimonialsSubheading?: string | null;
+  testimonials?: (Testimonial | null)[] | null;
+  seo?: Seo;
 } | null;

@@ -52,3 +52,18 @@ const collator = new Intl.Collator("en-GB", { numeric: true, sensitivity: "base"
 export function naturalCompare(a: string, b: string): number {
   return collator.compare(a, b);
 }
+
+/**
+ * SEO for a catalogue listing: filtered views are noindex with the canonical on the
+ * unfiltered listing; paginated pages are indexable with a self-referencing canonical.
+ */
+export function catalogueSeo(basePath: string, searchParams: SearchParams) {
+  const filtered = paramList(searchParams[FILTER_PARAMS.application]).length > 0 || paramList(searchParams[FILTER_PARAMS.type]).length > 0;
+  const page = parsePage(searchParams);
+  if (filtered) return { path: basePath, noIndex: true, titleSuffix: "" };
+  return {
+    path: page > 1 ? `${basePath}?${FILTER_PARAMS.page}=${page}` : basePath,
+    noIndex: false,
+    titleSuffix: page > 1 ? ` – Page ${page}` : "",
+  };
+}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cache } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -6,7 +7,10 @@ import { JsonLd } from "@/components/JsonLd";
 import { PostDate } from "@/components/content/PostDate";
 import { RichText } from "@/components/RichText";
 import { SanityImage } from "@/components/SanityImage";
+import { ORGANIZATION_ID } from "@/components/SiteJsonLd";
 import { buildMetadata } from "@/lib/metadata";
+import { getPage } from "@/lib/pages";
+import { truncate } from "@/lib/text";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import type { Post } from "@/lib/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -17,9 +21,7 @@ type Props = { params: Promise<{ slug: string }> };
 type PostLink = { title: string; slug: string } | null;
 type Neighbours = { newer: PostLink; older: PostLink } | null;
 
-function getPost(slug: string) {
-  return sanityFetch<Post | null>({ query: POST_QUERY, params: { slug }, tags: ["post"] });
-}
+const getPost = cache((slug: string) => sanityFetch<Post | null>({ query: POST_QUERY, params: { slug }, tags: ["post"] }));
 
 export async function generateStaticParams() {
   const posts = await sanityFetch<{ slug: string }[]>({ query: POST_SLUGS_QUERY, tags: ["post"] });
@@ -30,24 +32,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) return {};
-  const base = buildMetadata({
+  return buildMetadata({
     title: post.title,
-    seo: post.seo?.image ? post.seo : { ...post.seo, image: post.mainImage },
+    seo: post.seo,
     path: `/blog/${post.slug}/`,
     fallbackDescription: post.excerpt,
+    fallbackImage: post.mainImage,
+    type: "article",
+    publishedTime: post.publishedAt,
+    modifiedTime: post._updatedAt,
   });
-  return {
-    ...base,
-    openGraph: { ...base.openGraph, type: "article", publishedTime: post.publishedAt },
-  };
 }
 
 export default async function PostPage({ params }: Props) {
   const { slug } = await params;
-  const [post, neighbours] = await Promise.all([
+  const [post, neighbours, newsPage] = await Promise.all([
     getPost(slug),
     sanityFetch<Neighbours>({ query: POST_NEIGHBOURS_QUERY, params: { slug }, tags: ["post"] }),
+    getPage("news"),
   ]);
+  const newsTitle = newsPage?.title ?? "News";
   if (!post) notFound();
 
   const url = `${SITE_URL}/blog/${post.slug}/`;
@@ -55,7 +59,7 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <>
-      <Breadcrumbs items={[{ label: "News", href: "/news/" }, { label: post.title }]} />
+      <Breadcrumbs items={[{ label: newsTitle, href: "/news/" }, { label: post.title }]} />
       <article className="container-site py-10 sm:py-16">
         <div className="mx-auto max-w-3xl">
           <header className="mb-8 text-center">
@@ -106,14 +110,16 @@ export default async function PostPage({ params }: Props) {
           "@context": "https://schema.org",
           "@type": "Article",
           headline: post.title,
-          ...(post.excerpt ? { description: post.excerpt } : {}),
+          ...(post.seo?.description || post.excerpt ? { description: truncate(post.seo?.description || post.excerpt) } : {}),
           ...(image ? { image: [image] } : {}),
           datePublished: post.publishedAt,
+          ...(post._updatedAt ? { dateModified: post._updatedAt } : {}),
           mainEntityOfPage: { "@type": "WebPage", "@id": url },
           url,
-          author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+          author: { "@type": "Organization", "@id": ORGANIZATION_ID, name: SITE_NAME, url: `${SITE_URL}/` },
           publisher: {
             "@type": "Organization",
+            "@id": ORGANIZATION_ID,
             name: SITE_NAME,
             logo: { "@type": "ImageObject", url: `${SITE_URL}/img/logo.png` },
           },

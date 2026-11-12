@@ -1,37 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
+import { isExternalHref, resolveHref } from "@/lib/links";
+import { getSiteSettings } from "@/lib/settings";
 import { SITE_NAME } from "@/lib/site";
-import type { SiteSettings } from "@/lib/types";
+import { addressLines, telHref } from "@/lib/text";
 import { SocialIcon } from "./icons";
-
-/** Legacy hardcoded contact details, used when site settings are empty. */
-const FALLBACK = {
-  address: "Presco Radiator Caps Ltd.\nUnit D86, Blackpole Trading Estate\nWest, Worcester, England, WR3 8TJ",
-  phone: "+44 (0)1905 755656",
-  fax: "+44 (0)1905 755654",
-  email: "sales@presco-radiator-caps.com",
-};
-
-const PRODUCT_LINKS = [
-  { label: "Europe Auto", href: "/product-category/auto/" },
-  { label: "Japanese Auto", href: "/product-category/japanese-caps/" },
-  { label: "Agricultural", href: "/product-category/agricultural/" },
-  { label: "Trucks & Commercials", href: "/product-category/commercial-caps/" },
-];
-
-const IMPORTANT_LINKS = [
-  { label: "Packaging", href: "/packaging/" },
-  { label: "Inspection & Testing", href: "/inspection-testing/" },
-  { label: "About Us", href: "/about-us/" },
-  { label: "News", href: "/news/" },
-  { label: "Contact Us", href: "/contact-us/" },
-  { label: "Privacy Policy", href: "/privacy-policy/" },
-  { label: "Terms and Conditions", href: "/terms-and-conditions/" },
-  { label: "Disclaimer", href: "/disclaimer/" },
-];
 
 const SOCIAL_LABELS: Record<string, string> = {
   facebook: "Facebook",
@@ -41,21 +15,10 @@ const SOCIAL_LABELS: Record<string, string> = {
   youtube: "YouTube",
 };
 
-async function getSettings(): Promise<SiteSettings> {
-  try {
-    return await sanityFetch<SiteSettings>({ query: SITE_SETTINGS_QUERY, tags: ["siteSettings"] });
-  } catch (error) {
-    console.error("Footer: failed to load site settings", error);
-    return null;
-  }
-}
-
-const telHref = (phone: string) => `tel:${phone.replace(/\(0\)/, "").replace(/[^\d+]/g, "")}`;
-
 const headingClass = "mb-4 text-sm font-semibold uppercase text-white";
 const linkClass = "inline-block py-2 hover:underline";
 
-function Subscribe() {
+function Subscribe({ heading, text }: { heading?: string | null; text?: string | null }) {
   return (
     <section
       aria-labelledby="subscribe-heading"
@@ -64,9 +27,9 @@ function Subscribe() {
     >
       <div className="mx-auto max-w-xl text-center text-white">
         <h2 id="subscribe-heading" className="text-2xl font-bold uppercase">
-          Subscribe
+          {heading || "Subscribe"}
         </h2>
-        <p className="pb-4 font-light">Want to stay up to date? Subscribe to our Newsletter!</p>
+        {text && <p className="pb-4 font-light">{text}</p>}
         <NewsletterForm className="mx-auto max-w-md text-white" />
       </div>
     </section>
@@ -74,23 +37,31 @@ function Subscribe() {
 }
 
 export async function Footer() {
-  const settings = await getSettings();
-  const address = settings?.address || FALLBACK.address;
-  const phone = settings?.phone || FALLBACK.phone;
-  const email = settings?.email || FALLBACK.email;
+  const settings = await getSiteSettings();
+  const siteName = settings?.siteName || SITE_NAME;
+  const address = [settings?.legalName, ...addressLines(settings?.address)].filter(Boolean);
   const socialLinks = settings?.socialLinks?.filter((link) => link.url && SOCIAL_LABELS[link.platform]) ?? [];
-  const year = new Date().getFullYear();
+  const menus = (settings?.footerMenus ?? [])
+    .map((menu) => ({
+      ...menu,
+      links: (menu.links ?? []).flatMap((link) => {
+        const href = resolveHref(link);
+        return href && link.label ? [{ key: link._key, label: link.label, href }] : [];
+      }),
+    }))
+    .filter((menu) => menu.links.length);
+  const copyright = settings?.copyright?.replace("{year}", String(new Date().getFullYear()));
 
   return (
     <>
-      <Subscribe />
+      <Subscribe heading={settings?.newsletterHeading} text={settings?.newsletterText} />
       <footer className="text-white">
         <div className="bg-secondary">
           <div className="container-site grid gap-8 py-10 md:grid-cols-3">
             <div>
               <Image
                 src="/img/logo-bg-white.png"
-                alt={SITE_NAME}
+                alt={siteName}
                 width={240}
                 height={71}
                 className="h-auto w-48 lg:w-64"
@@ -119,57 +90,60 @@ export async function Footer() {
               <div>
                 <h2 className={headingClass}>Our Address</h2>
                 <address className="not-italic">
-                  <p className="whitespace-pre-line">{address}</p>
-                  <p className="mt-4">
-                    Ph:{" "}
-                    <a href={telHref(phone)} className="underline hover:no-underline">
-                      {phone}
-                    </a>
-                  </p>
-                  <p>Fax: {FALLBACK.fax}</p>
-                  <p>
-                    <a href={`mailto:${email}`} className="underline hover:no-underline">
-                      {email}
-                    </a>
-                  </p>
+                  {address.length > 0 && (
+                    <p>
+                      {address.map((line, i) => (
+                        <span key={i} className="block">
+                          {line}
+                        </span>
+                      ))}
+                    </p>
+                  )}
+                  {settings?.phone && (
+                    <p className="mt-4">
+                      Ph:{" "}
+                      <a href={telHref(settings.phone)} className="underline hover:no-underline">
+                        {settings.phone}
+                      </a>
+                    </p>
+                  )}
+                  {settings?.fax && <p>Fax: {settings.fax}</p>}
+                  {settings?.email && (
+                    <p>
+                      <a href={`mailto:${settings.email}`} className="underline hover:no-underline">
+                        {settings.email}
+                      </a>
+                    </p>
+                  )}
                 </address>
               </div>
 
-              <nav aria-labelledby="footer-products">
-                <h2 id="footer-products" className={headingClass}>
-                  Our Products
-                </h2>
-                <ul>
-                  {PRODUCT_LINKS.map((link) => (
-                    <li key={link.href}>
-                      <Link href={link.href} className={linkClass}>
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-
-              <nav aria-labelledby="footer-links">
-                <h2 id="footer-links" className={headingClass}>
-                  Important Links
-                </h2>
-                <ul>
-                  {IMPORTANT_LINKS.map((link) => (
-                    <li key={link.href}>
-                      <Link href={link.href} className={linkClass}>
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+              {menus.map((menu) => (
+                <nav key={menu._key} aria-labelledby={`footer-menu-${menu._key}`}>
+                  <h2 id={`footer-menu-${menu._key}`} className={headingClass}>
+                    {menu.title}
+                  </h2>
+                  <ul>
+                    {menu.links.map((link) => (
+                      <li key={link.key}>
+                        {isExternalHref(link.href) ? (
+                          <a href={link.href} className={linkClass} target="_blank" rel="noopener noreferrer">
+                            {link.label}
+                          </a>
+                        ) : (
+                          <Link href={link.href} className={linkClass}>
+                            {link.label}
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              ))}
             </div>
           </div>
         </div>
-        <p className="bg-[#333333] p-4 text-center text-xs font-light">
-          Copyright © presco-radiator-caps.com 2010–{year}. All Rights Reserved
-        </p>
+        {copyright && <p className="bg-[#333333] p-4 text-center text-xs font-light">{copyright}</p>}
       </footer>
     </>
   );

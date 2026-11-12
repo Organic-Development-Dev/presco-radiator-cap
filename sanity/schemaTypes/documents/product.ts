@@ -1,5 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
-import { TagIcon } from "@sanity/icons";
+import { TagIcon } from "@sanity/icons/Tag";
 
 const stringList = (name: string, title: string, description?: string) =>
   defineField({
@@ -52,7 +52,15 @@ export const product = defineType({
         defineArrayMember({
           type: "image",
           options: { hotspot: true },
-          fields: [defineField({ name: "alt", title: "Alternative text", type: "string" })],
+          fields: [
+            defineField({
+              name: "alt",
+              title: "Alternative text",
+              type: "string",
+              description: "Describe the image for screen readers and search engines, e.g. \"PAG9 radiator pressure cap\".",
+              validation: (rule) => rule.required().warning("Add alternative text for accessibility and SEO"),
+            }),
+          ],
         }),
       ],
     }),

@@ -7,7 +7,10 @@ import { client } from "./client";
  * calls /api/revalidate, which revalidates the matching tags.
  *
  * Tag convention: the document `_type` (e.g. "product"), plus "sanity" for everything.
+ * In development nothing is cached, so Studio edits show up on refresh (there's no webhook locally).
  */
+const DEV = process.env.NODE_ENV === "development";
+
 export async function sanityFetch<T>({
   query,
   params = {},
@@ -17,8 +20,9 @@ export async function sanityFetch<T>({
   params?: QueryParams;
   tags: string[];
 }): Promise<T> {
-  return client.fetch<T>(query, params, {
-    cache: "force-cache",
-    next: { tags: ["sanity", ...tags] },
-  });
+  return client.fetch<T>(
+    query,
+    params,
+    DEV ? { cache: "no-store", useCdn: false } : { cache: "force-cache", next: { tags: ["sanity", ...tags] } },
+  );
 }

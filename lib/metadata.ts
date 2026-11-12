@@ -1,35 +1,62 @@
 import type { Metadata } from "next";
 import { urlFor } from "@/sanity/lib/image";
-import type { Seo } from "./types";
+import { getSiteSettings } from "./settings";
 import { SITE_NAME } from "./site";
+import { truncate } from "./text";
+import type { SanityImage, Seo } from "./types";
 
-/** Build page metadata from a document's title + SEO object. */
-export function buildMetadata({
-  title,
-  seo,
-  path,
-  fallbackDescription,
-}: {
+type Options = {
+  /** Page title; the root layout appends " | <site name>". */
   title: string;
   seo?: Seo;
+  /** Canonical path, with trailing slash. */
   path: string;
+  /** Used when the document has no SEO description (e.g. an excerpt or intro). */
   fallbackDescription?: string | null;
-}): Metadata {
-  const description = seo?.description || fallbackDescription || undefined;
-  const image = seo?.image?.asset ? urlFor(seo.image).width(1200).height(630).fit("crop").url() : undefined;
+  /** Used when the document has no SEO share image (e.g. the main image). */
+  fallbackImage?: SanityImage | null;
+  type?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+  /** Force noindex (e.g. filtered listings), regardless of the document setting. */
+  noIndex?: boolean;
+  /** Use the title as-is, without the site name suffix. */
+  absoluteTitle?: boolean;
+};
+
+const shareImage = (image: SanityImage | null | undefined) =>
+  image?.asset ? urlFor(image).width(1200).height(630).fit("crop").url() : undefined;
+
+/**
+ * Page metadata from a document's title + SEO object, falling back to the
+ * site-wide defaults in Site settings for the description and share image.
+ */
+export async function buildMetadata(options: Options): Promise<Metadata> {
+  const { title, seo, path, fallbackDescription, fallbackImage, type = "website" } = options;
+  const settings = await getSiteSettings();
+  const siteName = settings?.siteName || SITE_NAME;
+  const metaTitle = seo?.title || title;
+  const description =
+    truncate(seo?.description) || truncate(fallbackDescription) || truncate(settings?.defaultSeo?.description) || undefined;
+  const image = shareImage(seo?.image) ?? shareImage(fallbackImage) ?? shareImage(settings?.defaultSeo?.image);
+  const images = image ? [{ url: image, width: 1200, height: 630, alt: metaTitle }] : undefined;
+  const noIndex = options.noIndex || seo?.noIndex;
+
   return {
-    title: seo?.title || title,
+    title: options.absoluteTitle ? { absolute: metaTitle } : metaTitle,
     description,
     alternates: { canonical: path },
-    robots: seo?.noIndex ? { index: false, follow: true } : undefined,
+    robots: noIndex ? { index: false, follow: true } : undefined,
     openGraph: {
-      title: seo?.title || title,
+      title: metaTitle,
       description,
       url: path,
-      siteName: SITE_NAME,
+      siteName,
       locale: "en_GB",
-      type: "website",
-      ...(image ? { images: [{ url: image, width: 1200, height: 630 }] } : {}),
+      type,
+      ...(type === "article" ? { publishedTime: options.publishedTime, modifiedTime: options.modifiedTime } : {}),
+      images,
     },
+    twitter: { card: image ? "summary_large_image" : "summary", title: metaTitle, description, images: image ? [image] : undefined },
   };
 }

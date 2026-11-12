@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { EnvelopeIcon } from "@sanity/icons";
+import { EnvelopeIcon } from "@sanity/icons/Envelope";
 
 /** Written by the contact / enquiry forms. Read-only in the Studio. */
 export const enquiry = defineType({

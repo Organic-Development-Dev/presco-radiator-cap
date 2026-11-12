@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { ComposeIcon } from "@sanity/icons";
+import { ComposeIcon } from "@sanity/icons/Compose";
 
 export const post = defineType({
   name: "post",
@@ -24,12 +24,24 @@ export const post = defineType({
       name: "mainImage",
       type: "image",
       options: { hotspot: true },
-      fields: [defineField({ name: "alt", title: "Alternative text", type: "string" })],
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alternative text",
+          type: "string",
+          validation: (rule) => rule.required().warning("Add alternative text for accessibility and SEO"),
+        }),
+      ],
     }),
-    defineField({ name: "excerpt", type: "text", rows: 3 }),
+    defineField({
+      name: "excerpt",
+      type: "text",
+      rows: 3,
+      description: "Shown on news listings and used as the meta description if none is set. Aim for under 160 characters.",
+    }),
     defineField({ name: "body", type: "blockContent" }),
     defineField({ name: "seo", type: "seo" }),
-    defineField({ name: "wpId", title: "WordPress ID", type: "number", readOnly: true }),
+    defineField({ name: "wpId", title: "WordPress ID", type: "number", readOnly: true, hidden: true }),
   ],
   orderings: [{ title: "Newest first", name: "publishedDesc", by: [{ field: "publishedAt", direction: "desc" }] }],
   preview: { select: { title: "title", subtitle: "publishedAt", media: "mainImage" } },

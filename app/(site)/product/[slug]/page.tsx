@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cache } from "react";
 import { notFound, permanentRedirect } from "next/navigation";
 import { toPlainText } from "next-sanity";
 import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs";
@@ -7,7 +8,11 @@ import { ProductEnquiryButtons } from "@/components/catalogue/ProductEnquiryButt
 import { ProductGallery } from "@/components/catalogue/ProductGallery";
 import { ProductGrid } from "@/components/ProductCard";
 import { RichText } from "@/components/RichText";
+import { ORGANIZATION_ID } from "@/components/SiteJsonLd";
 import { buildMetadata } from "@/lib/metadata";
+import { getPage } from "@/lib/pages";
+import { getSiteSettings } from "@/lib/settings";
+import { tidyLabel, truncate } from "@/lib/text";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import type { Product } from "@/lib/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -18,13 +23,13 @@ type Props = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = true;
 
-function getProduct(slug: string) {
-  return sanityFetch<Product | null>({
+const getProduct = cache((slug: string) =>
+  sanityFetch<Product | null>({
     query: PRODUCT_QUERY,
     params: { slug },
     tags: ["product", "productCategory", `product:${slug}`],
-  });
-}
+  }),
+);
 
 export async function generateStaticParams() {
   const slugs = await sanityFetch<{ slug: string }[]>({ query: PRODUCT_SLUGS_QUERY, tags: ["product"] });
@@ -35,25 +40,56 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProduct(slug);
   if (!product) return {};
+  const settings = await getSiteSettings();
   return buildMetadata({
-    title: product.title,
+    title: productTitle(product),
     seo: product.seo,
     path: `/product/${product.slug}/`,
-    fallbackDescription: describe(product),
+    fallbackDescription: describe(product, settings?.siteName || SITE_NAME),
+    fallbackImage: product.images?.find((img) => img?.asset),
   });
 }
 
-/** Short plain-text description for meta tags and JSON-LD. */
-function describe(product: Product): string {
-  const text = toPlainText(product.summary ?? product.description ?? []).replace(/\s+/g, " ").trim();
-  if (text) return text.length > 160 ? `${text.slice(0, 157)}…` : text;
-  const type = product.partType?.[0] ?? "radiator cap";
-  return `${product.title} ${type.toLowerCase()} from ${SITE_NAME}. Enquire for availability and pricing.`;
+/** "PAG9 Pressure Cap": part numbers alone make weak page titles. */
+/** Part type, or failing that what the product's (most specific) category calls its products. */
+function productType(product: Product): string {
+  const categories = [...(product.categories ?? [])].filter(Boolean).sort((a, b) => Number(b.isChild) - Number(a.isChild));
+  const type = tidyLabel(product.partType?.[0]) || categories.find((c) => c.productNoun)?.productNoun || "";
+  return type && !product.title.toLowerCase().includes(type.toLowerCase()) ? type : "";
+}
+
+function productTitle(product: Product): string {
+  const type = productType(product);
+  return type ? `${product.title} ${type}` : product.title;
+}
+
+/** Plain-text description for meta tags and JSON-LD, built from the specs when there's no copy. */
+function describe(product: Product, siteName: string): string {
+  const copy = toPlainText(product.description ?? []).trim();
+  if (copy) return truncate(copy);
+  const list = (values: string[] | null | undefined, n = 4) =>
+    (values ?? [])
+      .map((v) => v.replace(/[\s,.;]+$/, ""))
+      .filter(Boolean)
+      .slice(0, n)
+      .join(", ")
+      .replace(/[\s,]+$/, "");
+  const parts = [
+    `${productTitle(product)} from ${siteName}`,
+    list(product.applications) && `for ${list(product.applications)}`,
+  ].filter(Boolean);
+  const extras = [
+    list(product.oeNumbers, 3) && `OE: ${list(product.oeNumbers, 3)}.`,
+    list(product.pressure, 2) && `Pressure: ${list(product.pressure, 2)}.`,
+    "Enquire today for pricing and availability.",
+  ].filter(Boolean);
+  return truncate(`${parts.join(" ")}. ${extras.join(" ")}`);
 }
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = await getProduct(slug);
+  const [product, productsPage, settings] = await Promise.all([getProduct(slug), getPage("products"), getSiteSettings()]);
+  const siteName = settings?.siteName || SITE_NAME;
 
   if (!product) {
     // Old WooCommerce links used numeric IDs: /product/7314/
@@ -69,7 +105,8 @@ export default async function ProductPage({ params }: Props) {
   }
 
   const images = (product.images ?? []).filter((img) => img?.asset);
-  const category = product.categories?.find((c) => c?.slug);
+  // Breadcrumb through the most specific category (a child category if there is one).
+  const category = product.categories?.find((c) => c?.slug && c.isChild) ?? product.categories?.find((c) => c?.slug);
   const related = (product.related ?? []).filter((p) => p?.slug).slice(0, 8);
   const url = `${SITE_URL}/product/${product.slug}/`;
 
@@ -82,7 +119,7 @@ export default async function ProductPage({ params }: Props) {
   ];
 
   const crumbs: Crumb[] = [
-    { label: "Products & Solutions", href: "/products/" },
+    { label: productsPage?.title ?? "Products & Solutions", href: "/products/" },
     ...(category ? [{ label: category.title, href: `/product-category/${category.slug}/` }] : []),
     { label: product.title },
   ];
@@ -96,7 +133,12 @@ export default async function ProductPage({ params }: Props) {
           <ProductGallery images={images} title={product.title} />
 
           <div>
-            <h1 className="text-2xl font-semibold text-primary sm:text-3xl">{product.title}</h1>
+            <h1 className="text-2xl font-semibold text-primary sm:text-3xl">
+              {product.title}
+              {productType(product) && (
+                <span className="mt-1 block text-lg font-normal text-secondary">{productType(product)}</span>
+              )}
+            </h1>
 
             <dl className="mt-6 space-y-4">
               {specs.map(({ label, values }) => {
@@ -151,8 +193,9 @@ export default async function ProductPage({ params }: Props) {
           sku: product.title,
           mpn: product.title,
           url,
-          description: describe(product),
-          brand: { "@type": "Brand", name: SITE_NAME },
+          description: describe(product, siteName),
+          brand: { "@type": "Brand", name: siteName },
+          manufacturer: { "@id": ORGANIZATION_ID },
           ...(images.length ? { image: images.map((img) => urlFor(img).width(1200).url()) } : {}),
           ...(category ? { category: category.title } : {}),
           ...(product.oeNumbers?.length
