@@ -21,8 +21,9 @@ export function documentHref(type: string, slug?: string | null): string | null 
 /** Resolve a link field (internal reference or URL) to an href. */
 export function resolveHref(link: LinkTarget | null | undefined): string | null {
   if (!link) return null;
-  if (link.internal) return documentHref(link.internal._type, link.internal.slug);
-  return link.url || null;
+  const href = link.internal ? documentHref(link.internal._type, link.internal.slug) : link.url || null;
+  if (!href || !link.anchor) return href;
+  return `${href.split("#")[0]}#${link.anchor}`;
 }
 
 export const isExternalHref = (href: string) => /^https?:\/\//.test(href);

@@ -64,7 +64,18 @@ export type Page = {
   intro?: string | null;
   heroImage?: SanityImage | null;
   body?: PortableTextBlock[] | null;
+  teamHeading?: string | null;
+  teamMembers?: TeamMember[] | null;
   seo?: Seo;
+};
+
+export type TeamMember = {
+  _id: string;
+  name: string;
+  role?: string | null;
+  email?: string | null;
+  bio?: string | null;
+  photo?: SanityImage | null;
 };
 
 export type PostCard = {
@@ -82,6 +93,7 @@ export type Post = PostCard & { _updatedAt?: string; body?: PortableTextBlock[] 
 export type LinkTarget = {
   internal?: { _type: string; slug?: string | null } | null;
   url?: string | null;
+  anchor?: string | null;
 };
 
 export type NavLinkData = LinkTarget & { _key: string; label: string };

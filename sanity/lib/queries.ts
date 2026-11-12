@@ -16,7 +16,7 @@ const seoFields = /* groq */ `seo{ title, description, noIndex, image }`;
 
 /** A link's target: an internal document (resolved to a URL in lib/links.ts) or a raw URL. */
 const linkTarget = /* groq */ `"internal": internal->{ _type, "slug": slug.current }, url`;
-const navLinkFields = /* groq */ `_key, label, ${linkTarget}`;
+const navLinkFields = /* groq */ `_key, label, anchor, ${linkTarget}`;
 
 export const SITE_SETTINGS_QUERY = defineQuery(`*[_id == "siteSettings"][0]{
   siteName, legalName, email, phone, fax, address, openingHours, mapEmbedUrl, socialLinks,
@@ -107,7 +107,10 @@ export const SEARCH_QUERY = defineQuery(`*[_type == "product" && (
   | order(_score desc, title asc)[0...60]{ ${productCard} }`);
 
 export const PAGE_QUERY = defineQuery(`*[_type == "page" && slug.current == $slug][0]{
-  _id, _updatedAt, title, "slug": slug.current, intro, heroImage{ ${imageFields} }, body, ${seoFields}
+  _id, _updatedAt, title, "slug": slug.current, intro, heroImage{ ${imageFields} }, body,
+  teamHeading,
+  teamMembers[]->{ _id, name, role, email, bio, photo{ ${imageFields} } },
+  ${seoFields}
 }`);
 
 export const POSTS_QUERY = defineQuery(`*[_type == "post" && defined(slug.current)]
@@ -129,6 +132,11 @@ export const SITEMAP_QUERY = defineQuery(`{
 
 export const PAGE_SLUGS_QUERY = defineQuery(
   `*[_type == "page" && defined(slug.current)]{ "slug": slug.current }`,
+);
+
+/** Current slug of a post that used to live at $slug (for redirects). */
+export const POST_REDIRECT_QUERY = defineQuery(
+  `*[_type == "post" && $slug in previousSlugs && defined(slug.current)][0].slug.current`,
 );
 
 export const POST_SLUGS_QUERY = defineQuery(

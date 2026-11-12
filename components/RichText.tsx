@@ -7,6 +7,12 @@ import { dataset, projectId } from "@/sanity/env";
 type VideoBlock = { url?: string; caption?: string; file?: { asset?: { _ref: string } } };
 type TableBlock = { rows?: { _key: string; cells?: string[] }[] };
 
+/** "image-<id>-500x400-png" -> { width: 500, height: 400 } */
+function imageSize(ref?: string) {
+  const m = ref?.match(/-(\d+)x(\d+)-[a-z]+$/);
+  return m ? { width: Number(m[1]), height: Number(m[2]) } : null;
+}
+
 /** "file-<id>-<ext>" -> CDN URL */
 function fileUrl(ref: string) {
   const [, id, ext] = ref.split("-");
@@ -58,12 +64,18 @@ const components: PortableTextComponents = {
     },
   },
   types: {
-    image: ({ value }: { value: SanityImageType & { caption?: string } }) => (
-      <figure className="my-8">
-        <SanityImage image={value} width={960} className="h-auto w-full rounded-lg" sizes="(min-width: 1024px) 960px, 100vw" />
-        {value.caption && <figcaption className="mt-2 text-center text-sm text-gray-500">{value.caption}</figcaption>}
-      </figure>
-    ),
+    image: ({ value }: { value: SanityImageType & { caption?: string } }) => {
+      // Never stretch an image beyond its real size (small photos looked blown up at full width).
+      const size = imageSize(value.asset?._ref);
+      const width = Math.min(size?.width ?? 960, 960);
+      const image = size ? { ...value, dimensions: { ...size, aspectRatio: size.width / size.height } } : value;
+      return (
+        <figure className="my-8" style={{ maxWidth: width }}>
+          <SanityImage image={image} width={width} className="h-auto w-full rounded-lg" sizes={`(min-width: ${width}px) ${width}px, 100vw`} />
+          {value.caption && <figcaption className="mt-2 text-center text-sm text-gray-500">{value.caption}</figcaption>}
+        </figure>
+      );
+    },
     video: ({ value }: { value: VideoBlock }) => {
       const src = value.file?.asset?._ref ? fileUrl(value.file.asset._ref) : value.url;
       if (!src) return null;

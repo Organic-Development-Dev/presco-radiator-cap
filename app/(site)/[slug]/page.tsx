@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PageHeader } from "@/components/content/PageHeader";
 import { RichText } from "@/components/RichText";
+import { TeamGrid } from "@/components/content/TeamGrid";
 import { buildMetadata } from "@/lib/metadata";
 import type { Page } from "@/lib/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -48,6 +49,7 @@ export default async function CmsPage({ params }: Props) {
         <PageHeader title={page.title} heroImage={page.heroImage} />
         {page.intro && <p className="mb-8 max-w-3xl text-lg leading-relaxed text-gray-600">{page.intro}</p>}
         <RichText value={page.body} className="max-w-none" />
+        <TeamGrid heading={page.teamHeading} members={page.teamMembers} />
       </article>
     </>
   );

@@ -444,6 +444,89 @@ async function main() {
     if (Object.keys(set).length || unset.length) tx.patch(product._id, (p) => p.set(set).unset(unset));
   }
 
+  // -------------------------------------------------------------------------
+  // Posts: shorter slugs; the old ones 308-redirect via previousSlugs
+  // -------------------------------------------------------------------------
+  const newPostSlugs: Record<string, string> = {
+    "presco-radiator-caps-will-be-showing-at-the-following-exhibition-shows-during-2020": "exhibitions-2020",
+    "equip-auto-show-algeria-02-03-2020-05-03-2020-stand-details-will-follow": "equip-auto-algeria-2020",
+  };
+  const postSlugs = await sanity.fetch<{ _id: string; slug: string }[]>(`*[_type == "post"]{ _id, "slug": slug.current }`);
+  for (const post of postSlugs) {
+    const next = newPostSlugs[post.slug];
+    if (!next) continue;
+    tx.patch(post._id, (p) =>
+      p
+        .set({ slug: { _type: "slug", current: next } })
+        .setIfMissing({ previousSlugs: [] })
+        .append("previousSlugs", [post.slug]),
+    );
+  }
+
+  // -------------------------------------------------------------------------
+  // About Us: the "Meet the Team" part of the body becomes teamMember documents
+  // shown as cards (the WordPress layout came across as huge stacked photos)
+  // -------------------------------------------------------------------------
+  type BodyBlock = { _type: string; style?: string; children?: { text?: string }[]; asset?: { _ref: string }; alt?: string };
+  const about = await sanity.fetch<{ _id: string; body?: BodyBlock[] } | null>(
+    `*[_type == "page" && slug.current == "about-us" && !(_id in path("drafts.**"))][0]{ _id, body }`,
+  );
+  const text = (b: BodyBlock) => (b.children ?? []).map((c) => c.text ?? "").join("").trim();
+  const teamStart = about?.body?.findIndex((b) => b.style === "h2" && /meet the team/i.test(text(b))) ?? -1;
+  if (about?.body && teamStart >= 0) {
+    const members: { name: string; role?: string; email?: string; photo?: BodyBlock; bio: string[] }[] = [];
+    let photo: BodyBlock | undefined;
+    for (const block of about.body.slice(teamStart + 1)) {
+      if (block._type === "image") photo = block;
+      else if (block.style === "h3") {
+        members.push({ name: text(block), photo, bio: [] });
+        photo = undefined;
+      } else if (block._type === "block" && members.length) {
+        const current = members[members.length - 1];
+        const t = text(block);
+        if (!t || t === "Presco Radiator Caps") continue; // WordPress team-box filler
+        if (current.role === undefined) {
+          const [role, email] = t.split("\n").map((s) => s.trim());
+          current.role = role.replace("Adminstration", "Administration");
+          current.email = email?.includes("@") ? email : undefined;
+        } else current.bio.push(t);
+      }
+    }
+    const ids = members.map((m) => `team-${m.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`);
+    members.forEach((m, i) =>
+      tx.createIfNotExists({
+        _id: ids[i],
+        _type: "teamMember",
+        name: m.name,
+        role: m.role,
+        email: m.email,
+        bio: m.bio.join("\n\n"),
+        ...(m.photo?.asset ? { photo: { _type: "image", asset: m.photo.asset, alt: m.photo.alt || m.name } } : {}),
+      }),
+    );
+    tx.patch(about._id, (p) =>
+      p
+        .setIfMissing({
+          teamHeading: text(about.body![teamStart]),
+          teamMembers: ids.map((id) => ({ _type: "reference", _ref: id, _key: key() })),
+        })
+        .set({ body: about.body!.slice(0, teamStart) }),
+    );
+    log(`About Us: ${members.length} team members moved out of the page body`);
+  }
+
+  // "Meet the team" menu link jumps to the team section
+  const menu = await sanity.fetch<{ _key: string; children?: { _key: string; label: string; anchor?: string }[] }[] | null>(
+    `*[_id == "siteSettings"][0].mainMenu`,
+  );
+  for (const item of menu ?? []) {
+    for (const child of item.children ?? []) {
+      if (/meet the team/i.test(child.label) && !child.anchor) {
+        tx.patch("siteSettings", (p) => p.set({ [`mainMenu[_key=="${item._key}"].children[_key=="${child._key}"].anchor`]: "team" }));
+      }
+    }
+  }
+
   log(`${tx.toJSON().length} mutations (${altFixes} image alt texts, ${seoFixes} product descriptions removed)`);
   if (!DRY_RUN) {
     await tx.commit();

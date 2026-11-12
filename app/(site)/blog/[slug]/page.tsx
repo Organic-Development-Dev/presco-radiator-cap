@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { cache } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { PostDate } from "@/components/content/PostDate";
@@ -15,7 +15,7 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
 import type { Post } from "@/lib/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { urlFor } from "@/sanity/lib/image";
-import { POST_NEIGHBOURS_QUERY, POST_QUERY, POST_SLUGS_QUERY } from "@/sanity/lib/queries";
+import { POST_NEIGHBOURS_QUERY, POST_QUERY, POST_REDIRECT_QUERY, POST_SLUGS_QUERY } from "@/sanity/lib/queries";
 
 type Props = { params: Promise<{ slug: string }> };
 type PostLink = { title: string; slug: string } | null;
@@ -52,7 +52,12 @@ export default async function PostPage({ params }: Props) {
     getPage("news"),
   ]);
   const newsTitle = newsPage?.title ?? "News";
-  if (!post) notFound();
+  if (!post) {
+    // Old (renamed) slug: 308 to the current address.
+    const current = await sanityFetch<string | null>({ query: POST_REDIRECT_QUERY, params: { slug }, tags: ["post"] });
+    if (current) permanentRedirect(`/blog/${current}/`);
+    notFound();
+  }
 
   const url = `${SITE_URL}/blog/${post.slug}/`;
   const image = post.mainImage?.asset ? urlFor(post.mainImage).width(1200).url() : undefined;

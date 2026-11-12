@@ -41,7 +41,17 @@ export const navLink = defineType({
   title: "Link",
   type: "object",
   icon: LinkIcon,
-  fields: [defineField({ name: "label", type: "string", validation: (rule) => rule.required() }), internalField, urlField],
+  fields: [
+    defineField({ name: "label", type: "string", validation: (rule) => rule.required() }),
+    internalField,
+    urlField,
+    defineField({
+      name: "anchor",
+      type: "string",
+      description: "Optional: jump to a section of the page, e.g. team.",
+      validation: (rule) => rule.regex(/^[a-z0-9-]+$/, { name: "anchor" }).error("Lower-case letters, numbers and dashes only"),
+    }),
+  ],
   validation: requireTarget,
   preview: {
     select: { title: "label", internalTitle: "internal.title", url: "url" },

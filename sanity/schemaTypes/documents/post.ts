@@ -11,8 +11,17 @@ export const post = defineType({
     defineField({
       name: "slug",
       type: "slug",
-      options: { source: "title", maxLength: 96 },
+      description: "Keep it short, e.g. exhibitions-2020. If you change it, add the old one to 'Previous URLs' below.",
+      options: { source: "title", maxLength: 60 },
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "previousSlugs",
+      title: "Previous URLs",
+      type: "array",
+      of: [{ type: "string" }],
+      description: "Old slugs that should permanently redirect to this post (just the slug, not the full address).",
+      options: { layout: "tags" },
     }),
     defineField({
       name: "publishedAt",

@@ -1,4 +1,4 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 import { DocumentIcon } from "@sanity/icons/Document";
 
 export const page = defineType({
@@ -8,6 +8,7 @@ export const page = defineType({
   icon: DocumentIcon,
   groups: [
     { name: "content", title: "Content", default: true },
+    { name: "team", title: "Team" },
     { name: "seo", title: "SEO" },
   ],
   fields: [
@@ -37,6 +38,21 @@ export const page = defineType({
       fields: [defineField({ name: "alt", title: "Alternative text", type: "string" })],
     }),
     defineField({ name: "body", type: "blockContent", group: "content" }),
+    defineField({
+      name: "teamHeading",
+      title: "Team heading",
+      type: "string",
+      group: "team",
+      description: "Shown above the team grid. Link to it from a menu with the anchor 'team'.",
+    }),
+    defineField({
+      name: "teamMembers",
+      title: "Team members",
+      type: "array",
+      group: "team",
+      description: "Shown as cards after the page content, in this order.",
+      of: [defineArrayMember({ type: "reference", to: [{ type: "teamMember" }] })],
+    }),
     defineField({ name: "seo", type: "seo", group: "seo" }),
     defineField({ name: "wpId", title: "WordPress ID", type: "number", readOnly: true, hidden: true }),
   ],

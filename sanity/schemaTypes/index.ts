@@ -9,6 +9,7 @@ import { post } from "./documents/post";
 import { product } from "./documents/product";
 import { productCategory } from "./documents/productCategory";
 import { siteSettings } from "./documents/siteSettings";
+import { teamMember } from "./documents/teamMember";
 import { testimonial } from "./documents/testimonial";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
@@ -18,6 +19,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   page,
   post,
   testimonial,
+  teamMember,
   siteSettings,
   enquiry,
   blockContent,
