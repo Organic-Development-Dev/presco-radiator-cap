@@ -31,6 +31,6 @@ Use Node 24 (`.nvmrc`). On this machine: `export PATH=/opt/homebrew/opt/node@24/
 
 ## Conventions
 - Server components by default; client components only for interactivity, kept small.
-- Tailwind utilities + the component classes in `app/globals.css` (`.container-site`, `.btn-primary`, ...). Brand colour `primary` (#a11a36).
+- Tailwind utilities + the component classes in `app/globals.css` (`.container-site`, `.btn-primary`, ...). Brand colour `primary` is navy #445a8e (legacy sets red #A11A36 in _document.js but style.scss overrides it — the live site is navy).
 - Named exports for components; PascalCase component files; 2-space indent.
 - Never commit `.env*` files (only `.env.example`).
