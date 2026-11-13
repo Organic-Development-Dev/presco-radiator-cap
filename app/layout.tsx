@@ -19,7 +19,15 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { default: siteName, template: `%s | ${siteName}` },
     description: settings?.defaultSeo?.description ?? undefined,
     applicationName: siteName,
-    icons: { icon: "/img/favicon.png" },
+    icons: {
+      icon: [
+        { url: "/icons/icon.svg", type: "image/svg+xml" },
+        { url: "/icons/favicon-32.png", sizes: "32x32", type: "image/png" },
+      ],
+      apple: { url: "/icons/apple-touch-icon.png", sizes: "180x180" },
+    },
+    // iOS "Add to Home Screen": open full screen with the site name under the icon.
+    appleWebApp: { capable: true, title: "Presco", statusBarStyle: "default" },
     formatDetection: { telephone: false, email: false, address: false },
     robots: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
   };

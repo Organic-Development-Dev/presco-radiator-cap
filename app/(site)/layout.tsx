@@ -1,6 +1,7 @@
 import { GoogleTagManager } from "@next/third-parties/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { ServiceWorker } from "@/components/ServiceWorker";
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
@@ -16,6 +17,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         {children}
       </main>
       <Footer />
+      <ServiceWorker />
     </>
   );
 }
