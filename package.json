@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@portabletext/block-tools": "^6.0.7",
-    "@sanity/client": "^8.15.1",
+    "@sanity/client": "^8.16.0",
     "@sanity/schema": "^6.23.0",
     "@tailwindcss/postcss": "^4.3.5",
     "@types/jsdom": "^30.0.0",
