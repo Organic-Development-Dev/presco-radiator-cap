@@ -11,7 +11,7 @@ export const LINKABLE_TYPES = [
   { type: "productCategory" },
 ];
 
-const internalField = defineField({
+export const internalField = defineField({
   name: "internal",
   title: "Link to a page on this site",
   type: "reference",
@@ -19,7 +19,7 @@ const internalField = defineField({
   weak: true,
 });
 
-const urlField = defineField({
+export const urlField = defineField({
   name: "url",
   title: "…or a URL",
   type: "string",
@@ -30,7 +30,7 @@ const urlField = defineField({
     ),
 });
 
-const requireTarget = (rule: ObjectRule) =>
+export const requireTarget = (rule: ObjectRule) =>
   rule.custom((value?: { internal?: unknown; url?: string }) =>
     value?.internal || value?.url ? true : "Choose a page or enter a URL",
   );
@@ -133,6 +133,14 @@ export const heroSlide = defineType({
         }),
       ],
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "mobileImage",
+      title: "Phone image (optional)",
+      type: "image",
+      description:
+        "Shown on phones instead of the wide banner, 5:3 (e.g. 1200 × 720 px). Use it when the wide banner has text that gets cut off on small screens. Uses the same alternative text.",
+      options: { hotspot: true },
     }),
     internalField,
     urlField,

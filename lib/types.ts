@@ -135,7 +135,7 @@ export type SiteSettings = {
 
 export type Testimonial = { _id: string; quote: string; name: string; role?: string | null; company?: string | null };
 
-export type HeroSlide = LinkTarget & { _key: string; image: SanityImage };
+export type HeroSlide = LinkTarget & { _key: string; image: SanityImage; mobileImage?: SanityImage | null };
 
 export type HomePage = {
   heading?: string | null;

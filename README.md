@@ -26,6 +26,15 @@ npm run dev        # http://localhost:3000, Studio at /studio
 
 Pages are cached. A Sanity webhook calls `POST /api/revalidate` on publish, which revalidates the cache tags for that document type. Setup is documented in `app/api/revalidate/route.ts`.
 
+### Redirects
+
+Editors manage old → new addresses under **Redirects** in the Studio. They're read when the site builds (`next.config.ts` → `lib/redirects.ts`), so they add no per-request cost, but a change only goes live after a rebuild. Set this up once:
+
+1. Vercel → Project → Settings → Git → **Deploy Hooks**: create one for `main` and copy the URL.
+2. sanity.io/manage → API → **Webhooks** → Create: URL = the deploy hook, Dataset = production, Trigger on = create/update/delete, Filter = `_type == "redirect"`, HTTP method = POST.
+
+Saving a redirect then rebuilds the site (about 2 minutes). Renamed blog posts are also handled instantly via the post's "Previous URLs" field.
+
 ## Layout
 
 - `app/(site)/` — public pages; `app/studio/` — embedded Sanity Studio; `app/actions/` — form server actions

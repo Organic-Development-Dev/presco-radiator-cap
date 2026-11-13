@@ -51,6 +51,12 @@ export default async function HomePage() {
   const slides: CarouselSlide[] = (page?.heroSlides ?? []).map((slide) => ({
     key: slide._key,
     src: urlFor(slide.image).width(2000).height(800).fit("crop").url(),
+    // Phones: the dedicated phone image if there is one, otherwise the wide banner cropped around its hotspot.
+    mobileSrc: urlFor(slide.mobileImage?.asset ? slide.mobileImage : slide.image)
+      .width(1200)
+      .height(720)
+      .fit("crop")
+      .url(),
     alt: slide.image.alt ?? "",
     href: resolveHref(slide),
     blurDataURL: slide.image.lqip,

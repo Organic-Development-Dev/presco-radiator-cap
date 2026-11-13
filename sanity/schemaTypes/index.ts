@@ -8,6 +8,7 @@ import { page } from "./documents/page";
 import { post } from "./documents/post";
 import { product } from "./documents/product";
 import { productCategory } from "./documents/productCategory";
+import { redirect } from "./documents/redirect";
 import { siteSettings } from "./documents/siteSettings";
 import { teamMember } from "./documents/teamMember";
 import { testimonial } from "./documents/testimonial";
@@ -21,6 +22,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   testimonial,
   teamMember,
   siteSettings,
+  redirect,
   enquiry,
   blockContent,
   seo,

@@ -28,7 +28,7 @@ export const SITE_SETTINGS_QUERY = defineQuery(`*[_id == "siteSettings"][0]{
 
 export const HOME_PAGE_QUERY = defineQuery(`*[_id == "homePage"][0]{
   heading,
-  heroSlides[defined(image.asset)]{ _key, image{ ${imageFields} }, ${linkTarget} },
+  heroSlides[defined(image.asset)]{ _key, image{ ${imageFields} }, mobileImage{ ${imageFields} }, ${linkTarget} },
   featuresHeading,
   features[]{ _key, title, text, icon{ ${imageFields} } },
   productsHeading,

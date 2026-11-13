@@ -21,6 +21,7 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("testimonial").title("Testimonials"),
       S.divider(),
       S.documentTypeListItem("enquiry").title("Enquiries"),
+      S.documentTypeListItem("redirect").title("Redirects"),
       S.listItem()
         .title("Site settings")
         .id("siteSettings")

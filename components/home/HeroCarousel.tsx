@@ -1,12 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import Link from "next/link";
 
 export type CarouselSlide = {
   key: string;
   src: string;
+  /** 5:3 image for phones (< 768px). */
+  mobileSrc: string;
   alt: string;
   href: string | null;
   blurDataURL?: string | null;
@@ -58,19 +60,32 @@ export function HeroCarousel({ slides }: { slides: CarouselSlide[] }) {
         className="flex aspect-[5/3] snap-x md:aspect-[5/2] snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {slides.map((slide, index) => {
+          // Art direction: phones download only the 5:3 image, larger screens only the 5:2 one.
+          const shared = {
+            alt: slide.alt,
+            fill: true,
+            sizes: "100vw",
+            // No `preload` here: with <picture> it would fetch both images. Eager + high priority instead.
+            loading: index === 0 ? ("eager" as const) : ("lazy" as const),
+            fetchPriority: index === 0 ? ("high" as const) : undefined,
+            // Sanity's CDN already sizes and converts the image.
+            unoptimized: true,
+          };
+          const { props: desktop } = getImageProps({ ...shared, src: slide.src });
+          const { props: mobile } = getImageProps({ ...shared, src: slide.mobileSrc });
           const image = (
-            <Image
-              src={slide.src}
-              alt={slide.alt}
-              fill
-              preload={index === 0}
-              sizes="100vw"
-              placeholder={slide.blurDataURL ? "blur" : "empty"}
-              blurDataURL={slide.blurDataURL ?? undefined}
-              // Sanity's CDN already sizes and converts the image.
-              unoptimized
-              className="object-cover"
-            />
+            <picture>
+              <source media="(max-width: 767px)" srcSet={mobile.srcSet ?? mobile.src} />
+              <img
+                {...desktop}
+                alt={slide.alt}
+                className="object-cover"
+                style={{
+                  ...desktop.style,
+                  ...(slide.blurDataURL && { backgroundImage: `url(${slide.blurDataURL})`, backgroundSize: "cover" }),
+                }}
+              />
+            </picture>
           );
           const common = {
             "aria-roledescription": "slide",
