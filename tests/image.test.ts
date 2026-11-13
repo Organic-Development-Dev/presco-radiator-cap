@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { imageSize, withDimensions } from "@/lib/image";
+import type { SanityImage } from "@/lib/types";
 
 describe("imageSize", () => {
   it("reads the size from a Sanity asset ref", () => {
@@ -13,7 +14,7 @@ describe("imageSize", () => {
 
 describe("withDimensions", () => {
   it("adds the aspect ratio from the ref", () => {
-    const image = withDimensions({ asset: { _type: "reference" as const, _ref: "image-x-1000x500-jpg" } });
+    const image = withDimensions<SanityImage>({ asset: { _type: "reference", _ref: "image-x-1000x500-jpg" } });
     expect(image.dimensions).toEqual({ width: 1000, height: 500, aspectRatio: 2 });
   });
   it("leaves images without a parsable ref alone", () => {
