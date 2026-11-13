@@ -134,10 +134,10 @@ export default async function ProductPage({ params }: Props) {
           <ProductGallery images={images} title={product.title} />
 
           <div>
-            <h1 className="text-2xl font-semibold text-primary sm:text-3xl">
+            <h1 className="text-2xl font-semibold text-accent sm:text-3xl">
               {product.title}
               {productType(product) && (
-                <span className="mt-1 block text-lg font-normal text-secondary">{productType(product)}</span>
+                <span className="mt-1 block text-lg font-normal text-ink">{productType(product)}</span>
               )}
             </h1>
 
@@ -147,7 +147,7 @@ export default async function ProductPage({ params }: Props) {
                 if (!list.length) return null;
                 return (
                   <div key={label}>
-                    <dt className="text-sm font-semibold uppercase tracking-wide text-primary">{label}</dt>
+                    <dt className="text-sm font-semibold uppercase tracking-wide text-accent">{label}</dt>
                     {label === "Applications" ? (
                       // Entries contain commas themselves ("Audi: A4, A6, A8"), so one per line.
                       <dd className="mt-1 text-sm">
@@ -171,7 +171,7 @@ export default async function ProductPage({ params }: Props) {
                 {product.guides.map((g, i) => (
                   <span key={g.slug}>
                     {i > 0 && (i === product.guides!.length - 1 ? " and " : ", ")}
-                    <Link href={`/applications/${g.slug}/`} className="font-semibold text-primary underline">
+                    <Link href={`/applications/${g.slug}/`} className="font-semibold text-accent underline">
                       {g.title}
                     </Link>
                   </span>
@@ -182,7 +182,7 @@ export default async function ProductPage({ params }: Props) {
 
             {product.summary?.length ? (
               <div className="mt-6">
-                <h2 className="text-sm font-semibold uppercase tracking-wide text-primary">Cross references</h2>
+                <h2 className="text-sm font-semibold uppercase tracking-wide text-accent">Cross references</h2>
                 <RichText value={product.summary} className="text-sm [&_p]:my-2" />
               </div>
             ) : null}

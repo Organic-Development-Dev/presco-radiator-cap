@@ -59,7 +59,7 @@ export async function Footer() {
     <>
       <Subscribe heading={settings?.newsletterHeading} text={settings?.newsletterText} />
       <footer className="text-white">
-        <div className="bg-secondary">
+        <div className="bg-footer">
           <div className="container-site grid gap-8 py-10 md:grid-cols-3">
             <div>
               <Image
@@ -151,7 +151,7 @@ export async function Footer() {
           </div>
         </div>
         {languages.length > 0 && (
-          <nav aria-label="Languages" className="bg-secondary">
+          <nav aria-label="Languages" className="bg-footer">
             <ul className="container-site flex flex-wrap justify-center gap-x-5 gap-y-2 border-t border-white/10 py-4 text-xs font-light">
               <li>
                 <Link href="/" lang="en" hrefLang="en" className="hover:underline">
@@ -168,7 +168,7 @@ export async function Footer() {
             </ul>
           </nav>
         )}
-        {copyright && <p className="bg-[#333333] p-4 text-center text-xs font-light">{copyright}</p>}
+        {copyright && <p className="bg-footer-dark p-4 text-center text-xs font-light">{copyright}</p>}
       </footer>
     </>
   );

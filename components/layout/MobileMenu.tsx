@@ -5,16 +5,16 @@ import Link from "next/link";
 import { ChevronDownIcon, CloseIcon, MenuIcon } from "./icons";
 import type { NavItem, NavLink } from "./nav-data";
 
-const topLinkClass = "block px-4 py-3 text-lg font-semibold uppercase text-primary";
+const topLinkClass = "block px-4 py-3 text-lg font-semibold uppercase text-accent";
 const summaryClass =
-  "flex cursor-pointer list-none items-center justify-between px-4 py-3 font-semibold uppercase text-primary [&::-webkit-details-marker]:hidden";
+  "flex cursor-pointer list-none items-center justify-between px-4 py-3 font-semibold uppercase text-accent [&::-webkit-details-marker]:hidden";
 
 function SubList({ links }: { links: NavLink[] }) {
   return (
-    <ul className="list-disc pb-2 pl-10 marker:text-primary">
+    <ul className="list-disc pb-2 pl-10 marker:text-accent">
       {links.map((link) => (
         <li key={link.label}>
-          <Link href={link.href} className="block px-2 py-3 text-primary">
+          <Link href={link.href} className="block px-2 py-3 text-accent">
             {link.label}
           </Link>
         </li>
@@ -35,7 +35,7 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
         aria-label="Open menu"
         aria-haspopup="dialog"
         onClick={() => dialogRef.current?.showModal()}
-        className="flex items-center px-3 py-2 text-primary"
+        className="flex items-center px-3 py-2 text-accent"
       >
         <MenuIcon className="h-6 w-6" />
       </button>
@@ -48,7 +48,7 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
           const target = e.target as HTMLElement;
           if (target === e.currentTarget || target.closest("a")) close();
         }}
-        className="m-0 h-dvh max-h-none w-[85%] max-w-sm bg-white p-0 shadow-xl backdrop:bg-black/50"
+        className="m-0 h-dvh max-h-none w-[85%] max-w-sm bg-page p-0 shadow-xl backdrop:bg-black/50"
       >
         <div className="flex justify-end p-3">
           <button
@@ -97,7 +97,7 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
                             />
                           </details>
                         ))}
-                        <Link href="/products/" className="block px-4 py-3 font-semibold uppercase text-primary">
+                        <Link href="/products/" className="block px-4 py-3 font-semibold uppercase text-accent">
                           All products
                         </Link>
                       </div>

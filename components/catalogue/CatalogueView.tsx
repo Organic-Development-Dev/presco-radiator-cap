@@ -63,7 +63,7 @@ export function CatalogueView({
         <div className="lg:grid lg:grid-cols-[16rem_1fr] lg:gap-10">
           {/* Mobile: collapsible drawer */}
           <details className="group mb-6 rounded-lg bg-surface lg:hidden">
-            <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-3 text-lg font-semibold uppercase text-primary [&::-webkit-details-marker]:hidden">
+            <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-3 text-lg font-semibold uppercase text-accent [&::-webkit-details-marker]:hidden">
               <svg aria-hidden="true" viewBox="0 0 24 24" className="size-6 fill-none stroke-current stroke-2">
                 <path d="M4 6h16M7 12h10M10 18h4" strokeLinecap="round" />
               </svg>
@@ -106,11 +106,11 @@ function CategoryNav({ categories, activeCategory }: { categories: Category[]; a
   if (!categories.length) return null;
   const linkClass = (active: boolean) =>
     `flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-sm transition-colors ${
-      active ? "bg-primary font-semibold text-white" : "hover:bg-surface hover:text-primary"
+      active ? "bg-primary font-semibold text-white" : "hover:bg-surface hover:text-accent"
     }`;
   return (
     <nav aria-label="Product categories">
-      <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">Categories</h2>
+      <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-accent">Categories</h2>
       <ul className="space-y-0.5">
         <li>
           <Link
@@ -163,7 +163,7 @@ function Pagination({
       <ul className="flex flex-wrap items-center justify-center gap-2">
         {page > 1 && (
           <li>
-            <Link href={catalogueHref(basePath, filters, page - 1)} rel="prev" className={`${base} border-gray-200 hover:border-primary hover:text-primary`}>
+            <Link href={catalogueHref(basePath, filters, page - 1)} rel="prev" className={`${base} border-gray-200 hover:border-accent hover:text-accent`}>
               <span aria-hidden="true">‹</span>
               <span className="sr-only">Previous page</span>
             </Link>
@@ -177,11 +177,11 @@ function Pagination({
               </span>
             )}
             {p === page ? (
-              <span aria-current="page" className={`${base} border-primary bg-primary font-semibold text-white`}>
+              <span aria-current="page" className={`${base} border-accent bg-primary font-semibold text-white`}>
                 {p}
               </span>
             ) : (
-              <Link href={catalogueHref(basePath, filters, p)} className={`${base} border-gray-200 hover:border-primary hover:text-primary`}>
+              <Link href={catalogueHref(basePath, filters, p)} className={`${base} border-gray-200 hover:border-accent hover:text-accent`}>
                 <span className="sr-only">Page </span>
                 {p}
               </Link>
@@ -190,7 +190,7 @@ function Pagination({
         ))}
         {page < totalPages && (
           <li>
-            <Link href={catalogueHref(basePath, filters, page + 1)} rel="next" className={`${base} border-gray-200 hover:border-primary hover:text-primary`}>
+            <Link href={catalogueHref(basePath, filters, page + 1)} rel="next" className={`${base} border-gray-200 hover:border-accent hover:text-accent`}>
               <span aria-hidden="true">›</span>
               <span className="sr-only">Next page</span>
             </Link>

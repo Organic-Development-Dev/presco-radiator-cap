@@ -65,7 +65,7 @@ export default async function PostPage({ params }: Props) {
       <article className="container-site py-10 sm:py-16">
         <div className="mx-auto max-w-3xl">
           <header className="mb-8 text-center">
-            <h1 className="text-2xl font-extrabold text-primary sm:text-3xl">{post.title}</h1>
+            <h1 className="text-2xl font-extrabold text-accent sm:text-3xl">{post.title}</h1>
             <PostDate date={post.publishedAt} className="mt-2 block text-sm text-gray-500" />
           </header>
 
@@ -86,7 +86,7 @@ export default async function PostPage({ params }: Props) {
               {neighbours?.older ? (
                 <Link href={`/blog/${neighbours.older.slug}/`} className="group">
                   <span className="block text-sm text-gray-500">Previous post</span>
-                  <span className="font-semibold text-primary group-hover:underline">{neighbours.older.title}</span>
+                  <span className="font-semibold text-accent group-hover:underline">{neighbours.older.title}</span>
                 </Link>
               ) : (
                 <span />
@@ -94,7 +94,7 @@ export default async function PostPage({ params }: Props) {
               {neighbours?.newer && (
                 <Link href={`/blog/${neighbours.newer.slug}/`} className="group sm:text-right">
                   <span className="block text-sm text-gray-500">Next post</span>
-                  <span className="font-semibold text-primary group-hover:underline">{neighbours.newer.title}</span>
+                  <span className="font-semibold text-accent group-hover:underline">{neighbours.newer.title}</span>
                 </Link>
               )}
             </nav>

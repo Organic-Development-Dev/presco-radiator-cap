@@ -9,7 +9,7 @@ export function ProductCard({ product, priority = false }: { product: ProductCar
       href={`/product/${product.slug}/`}
       className="group flex flex-col items-center text-center"
     >
-      <div className="relative h-32 w-full">
+      <div className="relative h-32 w-full rounded-lg bg-photo">
         <SanityImage
           image={product.image}
           alt={product.image?.alt || product.title}

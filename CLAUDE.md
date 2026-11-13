@@ -36,6 +36,6 @@ Use Node 24 (`.nvmrc`). On this machine: `export PATH=/opt/homebrew/opt/node@24/
 
 ## Conventions
 - Server components by default; client components only for interactivity, kept small.
-- Tailwind utilities + the component classes in `app/globals.css` (`.container-site`, `.btn-primary`, ...). Brand colour `primary` is navy #445a8e (legacy sets red #A11A36 in _document.js but style.scss overrides it — the live site is navy).
+- Tailwind utilities + the component classes in `app/globals.css` (`.container-site`, `.btn-primary`, ...). Colours are semantic tokens in `app/globals.css` that switch with the device's light/dark setting (`prefers-color-scheme`; no toggle): `bg-primary` = brand navy #445a8e as a background (always with white text); `text-accent`/`border-accent` = navy for text, links and borders (lightened in dark mode); `text-ink` body text, `text-body` secondary copy, `bg-page`, `bg-surface`, `bg-band`, `bg-footer`, `bg-footer-dark`, `bg-photo` (tile behind white-background product photos, transparent in light mode). Don't use `bg-white`/`text-gray-900`/hex colours for page chrome; use the tokens (greys 100–600 are remapped for dark mode). The legacy site's red (#A11A36) is not the brand colour.
 - Named exports for components; PascalCase component files; 2-space indent.
 - Never commit `.env*` files (only `.env.example`).

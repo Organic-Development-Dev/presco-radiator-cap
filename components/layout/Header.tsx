@@ -26,10 +26,10 @@ export async function Header() {
   const siteName = settings?.siteName || SITE_NAME;
 
   return (
-    <header className="sticky top-0 z-30 bg-white shadow-[0_4px_12px_0_rgba(0,0,0,0.05)]">
+    <header className="sticky top-0 z-30 bg-page shadow-[0_4px_12px_0_rgba(0,0,0,0.05)]">
       <div className="container-site flex items-center justify-between gap-4 py-4">
         <Link href="/" className="shrink-0" aria-label={`${siteName} – home`}>
-          <Image src="/img/logo.png" alt={siteName} width={300} height={124} preload className="h-auto w-36 sm:w-43" />
+          <Image src="/img/logo.png" alt={siteName} width={300} height={124} preload className="h-auto w-36 sm:w-43 dark:brightness-0 dark:invert" />
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-6 lg:flex xl:gap-10">

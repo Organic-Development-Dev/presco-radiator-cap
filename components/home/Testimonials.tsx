@@ -7,7 +7,7 @@ export function Testimonials({ heading, subheading, testimonials }: Props) {
   if (!testimonials.length) return null;
   return (
     <section aria-labelledby="testimonials-heading" className="container-site py-10">
-      <h2 id="testimonials-heading" className="text-center text-lg uppercase text-primary">
+      <h2 id="testimonials-heading" className="text-center text-lg uppercase text-accent">
         {heading && <span className="block font-light">{heading}</span>}
         {subheading && <span className="block font-bold">{subheading}</span>}
       </h2>
@@ -22,7 +22,7 @@ export function Testimonials({ heading, subheading, testimonials }: Props) {
               <p>{t.quote}</p>
             </blockquote>
             <figcaption className="pt-6 text-xs text-body">
-              <span className="block font-semibold uppercase text-secondary">{t.name}</span>
+              <span className="block font-semibold uppercase text-ink">{t.name}</span>
               {t.role && <span className="block pt-2">{t.role}</span>}
               {t.company && <span className="block pt-2">{t.company}</span>}
             </figcaption>

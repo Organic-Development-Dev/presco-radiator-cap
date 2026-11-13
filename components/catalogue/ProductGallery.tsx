@@ -18,7 +18,7 @@ export function ProductGallery({ images, title }: { images: SanityImageType[]; t
         onClick={() => current?.asset && zoom.current?.showModal()}
         disabled={!current?.asset}
         aria-label={current?.asset ? `Enlarge image of ${title}` : undefined}
-        className="relative block aspect-square w-full overflow-hidden rounded-xl bg-surface enabled:cursor-zoom-in"
+        className="relative block aspect-square w-full overflow-hidden rounded-xl bg-surface enabled:cursor-zoom-in dark:bg-photo"
       >
         <SanityImage
           image={current}
@@ -48,7 +48,7 @@ export function ProductGallery({ images, title }: { images: SanityImageType[]; t
           <button
             type="button"
             onClick={() => zoom.current?.close()}
-            className="absolute top-2 right-2 rounded-full bg-white/90 px-3 py-1 text-sm font-semibold text-secondary"
+            className="absolute top-2 right-2 rounded-full bg-white/90 px-3 py-1 text-sm font-semibold text-neutral-800"
           >
             Close
           </button>
@@ -64,8 +64,8 @@ export function ProductGallery({ images, title }: { images: SanityImageType[]; t
                 onClick={() => setActive(i)}
                 aria-pressed={i === active}
                 aria-label={`Show image ${i + 1} of ${images.length}`}
-                className={`relative block aspect-square w-full overflow-hidden rounded-lg border-2 bg-surface transition-colors ${
-                  i === active ? "border-primary" : "border-transparent hover:border-gray-300"
+                className={`relative block aspect-square w-full overflow-hidden rounded-lg border-2 bg-surface transition-colors dark:bg-photo ${
+                  i === active ? "border-accent" : "border-transparent hover:border-gray-300"
                 }`}
               >
                 <SanityImage image={image} alt="" width={160} fill sizes="120px" className="object-contain p-1" />

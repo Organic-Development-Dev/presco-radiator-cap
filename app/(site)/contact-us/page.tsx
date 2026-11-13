@@ -52,7 +52,7 @@ export default async function ContactPage() {
           )}
 
           <div>
-            <h2 id="contact-details-heading" className="text-lg font-semibold text-primary">
+            <h2 id="contact-details-heading" className="text-lg font-semibold text-accent">
               {name || "Contact details"}
             </h2>
             {address.length > 0 && (
@@ -69,7 +69,7 @@ export default async function ContactPage() {
                 <>
                   <dt className="font-semibold">Tel:</dt>
                   <dd>
-                    <a href={telHref(settings.phone)} className="text-primary hover:underline">
+                    <a href={telHref(settings.phone)} className="text-accent hover:underline">
                       {settings.phone}
                     </a>
                   </dd>
@@ -85,7 +85,7 @@ export default async function ContactPage() {
                 <>
                   <dt className="font-semibold">Email:</dt>
                   <dd>
-                    <a href={`mailto:${settings.email}`} className="break-all text-primary hover:underline">
+                    <a href={`mailto:${settings.email}`} className="break-all text-accent hover:underline">
                       {settings.email}
                     </a>
                   </dd>

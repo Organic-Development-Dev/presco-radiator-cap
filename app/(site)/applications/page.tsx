@@ -41,7 +41,7 @@ export default async function ApplicationsPage() {
         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {guides.map((guide) => (
             <li key={guide._id} className="flex flex-col rounded-lg border border-gray-200 p-6">
-              <h2 className="text-lg font-bold text-primary">
+              <h2 className="text-lg font-bold text-accent">
                 <Link href={`/applications/${guide.slug}/`} className="hover:underline">
                   {guide.title}
                 </Link>
@@ -53,7 +53,7 @@ export default async function ApplicationsPage() {
                     <li key={make}>
                       <Link
                         href={`/applications/${guide.slug}/#${slugify(make)}`}
-                        className="inline-block rounded-full border border-primary/30 px-3 py-1 text-xs text-primary hover:bg-primary hover:text-white"
+                        className="inline-block rounded-full border border-accent/30 px-3 py-1 text-xs text-accent hover:bg-primary hover:text-white"
                       >
                         {make}
                       </Link>

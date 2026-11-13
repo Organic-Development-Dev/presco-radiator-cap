@@ -38,7 +38,7 @@ export function DesktopNav({ items }: { items: NavItem[] }) {
               <Link
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className="text-base font-semibold text-primary underline-offset-8 hover:underline aria-[current=page]:underline"
+                className="text-base font-semibold text-accent underline-offset-8 hover:underline aria-[current=page]:underline"
               >
                 {item.label}
               </Link>
@@ -71,7 +71,7 @@ export function DesktopNav({ items }: { items: NavItem[] }) {
               aria-controls={panelId}
               // A click on a hover-opened menu pins it open rather than closing it.
               onClick={() => (isOpen && !open?.viaHover ? close() : show(item.label))}
-              className="flex items-center gap-1 text-base font-semibold text-primary"
+              className="flex items-center gap-1 text-base font-semibold text-accent"
             >
               {item.label}
               <ChevronDownIcon className={`h-5 w-5 transition-transform ${isOpen ? "rotate-180" : ""}`} />
@@ -84,8 +84,8 @@ export function DesktopNav({ items }: { items: NavItem[] }) {
               className="absolute top-full left-1/2 z-40 -translate-x-1/2 pt-3"
             >
               {item.kind === "products" ? (
-                <div className="w-[min(750px,90vw)] rounded-xl border border-gray-100 bg-white px-10 py-6 shadow-lg">
-                  <p className="text-center text-lg font-semibold text-primary">{item.label}</p>
+                <div className="w-[min(750px,90vw)] rounded-xl border border-gray-100 bg-page px-10 py-6 shadow-lg">
+                  <p className="text-center text-lg font-semibold text-accent">{item.label}</p>
                   <div className="mt-4 grid grid-cols-3 gap-6">
                     {item.groups.map((group) => (
                       <div key={group.title}>
@@ -105,7 +105,7 @@ export function DesktopNav({ items }: { items: NavItem[] }) {
                         <ul>
                           {group.links.map((link) => (
                             <li key={link.href}>
-                              <Link href={link.href} onClick={close} className={`${linkBase} text-secondary hover:text-primary`}>
+                              <Link href={link.href} onClick={close} className={`${linkBase} text-ink hover:text-accent`}>
                                 {link.label}
                               </Link>
                             </li>
@@ -115,16 +115,16 @@ export function DesktopNav({ items }: { items: NavItem[] }) {
                     ))}
                   </div>
                   <div className="mt-4 border-t border-gray-100 pt-4 text-center">
-                    <Link href="/products/" onClick={close} className="text-sm font-semibold text-primary hover:underline">
+                    <Link href="/products/" onClick={close} className="text-sm font-semibold text-accent hover:underline">
                       View all products
                     </Link>
                   </div>
                 </div>
               ) : (
-                <ul className="min-w-52 rounded-xl border border-gray-100 bg-white p-2 shadow-lg">
+                <ul className="min-w-52 rounded-xl border border-gray-100 bg-page p-2 shadow-lg">
                   {item.links.map((link) => (
                     <li key={link.label}>
-                      <Link href={link.href} onClick={close} className={`${linkBase} font-semibold text-primary`}>
+                      <Link href={link.href} onClick={close} className={`${linkBase} font-semibold text-accent`}>
                         {link.label}
                       </Link>
                     </li>

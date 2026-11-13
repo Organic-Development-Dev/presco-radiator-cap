@@ -23,7 +23,7 @@ export function EnquiryForm({ kind, productId, productTitle, submitLabel = "Send
 
   if (state.status === "success") {
     return (
-      <div role="status" className="rounded-lg bg-green-50 p-4 text-sm text-green-800">
+      <div role="status" className="rounded-lg bg-green-50 p-4 text-sm text-green-800 dark:bg-green-950 dark:text-green-200">
         {state.message}
       </div>
     );
@@ -81,7 +81,7 @@ export function EnquiryForm({ kind, productId, productTitle, submitLabel = "Send
       <Turnstile />
 
       {state.status === "error" && state.message && (
-        <p role="alert" className="text-sm text-red-700">
+        <p role="alert" className="text-sm text-red-700 dark:text-red-400">
           {state.message}
         </p>
       )}
@@ -99,7 +99,7 @@ function Field({ id, label, error, children }: { id: string; label: string; erro
         {label}
       </label>
       {children}
-      {error && <p className="mt-1 text-xs text-red-700">{error}</p>}
+      {error && <p className="mt-1 text-xs text-red-700 dark:text-red-400">{error}</p>}
     </div>
   );
 }

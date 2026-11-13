@@ -20,7 +20,7 @@ export function PostCard({ post }: { post: PostCardType }) {
       </div>
       <div className="md:col-span-2">
         <PostDate date={post.publishedAt} className="text-xs text-gray-500" />
-        <h2 className="mt-1 text-lg font-bold uppercase text-primary sm:text-xl">
+        <h2 className="mt-1 text-lg font-bold uppercase text-accent sm:text-xl">
           <Link href={href} className="after:absolute after:inset-0">
             {post.title}
           </Link>

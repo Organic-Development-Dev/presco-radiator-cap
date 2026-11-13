@@ -45,7 +45,7 @@ export function ProductEnquiryButtons({ productId, productTitle }: { productId: 
         <div className="p-6">
           <div className="mb-4 flex items-start justify-between gap-4">
             <div>
-              <h2 id={titleId} className="text-lg font-semibold text-primary">
+              <h2 id={titleId} className="text-lg font-semibold text-accent">
                 {TITLES[kind]}
               </h2>
               <p className="text-sm text-gray-500">{productTitle}</p>

@@ -10,7 +10,7 @@ export function LatestNews({ posts, heading }: { posts: PostCard[]; heading?: st
 
   return (
     <section aria-labelledby="latest-news-heading" className="container-site py-10">
-      <h2 id="latest-news-heading" className="pb-10 text-center text-[22px] font-bold uppercase text-primary">
+      <h2 id="latest-news-heading" className="pb-10 text-center text-[22px] font-bold uppercase text-accent">
         {heading || "Latest News"}
       </h2>
       <ul className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible sm:px-0">
@@ -32,7 +32,7 @@ export function LatestNews({ posts, heading }: { posts: PostCard[]; heading?: st
                   </span>
                 </div>
               </div>
-              <h3 className="mt-3 font-semibold text-secondary group-hover:text-primary">{post.title}</h3>
+              <h3 className="mt-3 font-semibold text-ink group-hover:text-accent">{post.title}</h3>
               {post.publishedAt && (
                 <time dateTime={post.publishedAt} className="text-xs text-gray-500">
                   {dateFormat.format(new Date(post.publishedAt))}

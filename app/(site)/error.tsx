@@ -10,7 +10,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
 
   return (
     <section role="alert" className="container-site flex min-h-[60vh] flex-col items-center justify-center py-12 text-center">
-      <h1 className="text-3xl font-bold tracking-tight text-primary">Something went wrong</h1>
+      <h1 className="text-3xl font-bold tracking-tight text-accent">Something went wrong</h1>
       <p className="mt-6 text-gray-600">
         Sorry, this page couldn&apos;t be loaded. Please try again, or get in touch if the problem continues.
       </p>

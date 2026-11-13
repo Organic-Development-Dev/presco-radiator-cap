@@ -60,7 +60,7 @@ export default async function ApplicationGuidePage({ params }: Props) {
                 <li key={s._key}>
                   <a
                     href={`#${slugify(s.heading!)}`}
-                    className="inline-block rounded-full border border-primary/30 px-3 py-1 text-xs text-primary hover:bg-primary hover:text-white"
+                    className="inline-block rounded-full border border-accent/30 px-3 py-1 text-xs text-accent hover:bg-primary hover:text-white"
                   >
                     {s.heading}
                   </a>
@@ -78,13 +78,13 @@ export default async function ApplicationGuidePage({ params }: Props) {
               aria-label={section.heading ?? guide.title}
               className="scroll-mt-28"
             >
-              {section.heading && <h2 className="mb-4 text-xl font-bold text-primary">{section.heading}</h2>}
+              {section.heading && <h2 className="mb-4 text-xl font-bold text-accent">{section.heading}</h2>}
               <div className="overflow-x-auto">
-                <table className="min-w-full border-collapse border border-primary text-[13px]">
-                  <thead className="text-primary">
+                <table className="min-w-full border-collapse border border-accent text-[13px]">
+                  <thead className="text-accent">
                     <tr>
                       {["Part", "Fits / description", "Pressure", "OE / cross reference"].map((h) => (
-                        <th key={h} scope="col" className="border border-primary px-3 py-2 text-left font-semibold tracking-[1.5px] uppercase">
+                        <th key={h} scope="col" className="border border-accent px-3 py-2 text-left font-semibold tracking-[1.5px] uppercase">
                           {h}
                         </th>
                       ))}
@@ -93,21 +93,21 @@ export default async function ApplicationGuidePage({ params }: Props) {
                   <tbody>
                     {section.parts!.map((part) => (
                       <tr key={part._key} className="align-top">
-                        <th scope="row" className="border border-primary px-3 py-2 text-left font-normal">
+                        <th scope="row" className="border border-accent px-3 py-2 text-left font-normal">
                           {part.product ? (
                             <Link href={`/product/${part.product.slug}/`} className="group flex items-center gap-3">
                               {part.product.image?.asset && (
-                                <SanityImage image={part.product.image} alt="" width={48} sizes="48px" className="size-12 shrink-0 object-contain" />
+                                <SanityImage image={part.product.image} alt="" width={48} sizes="48px" className="size-12 shrink-0 rounded bg-photo object-contain" />
                               )}
-                              <span className="font-semibold whitespace-nowrap text-primary group-hover:underline">{part.product.title}</span>
+                              <span className="font-semibold whitespace-nowrap text-accent group-hover:underline">{part.product.title}</span>
                             </Link>
                           ) : (
                             <span className="font-semibold whitespace-nowrap">{part.code}</span>
                           )}
                         </th>
-                        <td className="border border-primary px-3 py-2">{part.fits}</td>
-                        <td className="border border-primary px-3 py-2 whitespace-nowrap">{part.pressure}</td>
-                        <td className="border border-primary px-3 py-2">{part.oe}</td>
+                        <td className="border border-accent px-3 py-2">{part.fits}</td>
+                        <td className="border border-accent px-3 py-2 whitespace-nowrap">{part.pressure}</td>
+                        <td className="border border-accent px-3 py-2">{part.oe}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -119,7 +119,7 @@ export default async function ApplicationGuidePage({ params }: Props) {
 
         <p className="mt-12 text-sm text-gray-600">
           Can&apos;t see your vehicle?{" "}
-          <Link href="/contact-us/" className="font-semibold text-primary underline">
+          <Link href="/contact-us/" className="font-semibold text-accent underline">
             Send us the OE number
           </Link>{" "}
           and we&apos;ll find the right cap.

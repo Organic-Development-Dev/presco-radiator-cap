@@ -55,7 +55,7 @@ export function FilterForm({ action, applications, partTypes, selected }: Props)
           Apply filters
         </button>
         {hasFilters && (
-          <Link href={action} scroll={false} className="text-sm font-medium text-primary underline underline-offset-2">
+          <Link href={action} scroll={false} className="text-sm font-medium text-accent underline underline-offset-2">
             Clear filters
           </Link>
         )}
@@ -80,7 +80,7 @@ function CheckboxGroup({
   if (!options.length) return null;
   return (
     <fieldset>
-      <legend className="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">{legend}</legend>
+      <legend className="mb-2 text-sm font-semibold uppercase tracking-wide text-accent">{legend}</legend>
       <ul className="max-h-64 space-y-1 overflow-y-auto pr-2">
         {options.map((option, i) => {
           const inputId = `${idPrefix}-${i}`;

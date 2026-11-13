@@ -34,7 +34,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#445a8e",
+  // Browser UI colour follows the device's light/dark setting, matching the page.
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#445a8e" },
+    { media: "(prefers-color-scheme: dark)", color: "#121418" },
+  ],
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -24,11 +24,11 @@ function embedUrl(url: string) {
 
 const components: PortableTextComponents = {
   block: {
-    h2: ({ children }) => <h2 className="mt-10 mb-4 text-2xl font-semibold text-primary">{children}</h2>,
-    h3: ({ children }) => <h3 className="mt-8 mb-3 text-xl font-semibold text-primary">{children}</h3>,
+    h2: ({ children }) => <h2 className="mt-10 mb-4 text-2xl font-semibold text-accent">{children}</h2>,
+    h3: ({ children }) => <h3 className="mt-8 mb-3 text-xl font-semibold text-accent">{children}</h3>,
     h4: ({ children }) => <h4 className="mt-6 mb-2 text-lg font-semibold">{children}</h4>,
     blockquote: ({ children }) => (
-      <blockquote className="my-6 border-l-4 border-primary pl-4 italic">{children}</blockquote>
+      <blockquote className="my-6 border-l-4 border-accent pl-4 italic">{children}</blockquote>
     ),
     normal: ({ children }) => <p className="my-4 leading-relaxed whitespace-pre-line">{children}</p>,
   },
@@ -42,7 +42,7 @@ const components: PortableTextComponents = {
       const external = /^https?:\/\//.test(href) || value?.blank;
       if (href.startsWith("/")) {
         return (
-          <Link href={href} className="text-primary underline underline-offset-2 hover:no-underline">
+          <Link href={href} className="text-accent underline underline-offset-2 hover:no-underline">
             {children}
           </Link>
         );
@@ -50,7 +50,7 @@ const components: PortableTextComponents = {
       return (
         <a
           href={href}
-          className="text-primary underline underline-offset-2 hover:no-underline"
+          className="text-accent underline underline-offset-2 hover:no-underline"
           {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         >
           {children}
@@ -100,11 +100,11 @@ const components: PortableTextComponents = {
       if (!head) return null;
       return (
         <div className="my-8 overflow-x-auto">
-          <table className="min-w-full border-collapse border border-primary text-[13px] text-primary">
+          <table className="min-w-full border-collapse border border-accent text-[13px] text-accent">
             <thead>
               <tr>
                 {head.cells?.map((cell, i) => (
-                  <th key={i} scope="col" className="border border-primary px-4 py-3 text-left font-semibold tracking-[1.5px] uppercase">
+                  <th key={i} scope="col" className="border border-accent px-4 py-3 text-left font-semibold tracking-[1.5px] uppercase">
                     {cell}
                   </th>
                 ))}
@@ -114,7 +114,7 @@ const components: PortableTextComponents = {
               {rows.map((row) => (
                 <tr key={row._key}>
                   {row.cells?.map((cell, i) => (
-                    <td key={i} className="border border-primary px-4 py-3 align-top">
+                    <td key={i} className="border border-accent px-4 py-3 align-top">
                       {value.imageColumn === i + 1 && row.image?.asset && (
                         <SanityImage image={withDimensions(row.image)} width={160} className="h-auto w-28 max-w-none sm:w-40" sizes="160px" />
                       )}

@@ -11,7 +11,7 @@ export function Features({ heading, items }: { heading?: string | null; items: N
   return (
     <section aria-labelledby={heading ? "features-heading" : undefined} className="container-site py-10 text-center">
       {heading && (
-        <h2 id="features-heading" className="pb-10 text-[22px] font-bold uppercase text-primary">
+        <h2 id="features-heading" className="pb-10 text-[22px] font-bold uppercase text-accent">
           {heading}
         </h2>
       )}
@@ -21,7 +21,7 @@ export function Features({ heading, items }: { heading?: string | null; items: N
             {item.icon?.asset && (
               <SanityImage image={item.icon} alt="" width={114} className="mx-auto size-28 rounded-full object-contain" />
             )}
-            <h3 className="py-4 text-xl font-extrabold uppercase text-primary">{item.title}</h3>
+            <h3 className="py-4 text-xl font-extrabold uppercase text-accent">{item.title}</h3>
             {item.text && <p className="mx-auto max-w-xs text-sm text-body">{item.text}</p>}
           </li>
         ))}
@@ -37,11 +37,11 @@ export function ProductTiles({ heading, tiles }: { heading?: string | null; tile
     <section aria-labelledby={heading ? "product-tiles-heading" : undefined} className="bg-band py-14">
       <div className="container-site">
         {heading && (
-          <h2 id="product-tiles-heading" className="pb-10 text-center text-[22px] font-bold uppercase text-primary">
+          <h2 id="product-tiles-heading" className="pb-10 text-center text-[22px] font-bold uppercase text-accent">
             {heading}
           </h2>
         )}
-        <ul className="grid gap-y-10 md:grid-cols-4 md:divide-x md:divide-primary">
+        <ul className="grid gap-y-10 md:grid-cols-4 md:divide-x md:divide-accent">
           {tiles.map((tile) => {
             const href = resolveHref(tile);
             const content = (
@@ -51,9 +51,9 @@ export function ProductTiles({ heading, tiles }: { heading?: string | null; tile
                   alt={tile.image.alt ?? ""}
                   width={150}
                   sizes="150px"
-                  className="mx-auto h-[150px] w-[150px] object-contain transition-transform duration-300 group-hover:scale-105"
+                  className="mx-auto h-[150px] w-[150px] rounded-2xl bg-photo object-contain transition-transform duration-300 group-hover:scale-105 dark:p-2"
                 />
-                <span className="mt-6 block text-xl font-bold uppercase text-primary group-hover:underline">{tile.label}</span>
+                <span className="mt-6 block text-xl font-bold uppercase text-accent group-hover:underline">{tile.label}</span>
               </>
             );
             return (
