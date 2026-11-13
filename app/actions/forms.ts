@@ -6,6 +6,7 @@ import { Resend } from "resend";
 import { z } from "zod";
 import { verifyTurnstile } from "@/lib/server/turnstile";
 import { writeClient } from "@/lib/server/writeClient";
+import { ENQUIRY_TYPES } from "@/lib/enquiry";
 
 export type FormState = {
   status: "idle" | "success" | "error";
@@ -19,6 +20,7 @@ const enquirySchema = z.object({
   email: z.email("Please enter a valid email address").max(200),
   phone: z.string().trim().max(40).optional().or(z.literal("")),
   company: z.string().trim().max(160).optional().or(z.literal("")),
+  enquiryType: z.enum(ENQUIRY_TYPES).optional().or(z.literal("")),
   message: z.string().trim().min(1, "Please enter a message").max(5000),
   productId: z.string().max(100).optional().or(z.literal("")),
   productTitle: z.string().max(200).optional().or(z.literal("")),
@@ -55,6 +57,7 @@ export async function submitEnquiry(_prev: FormState, formData: FormData): Promi
           email: data.email,
           phone: data.phone || undefined,
           company: data.company || undefined,
+          enquiryType: data.enquiryType || undefined,
           message: data.message,
           submittedAt: new Date().toISOString(),
           ...(data.productId ? { product: { _type: "reference", _ref: data.productId, _weak: true } } : {}),
@@ -86,6 +89,7 @@ async function sendEmail(data: z.infer<typeof enquirySchema>) {
     ["Email", data.email],
     ["Phone", data.phone],
     ["Company", data.company],
+    ["Enquiry type", data.enquiryType],
     ["Product", data.productTitle],
   ];
   const html = `<h2>${escapeHtml(label)}</h2><table>${rows

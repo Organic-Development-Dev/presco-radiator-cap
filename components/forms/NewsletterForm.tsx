@@ -20,7 +20,7 @@ export function NewsletterForm({ className }: { className?: string }) {
   return (
     <form action={formAction} className={`relative ${className ?? ""}`} noValidate>
       <Honeypot />
-      <div className="flex flex-col gap-2 sm:flex-row">
+      <div className="flex gap-2">
         <label htmlFor="newsletter-email" className="sr-only">
           Email address
         </label>
@@ -30,10 +30,10 @@ export function NewsletterForm({ className }: { className?: string }) {
           type="email"
           required
           autoComplete="email"
-          placeholder="Your email address"
-          className="field-input bg-white"
+          placeholder="Email*"
+          className="w-full min-w-0 rounded-md border border-white bg-transparent px-3 py-1.5 text-sm text-white placeholder:text-white/80 focus:outline-none focus:ring-2 focus:ring-white"
         />
-        <button type="submit" className="btn-primary shrink-0" disabled={pending}>
+        <button type="submit" className="shrink-0 rounded-md bg-white px-4 py-1.5 text-sm text-primary transition-colors hover:bg-white/90 disabled:opacity-60" disabled={pending}>
           {pending ? "Subscribing…" : "Subscribe"}
         </button>
       </div>

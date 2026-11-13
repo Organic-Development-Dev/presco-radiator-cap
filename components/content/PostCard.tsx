@@ -26,8 +26,8 @@ export function PostCard({ post }: { post: PostCardType }) {
           </Link>
         </h2>
         {post.excerpt && <p className="mt-2 line-clamp-3 text-sm leading-relaxed">{post.excerpt}</p>}
-        <span aria-hidden="true" className="mt-3 inline-block text-sm font-semibold text-primary group-hover:underline">
-          Read more &rarr;
+        <span aria-hidden="true" className="mt-3 inline-block rounded-full bg-primary px-4 py-1 text-xs text-white group-hover:bg-primary-dark">
+          Read more
         </span>
       </div>
     </article>

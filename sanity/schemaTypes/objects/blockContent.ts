@@ -76,10 +76,28 @@ export const blockContent = defineType({
             defineArrayMember({
               name: "row",
               type: "object",
-              fields: [defineField({ name: "cells", type: "array", of: [defineArrayMember({ type: "string" })] })],
-              preview: { select: { cells: "cells" }, prepare: ({ cells }) => ({ title: (cells ?? []).join(" | ") }) },
+              fields: [
+                defineField({ name: "cells", type: "array", of: [defineArrayMember({ type: "string" })] }),
+                defineField({
+                  name: "image",
+                  type: "image",
+                  description: "Shown in the table's image column.",
+                  fields: [defineField({ name: "alt", title: "Alternative text", type: "string" })],
+                }),
+              ],
+              preview: {
+                select: { cells: "cells", media: "image" },
+                prepare: ({ cells, media }) => ({ title: (cells ?? []).join(" | "), media }),
+              },
             }),
           ],
+        }),
+        defineField({
+          name: "imageColumn",
+          title: "Image column",
+          type: "number",
+          description: "Optional: which column (1 = first) shows each row's image.",
+          validation: (rule) => rule.integer().min(1),
         }),
       ],
       preview: {

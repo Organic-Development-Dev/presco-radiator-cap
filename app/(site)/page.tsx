@@ -26,7 +26,7 @@ const getHomePage = cache(async (): Promise<HomePageData> => {
 
 async function getLatestPosts(): Promise<PostCard[]> {
   try {
-    return (await sanityFetch<PostCard[]>({ query: POSTS_QUERY, params: { limit: 3 }, tags: ["post"] })) ?? [];
+    return (await sanityFetch<PostCard[]>({ query: POSTS_QUERY, params: { limit: 4 }, tags: ["post"] })) ?? [];
   } catch (error) {
     console.error("Home: failed to load latest posts", error);
     return [];

@@ -2,6 +2,7 @@
 
 import { useActionState, useId } from "react";
 import { submitEnquiry, type FormState } from "@/app/actions/forms";
+import { ENQUIRY_TYPES } from "@/lib/enquiry";
 import { Honeypot } from "./Honeypot";
 import { Turnstile } from "./Turnstile";
 
@@ -56,6 +57,16 @@ export function EnquiryForm({ kind, productId, productTitle, submitLabel = "Send
           <input id={`${id}-company`} name="company" autoComplete="organization" className="field-input" />
         </Field>
       </div>
+      {kind === "contact" && (
+        <Field id={`${id}-type`} label="Enquiry type" error={err("enquiryType")}>
+          <select id={`${id}-type`} name="enquiryType" defaultValue="" className="field-input">
+            <option value="">Please choose (optional)</option>
+            {ENQUIRY_TYPES.map((type) => (
+              <option key={type}>{type}</option>
+            ))}
+          </select>
+        </Field>
+      )}
       <Field id={`${id}-message`} label="Message" error={err("message")}>
         <textarea
           id={`${id}-message`}

@@ -18,6 +18,7 @@ export const enquiry = defineType({
     defineField({ name: "email", type: "string" }),
     defineField({ name: "phone", type: "string" }),
     defineField({ name: "company", type: "string" }),
+    defineField({ name: "enquiryType", title: "Enquiry type", type: "string" }),
     defineField({ name: "message", type: "text" }),
     defineField({ name: "product", type: "reference", to: [{ type: "product" }] }),
     defineField({ name: "submittedAt", type: "datetime" }),

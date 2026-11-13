@@ -55,7 +55,7 @@ export function HeroCarousel({ slides }: { slides: CarouselSlide[] }) {
     >
       <div
         ref={trackRef}
-        className="flex aspect-[5/2] snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex aspect-[5/3] snap-x md:aspect-[5/2] snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {slides.map((slide, index) => {
           const image = (

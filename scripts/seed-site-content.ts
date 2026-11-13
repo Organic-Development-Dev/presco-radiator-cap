@@ -515,6 +515,38 @@ async function main() {
     log(`About Us: ${members.length} team members moved out of the page body`);
   }
 
+  // -------------------------------------------------------------------------
+  // Packaging: the table's "Image" column lost its photos in the migration
+  // -------------------------------------------------------------------------
+  type TableRow = { _key: string; cells?: string[]; image?: unknown };
+  const packaging = await sanity.fetch<{ _id: string; tables?: { _key: string; imageColumn?: number; rows?: TableRow[] }[] } | null>(
+    `*[_type == "page" && slug.current == "packaging" && !(_id in path("drafts.**"))][0]{ _id, "tables": body[_type == "table"] }`,
+  );
+  const table = packaging?.tables?.[0];
+  const imageCol = table?.rows?.[0]?.cells?.findIndex((c) => /^image$/i.test(c.trim())) ?? -1;
+  if (packaging && table?.rows && imageCol >= 0 && !table.rows.some((r) => r.image)) {
+    const wpBase = (process.env.NEXT_PUBLIC_WORDPRESS_URL || process.env.WORDPRESS_URL || "https://bd.presco-radiator-caps.com").replace(/\/$/, "");
+    const [wpPage] = await (await fetch(`${wpBase}/wp-json/wp/v2/pages?slug=packaging&_fields=content`)).json();
+    const html: string = wpPage?.content?.rendered ?? "";
+    const wpRows = html.slice(html.indexOf("<table"), html.indexOf("</table>")).match(/<tr[\s\S]*?<\/tr>/g) ?? [];
+    const set: Record<string, unknown> = { [`body[_key=="${table._key}"].imageColumn`]: imageCol + 1 };
+    for (const [i, row] of table.rows.entries()) {
+      const src = wpRows[i]?.match(/<img[^>]*src="([^"]+)"/)?.[1]?.replace(/-\d+x\d+(\.\w+)$/, "$1");
+      if (!src) continue;
+      const filename = src.split("/").pop()!;
+      let assetId = await sanity.fetch<string | null>(`*[_type == "sanity.imageAsset" && originalFilename == $filename][0]._id`, { filename });
+      if (!assetId && !DRY_RUN) {
+        const res = await fetch(src);
+        if (!res.ok) continue;
+        assetId = (await sanity.assets.upload("image", Buffer.from(await res.arrayBuffer()), { filename }))._id;
+      }
+      const alt = row.cells?.[0]?.replace(/^\d+\.\s*/, "").trim();
+      set[`body[_key=="${table._key}"].rows[_key=="${row._key}"].image`] = { _type: "image", asset: { _type: "reference", _ref: assetId ?? "image-dry-run" }, alt };
+    }
+    tx.patch(packaging._id, (p) => p.set(set));
+    log(`Packaging: ${Object.keys(set).length - 1} table images restored`);
+  }
+
   // "Meet the team" menu link jumps to the team section
   const menu = await sanity.fetch<{ _key: string; children?: { _key: string; label: string; anchor?: string }[] }[] | null>(
     `*[_id == "siteSettings"][0].mainMenu`,

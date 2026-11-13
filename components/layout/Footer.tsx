@@ -15,8 +15,8 @@ const SOCIAL_LABELS: Record<string, string> = {
   youtube: "YouTube",
 };
 
-const headingClass = "mb-4 text-sm font-semibold uppercase text-white";
-const linkClass = "inline-block py-2 hover:underline";
+const headingClass = "mb-4 text-base font-semibold uppercase text-white md:text-sm";
+const linkClass = "block py-2 hover:underline max-md:border-b max-md:border-white/10 max-md:py-3 max-md:text-sm";
 
 function Subscribe({ heading, text }: { heading?: string | null; text?: string | null }) {
   return (
@@ -30,7 +30,7 @@ function Subscribe({ heading, text }: { heading?: string | null; text?: string |
           {heading || "Subscribe"}
         </h2>
         {text && <p className="pb-4 font-light">{text}</p>}
-        <NewsletterForm className="mx-auto max-w-md text-white" />
+        <NewsletterForm className="mx-auto max-w-sm text-white" />
       </div>
     </section>
   );
@@ -107,7 +107,11 @@ export async function Footer() {
                       </a>
                     </p>
                   )}
-                  {settings?.fax && <p>Fax: {settings.fax}</p>}
+                  {settings?.fax && (
+                    <p>
+                      Fax: <span className="underline">{settings.fax}</span>
+                    </p>
+                  )}
                   {settings?.email && (
                     <p>
                       <a href={`mailto:${settings.email}`} className="underline hover:no-underline">

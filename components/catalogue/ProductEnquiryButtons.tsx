@@ -28,7 +28,7 @@ export function ProductEnquiryButtons({ productId, productTitle }: { productId: 
         <button type="button" className="btn-primary" aria-haspopup="dialog" onClick={() => open("enquiry")}>
           Enquire Now
         </button>
-        <button type="button" className="btn-outline" aria-haspopup="dialog" onClick={() => open("order")}>
+        <button type="button" className="btn-primary" aria-haspopup="dialog" onClick={() => open("order")}>
           Order Now
         </button>
       </div>

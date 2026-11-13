@@ -5,7 +5,7 @@ import type { SanityImage as SanityImageType } from "@/lib/types";
 import { dataset, projectId } from "@/sanity/env";
 
 type VideoBlock = { url?: string; caption?: string; file?: { asset?: { _ref: string } } };
-type TableBlock = { rows?: { _key: string; cells?: string[] }[] };
+type TableBlock = { imageColumn?: number; rows?: { _key: string; cells?: string[]; image?: SanityImageType }[] };
 
 /** "image-<id>-500x400-png" -> { width: 500, height: 400 } */
 function imageSize(ref?: string) {
@@ -104,22 +104,25 @@ const components: PortableTextComponents = {
       const [head, ...rows] = value.rows ?? [];
       if (!head) return null;
       return (
-        <div className="my-8 overflow-x-auto rounded-lg border border-gray-200">
-          <table className="min-w-full divide-y divide-gray-200 text-sm">
-            <thead className="bg-primary text-white">
+        <div className="my-8 overflow-x-auto">
+          <table className="min-w-full border-collapse border border-primary text-[13px] text-primary">
+            <thead>
               <tr>
                 {head.cells?.map((cell, i) => (
-                  <th key={i} scope="col" className="px-4 py-3 text-left font-semibold">
+                  <th key={i} scope="col" className="border border-primary px-4 py-3 text-left font-semibold tracking-[1.5px] uppercase">
                     {cell}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody>
               {rows.map((row) => (
-                <tr key={row._key} className="even:bg-surface">
+                <tr key={row._key}>
                   {row.cells?.map((cell, i) => (
-                    <td key={i} className="px-4 py-3 align-top">
+                    <td key={i} className="border border-primary px-4 py-3 align-top">
+                      {value.imageColumn === i + 1 && row.image?.asset && (
+                        <SanityImage image={row.image} width={160} className="h-auto w-28 max-w-none sm:w-40" sizes="160px" />
+                      )}
                       {cell}
                     </td>
                   ))}

@@ -119,8 +119,18 @@ const blockContentType = Schema.compile({
             {
               name: "rows",
               type: "array",
-              of: [{ name: "row", type: "object", fields: [{ name: "cells", type: "array", of: [{ type: "string" }] }] }],
+              of: [
+                {
+                  name: "row",
+                  type: "object",
+                  fields: [
+                    { name: "cells", type: "array", of: [{ type: "string" }] },
+                    { name: "image", type: "image", fields: [{ name: "alt", type: "string" }] },
+                  ],
+                },
+              ],
             },
+            { name: "imageColumn", type: "number" },
           ],
         },
       ],
