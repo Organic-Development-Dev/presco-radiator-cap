@@ -26,7 +26,7 @@ export function TeamGrid({ heading, members }: { heading?: string | null; member
               />
             )}
             <h3 className="text-base font-semibold uppercase text-primary">{person.name}</h3>
-            {person.role && <p className="mt-1 text-sm font-light text-[#3a3a3a]">{person.role}</p>}
+            {person.role && <p className="mt-1 text-sm font-light text-body">{person.role}</p>}
             {person.email && (
               <a href={`mailto:${person.email}`} className="mt-1 inline-block text-sm text-primary hover:underline">
                 {person.email}
@@ -38,7 +38,7 @@ export function TeamGrid({ heading, members }: { heading?: string | null; member
                   <span className="group-open:hidden">Read more</span>
                   <span className="hidden group-open:inline">Show less</span>
                 </summary>
-                <div className="mt-3 space-y-3 text-sm leading-relaxed text-[#3a3a3a]">
+                <div className="mt-3 space-y-3 text-sm leading-relaxed text-body">
                   {person.bio.split(/\n\s*\n/).map((para, i) => (
                     <p key={i}>{para.trim()}</p>
                   ))}

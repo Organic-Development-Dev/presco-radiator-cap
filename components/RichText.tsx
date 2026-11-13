@@ -2,16 +2,11 @@ import { PortableText, type PortableTextBlock, type PortableTextComponents } fro
 import Link from "next/link";
 import { SanityImage } from "./SanityImage";
 import type { SanityImage as SanityImageType } from "@/lib/types";
+import { imageSize, withDimensions } from "@/lib/image";
 import { dataset, projectId } from "@/sanity/env";
 
 type VideoBlock = { url?: string; caption?: string; file?: { asset?: { _ref: string } } };
 type TableBlock = { imageColumn?: number; rows?: { _key: string; cells?: string[]; image?: SanityImageType }[] };
-
-/** "image-<id>-500x400-png" -> { width: 500, height: 400 } */
-function imageSize(ref?: string) {
-  const m = ref?.match(/-(\d+)x(\d+)-[a-z]+$/);
-  return m ? { width: Number(m[1]), height: Number(m[2]) } : null;
-}
 
 /** "file-<id>-<ext>" -> CDN URL */
 function fileUrl(ref: string) {
@@ -68,7 +63,7 @@ const components: PortableTextComponents = {
       // Never stretch an image beyond its real size (small photos looked blown up at full width).
       const size = imageSize(value.asset?._ref);
       const width = Math.min(size?.width ?? 960, 960);
-      const image = size ? { ...value, dimensions: { ...size, aspectRatio: size.width / size.height } } : value;
+      const image = withDimensions(value);
       return (
         <figure className="my-8" style={{ maxWidth: width }}>
           <SanityImage image={image} width={width} className="h-auto w-full rounded-lg" sizes={`(min-width: ${width}px) ${width}px, 100vw`} />
@@ -121,7 +116,7 @@ const components: PortableTextComponents = {
                   {row.cells?.map((cell, i) => (
                     <td key={i} className="border border-primary px-4 py-3 align-top">
                       {value.imageColumn === i + 1 && row.image?.asset && (
-                        <SanityImage image={row.image} width={160} className="h-auto w-28 max-w-none sm:w-40" sizes="160px" />
+                        <SanityImage image={withDimensions(row.image)} width={160} className="h-auto w-28 max-w-none sm:w-40" sizes="160px" />
                       )}
                       {cell}
                     </td>

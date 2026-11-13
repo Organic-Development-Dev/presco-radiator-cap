@@ -526,8 +526,11 @@ async function main() {
   const imageCol = table?.rows?.[0]?.cells?.findIndex((c) => /^image$/i.test(c.trim())) ?? -1;
   if (packaging && table?.rows && imageCol >= 0 && !table.rows.some((r) => r.image)) {
     const wpBase = (process.env.NEXT_PUBLIC_WORDPRESS_URL || process.env.WORDPRESS_URL || "https://bd.presco-radiator-caps.com").replace(/\/$/, "");
-    const [wpPage] = await (await fetch(`${wpBase}/wp-json/wp/v2/pages?slug=packaging&_fields=content`)).json();
-    const html: string = wpPage?.content?.rendered ?? "";
+    const html: string = await fetch(`${wpBase}/wp-json/wp/v2/pages?slug=packaging&_fields=content`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then(([wpPage]) => wpPage?.content?.rendered ?? "")
+      .catch(() => "");
+    if (!html) log("Packaging: WordPress not reachable, table images skipped");
     const wpRows = html.slice(html.indexOf("<table"), html.indexOf("</table>")).match(/<tr[\s\S]*?<\/tr>/g) ?? [];
     const set: Record<string, unknown> = { [`body[_key=="${table._key}"].imageColumn`]: imageCol + 1 };
     for (const [i, row] of table.rows.entries()) {

@@ -22,7 +22,7 @@ export function Features({ heading, items }: { heading?: string | null; items: N
               <SanityImage image={item.icon} alt="" width={114} className="mx-auto size-28 rounded-full object-contain" />
             )}
             <h3 className="py-4 text-xl font-extrabold uppercase text-primary">{item.title}</h3>
-            {item.text && <p className="mx-auto max-w-xs text-sm text-[#3a3a3a]">{item.text}</p>}
+            {item.text && <p className="mx-auto max-w-xs text-sm text-body">{item.text}</p>}
           </li>
         ))}
       </ul>
@@ -34,7 +34,7 @@ export function Features({ heading, items }: { heading?: string | null; items: N
 export function ProductTiles({ heading, tiles }: { heading?: string | null; tiles: NonNullable<Data["productTiles"]> }) {
   if (!tiles.length) return null;
   return (
-    <section aria-labelledby={heading ? "product-tiles-heading" : undefined} className="bg-[#ececec] py-14">
+    <section aria-labelledby={heading ? "product-tiles-heading" : undefined} className="bg-band py-14">
       <div className="container-site">
         {heading && (
           <h2 id="product-tiles-heading" className="pb-10 text-center text-[22px] font-bold uppercase text-primary">

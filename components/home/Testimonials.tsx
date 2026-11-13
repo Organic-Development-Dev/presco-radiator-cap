@@ -18,10 +18,10 @@ export function Testimonials({ heading, subheading, testimonials }: Props) {
             className="mx-auto max-w-2xl rounded-3xl p-4 pb-8 text-center shadow-[0_4px_4px_0_rgba(0,0,0,0.25)]"
           >
             <Image src="/img/feed-back.png" alt="" width={28} height={23} className="mx-auto mt-4 h-auto w-5" />
-            <blockquote className="pt-4 text-xs leading-relaxed font-light whitespace-pre-line text-[#3a3a3a]">
+            <blockquote className="pt-4 text-xs leading-relaxed font-light whitespace-pre-line text-body">
               <p>{t.quote}</p>
             </blockquote>
-            <figcaption className="pt-6 text-xs text-[#3a3a3a]">
+            <figcaption className="pt-6 text-xs text-body">
               <span className="block font-semibold uppercase text-secondary">{t.name}</span>
               {t.role && <span className="block pt-2">{t.role}</span>}
               {t.company && <span className="block pt-2">{t.company}</span>}
