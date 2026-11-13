@@ -34,6 +34,7 @@ export type Product = ProductCard & {
   modelInfo?: string[] | null;
   categories?: { title: string; slug: string; productNoun?: string | null; isChild?: boolean }[] | null;
   related?: ProductCard[] | null;
+  guides?: { title: string; slug: string }[] | null;
   seo?: Seo;
 };
 
@@ -151,3 +152,41 @@ export type HomePage = {
   testimonials?: (Testimonial | null)[] | null;
   seo?: Seo;
 } | null;
+
+export type ApplicationGuideSummary = {
+  _id: string;
+  title: string;
+  slug: string;
+  intro?: string | null;
+  makes?: string[] | null;
+  partCount?: number | null;
+};
+
+export type ApplicationPart = {
+  _key: string;
+  code: string;
+  fits?: string | null;
+  pressure?: string | null;
+  oe?: string | null;
+  product?: { title: string; slug: string; image?: SanityImage | null } | null;
+};
+
+export type ApplicationGuide = {
+  _id: string;
+  _updatedAt?: string;
+  title: string;
+  slug: string;
+  intro?: string | null;
+  sections?: { _key: string; heading?: string | null; parts?: ApplicationPart[] | null }[] | null;
+  seo?: Seo;
+};
+
+export type LocalePage = {
+  _id: string;
+  _updatedAt?: string;
+  language: string;
+  title: string;
+  checked: boolean;
+  body?: PortableTextBlock[] | null;
+  seo?: Seo;
+};

@@ -12,9 +12,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     categories: Entry[];
     posts: Entry[];
     pages: Entry[];
+    guides: Entry[];
+    locales: Entry[];
   }>({
     query: SITEMAP_QUERY,
-    tags: ["homePage", "product", "productCategory", "post", "page"],
+    tags: ["homePage", "product", "productCategory", "post", "page", "applicationGuide", "localePage"],
   });
   const url = (path: string) => `${SITE_URL}/${path}${path ? "/" : ""}`;
   return [
@@ -24,5 +26,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...data.categories.map((c) => ({ url: url(`product-category/${c.slug}`), lastModified: c._updatedAt })),
     ...data.products.map((p) => ({ url: url(`product/${p.slug}`), lastModified: p._updatedAt })),
     ...data.posts.map((p) => ({ url: url(`blog/${p.slug}`), lastModified: p._updatedAt })),
+    ...data.guides.map((g) => ({ url: url(`applications/${g.slug}`), lastModified: g._updatedAt })),
+    // Only language pages whose translation has been checked.
+    ...data.locales.map((l) => ({ url: url(l.slug), lastModified: l._updatedAt })),
   ];
 }

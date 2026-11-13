@@ -13,6 +13,10 @@ export function documentHref(type: string, slug?: string | null): string | null 
       return `/product/${slug}/`;
     case "productCategory":
       return `/product-category/${slug}/`;
+    case "applicationGuide":
+      return `/applications/${slug}/`;
+    case "localePage":
+      return `/${slug}/`;
     default:
       return null;
   }

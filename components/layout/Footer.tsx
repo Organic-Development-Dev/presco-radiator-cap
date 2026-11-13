@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import { isExternalHref, resolveHref } from "@/lib/links";
+import { getLocalePages } from "@/lib/localePages";
+import { localeInfo } from "@/lib/locales";
 import { getSiteSettings } from "@/lib/settings";
 import { SITE_NAME } from "@/lib/site";
 import { addressLines, telHref } from "@/lib/text";
@@ -37,7 +39,8 @@ function Subscribe({ heading, text }: { heading?: string | null; text?: string |
 }
 
 export async function Footer() {
-  const settings = await getSiteSettings();
+  const [settings, localePages] = await Promise.all([getSiteSettings(), getLocalePages()]);
+  const languages = localePages.filter((p) => p.checked);
   const siteName = settings?.siteName || SITE_NAME;
   const address = [settings?.legalName, ...addressLines(settings?.address)].filter(Boolean);
   const socialLinks = settings?.socialLinks?.filter((link) => link.url && SOCIAL_LABELS[link.platform]) ?? [];
@@ -147,6 +150,24 @@ export async function Footer() {
             </div>
           </div>
         </div>
+        {languages.length > 0 && (
+          <nav aria-label="Languages" className="bg-secondary">
+            <ul className="container-site flex flex-wrap justify-center gap-x-5 gap-y-2 border-t border-white/10 py-4 text-xs font-light">
+              <li>
+                <Link href="/" lang="en" hrefLang="en" className="hover:underline">
+                  English
+                </Link>
+              </li>
+              {languages.map((p) => (
+                <li key={p._id}>
+                  <Link href={`/${p.language}/`} lang={p.language} hrefLang={p.language} className="hover:underline">
+                    {localeInfo(p.language)?.name ?? p.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
         {copyright && <p className="bg-[#333333] p-4 text-center text-xs font-light">{copyright}</p>}
       </footer>
     </>

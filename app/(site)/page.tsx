@@ -7,6 +7,7 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { RichText } from "@/components/RichText";
 import { SiteJsonLd } from "@/components/SiteJsonLd";
 import { resolveHref } from "@/lib/links";
+import { getLocalePages, languageAlternates } from "@/lib/localePages";
 import { buildMetadata } from "@/lib/metadata";
 import { getSiteSettings } from "@/lib/settings";
 import { SITE_NAME } from "@/lib/site";
@@ -34,7 +35,7 @@ async function getLatestPosts(): Promise<PostCard[]> {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [page, settings] = await Promise.all([getHomePage(), getSiteSettings()]);
+  const [page, settings, localePages] = await Promise.all([getHomePage(), getSiteSettings(), getLocalePages()]);
   const siteName = settings?.siteName || SITE_NAME;
   return buildMetadata({
     // The homepage title is used as-is (no "| Presco Radiator Caps" suffix).
@@ -42,6 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
     absoluteTitle: true,
     seo: page?.seo,
     path: "/",
+    languages: languageAlternates(localePages),
   });
 }
 

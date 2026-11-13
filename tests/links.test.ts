@@ -47,3 +47,10 @@ describe("resolveHref anchors on non-page links", () => {
     expect(resolveHref({ url: "tel:+441905755656", anchor: "team" })).toBe("tel:+441905755656");
   });
 });
+
+describe("documentHref for guides and language pages", () => {
+  it("routes application guides and language pages", () => {
+    expect(documentHref("applicationGuide", "auto-europe")).toBe("/applications/auto-europe/");
+    expect(documentHref("localePage", "fr")).toBe("/fr/");
+  });
+});

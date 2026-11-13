@@ -2,7 +2,9 @@ import type { SchemaTypeDefinition } from "sanity";
 import { blockContent } from "./objects/blockContent";
 import { footerColumn, heroSlide, menuItem, navLink } from "./objects/navigation";
 import { seo } from "./objects/seo";
+import { applicationGuide } from "./documents/applicationGuide";
 import { enquiry } from "./documents/enquiry";
+import { localePage } from "./documents/localePage";
 import { homePage } from "./documents/homePage";
 import { page } from "./documents/page";
 import { post } from "./documents/post";
@@ -18,6 +20,8 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   product,
   productCategory,
   page,
+  applicationGuide,
+  localePage,
   post,
   testimonial,
   teamMember,

@@ -20,6 +20,8 @@ type Options = {
   modifiedTime?: string;
   /** Force noindex (e.g. filtered listings), regardless of the document setting. */
   noIndex?: boolean;
+  /** hreflang alternates, e.g. { en: "/", fr: "/fr/", "x-default": "/" } */
+  languages?: Record<string, string>;
   /** Use the title as-is, without the site name suffix. */
   absoluteTitle?: boolean;
 };
@@ -45,7 +47,7 @@ export async function buildMetadata(options: Options): Promise<Metadata> {
   return {
     title: options.absoluteTitle ? { absolute: metaTitle } : metaTitle,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: path, ...(options.languages ? { languages: options.languages } : {}) },
     robots: noIndex ? { index: false, follow: true } : undefined,
     openGraph: {
       title: metaTitle,

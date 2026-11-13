@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { cache } from "react";
 import { notFound, permanentRedirect } from "next/navigation";
 import { toPlainText } from "next-sanity";
@@ -27,7 +28,7 @@ const getProduct = cache((slug: string) =>
   sanityFetch<Product | null>({
     query: PRODUCT_QUERY,
     params: { slug },
-    tags: ["product", "productCategory", `product:${slug}`],
+    tags: ["product", "productCategory", `product:${slug}`, "applicationGuide"],
   }),
 );
 
@@ -147,11 +148,37 @@ export default async function ProductPage({ params }: Props) {
                 return (
                   <div key={label}>
                     <dt className="text-sm font-semibold uppercase tracking-wide text-primary">{label}</dt>
-                    <dd className="mt-1 text-sm">{list.join(", ")}</dd>
+                    {label === "Applications" ? (
+                      // Entries contain commas themselves ("Audi: A4, A6, A8"), so one per line.
+                      <dd className="mt-1 text-sm">
+                        <ul className="space-y-1">
+                          {list.map((v) => (
+                            <li key={v}>{v}</li>
+                          ))}
+                        </ul>
+                      </dd>
+                    ) : (
+                      <dd className="mt-1 text-sm">{list.join(", ")}</dd>
+                    )}
                   </div>
                 );
               })}
             </dl>
+
+            {product.guides?.length ? (
+              <p className="mt-4 text-sm">
+                See it in the{" "}
+                {product.guides.map((g, i) => (
+                  <span key={g.slug}>
+                    {i > 0 && (i === product.guides!.length - 1 ? " and " : ", ")}
+                    <Link href={`/applications/${g.slug}/`} className="font-semibold text-primary underline">
+                      {g.title}
+                    </Link>
+                  </span>
+                ))}{" "}
+                vehicle application {product.guides.length > 1 ? "guides" : "guide"}.
+              </p>
+            ) : null}
 
             {product.summary?.length ? (
               <div className="mt-6">

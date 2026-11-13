@@ -9,7 +9,7 @@
  * Safe to re-run: fields that already have a value are left alone (setIfMissing),
  * so edits made in the Studio are never overwritten.
  */
-import { createReadStream } from "node:fs";
+import { createReadStream, readFileSync } from "node:fs";
 import path from "node:path";
 import { createClient } from "@sanity/client";
 import { config as loadEnv } from "dotenv";
@@ -566,6 +566,151 @@ async function main() {
       tx.patch(packaging._id, (p) => p.set(set));
     }
     log(`Packaging: ${Math.max(Object.keys(set).length - 1, 0)} table images restored`);
+  }
+
+  // -------------------------------------------------------------------------
+  // Vehicle application guides (the old site's cross-reference pages, parsed from the
+  // WordPress backup by scripts/data/parse-wp-applications.py), vehicle labels on products,
+  // language pages, and redirects from their old WordPress addresses.
+  // -------------------------------------------------------------------------
+  type GuideData = {
+    slug: string;
+    title: string;
+    intro: string;
+    sections: { heading: string | null; parts: { code: string; productIds: string[]; pressure: string | null; fits: string | null; oe: string | null }[] }[];
+  };
+  const guides: GuideData[] = JSON.parse(readFileSync(path.join("scripts", "data", "vehicle-applications.json"), "utf8"));
+  const guideSlugs: Record<string, string> = {
+    "auto-europe": "auto-europe",
+    "radiator-caps-japanese-vehicle-applications": "japanese-vehicles",
+    "radiator-caps-trucks-commercial": "trucks-commercial",
+    "other-applications": "other-applications",
+    "agricultural-applications-agco-massey-ferguson": "agco-massey-ferguson",
+    "agricultural-applications-fnh-group": "new-holland-fnh",
+    "agricultural-applications-case": "case-ih",
+    "agricultural-applications-john-deere": "john-deere",
+    "agricultural-applications-other": "agricultural-other",
+  };
+  const guideIntros: Record<string, string> = {
+    "agco-massey-ferguson": "Pressure caps, fuel covers and oil covers for AGCO and Massey Ferguson tractors.",
+    "new-holland-fnh": "Pressure caps, fuel covers and oil covers for New Holland (FNH Group) tractors.",
+    "case-ih": "Pressure caps and round caps for Case IH tractors.",
+    "john-deere": "Pressure caps, fuel caps, oil caps and drain plugs for John Deere tractors.",
+    "agricultural-other": "Caps for Deutz, Fendt and other agricultural machinery.",
+  };
+  const existingProducts = new Set(await sanity.fetch<string[]>(`*[_type == "product"]._id`));
+  guides.forEach((guide, order) => {
+    const slug = guideSlugs[guide.slug] ?? guide.slug;
+    tx.createIfNotExists({
+      _id: `applicationGuide-${slug}`,
+      _type: "applicationGuide",
+      title: guide.title,
+      slug: { _type: "slug", current: slug },
+      intro: guide.intro || guideIntros[slug] || undefined,
+      order: order + 1,
+      sections: guide.sections.map((section) => ({
+        _key: key(),
+        _type: "section",
+        heading: section.heading ?? undefined,
+        parts: section.parts.map((part) => {
+          const productId = part.productIds.find((id) => existingProducts.has(id));
+          return {
+            _key: key(),
+            _type: "part",
+            code: part.code,
+            ...(productId ? { product: { _type: "reference", _ref: productId, _weak: true } } : {}),
+            fits: part.fits ?? undefined,
+            pressure: part.pressure ?? undefined,
+            oe: part.oe ?? undefined,
+          };
+        }),
+      })),
+    });
+  });
+  tx.createIfNotExists({
+    _id: "page-applications",
+    _type: "page",
+    title: "Vehicle Applications",
+    slug: { _type: "slug", current: "applications" },
+    intro:
+      "Find the right Presco cap for your vehicle. Each guide lists our part numbers with the vehicles they fit, pressure ratings and OE cross references.",
+    seo: {
+      _type: "seo",
+      title: "Vehicle Applications – Radiator Cap Finder",
+      description:
+        "Find the right radiator, fuel or oil cap by vehicle make: Presco part numbers, pressures and OE references for cars, trucks and tractors.",
+    },
+  });
+
+  // Vehicle labels on products ("Audi: A4, A6, A8"), added alongside any existing ones.
+  const productApps: Record<string, string[]> = JSON.parse(
+    readFileSync(path.join("scripts", "data", "product-vehicle-applications.json"), "utf8"),
+  );
+  const currentApps = Object.fromEntries(
+    (await sanity.fetch<{ _id: string; applications?: string[] }[]>(`*[_type == "product" && _id in $ids]{ _id, applications }`, {
+      ids: Object.keys(productApps),
+    })).map((p) => [p._id, new Set((p.applications ?? []).map((a) => a.toLowerCase()))]),
+  );
+  let appsAdded = 0;
+  for (const [id, labels] of Object.entries(productApps)) {
+    if (!currentApps[id]) continue;
+    const missing = labels.filter((l) => !currentApps[id].has(l.toLowerCase()));
+    if (!missing.length) continue;
+    appsAdded += missing.length;
+    tx.patch(id, (p) => p.setIfMissing({ applications: [] }).append("applications", missing));
+  }
+  log(`Vehicle applications: ${guides.length} guides, ${appsAdded} vehicle labels added to products`);
+
+  // Language pages: imported unchecked (hidden from Google) until a native speaker reviews them.
+  type LocaleData = { language: string; title: string; oldSlug: string; paragraphs: string[] };
+  const locales: LocaleData[] = JSON.parse(readFileSync(path.join("scripts", "data", "locale-pages.json"), "utf8"));
+  for (const locale of locales) {
+    tx.createIfNotExists({
+      _id: `localePage-${locale.language}`,
+      _type: "localePage",
+      language: locale.language,
+      title: locale.title,
+      translationChecked: false,
+      body: locale.paragraphs.map((text) => ({
+        _type: "block",
+        _key: key(),
+        style: "normal",
+        markDefs: [],
+        children: [{ _type: "span", _key: key(), text, marks: [] }],
+      })),
+    });
+  }
+
+  // Old WordPress addresses -> new pages (applied at build time, see next.config.ts).
+  const oldAddresses: [string, Record<string, unknown>][] = [
+    ...Object.entries(guideSlugs).map(([old, slug]) => [old, { internal: { _type: "reference", _ref: `applicationGuide-${slug}`, _weak: true } }] as [string, Record<string, unknown>]),
+    ...locales.map((l) => [l.oldSlug, { internal: { _type: "reference", _ref: `localePage-${l.language}`, _weak: true } }] as [string, Record<string, unknown>]),
+    ["agricultural", { internal: { _type: "reference", _ref: "page-applications", _weak: true } }],
+    ["location", { internal: { _type: "reference", _ref: "page-contact-us", _weak: true } }],
+  ];
+  for (const [old, target] of oldAddresses) {
+    tx.createIfNotExists({ _id: `redirect-wp-${old}`, _type: "redirect", from: `/${old}/`, permanent: true, ...target });
+  }
+
+  // Menus: "Vehicle Applications" after "Products & Solutions", and in the footer's product column.
+  const nav = await sanity.fetch<{
+    mainMenu?: { _key: string; kind: string; internal?: { _ref: string } }[];
+    footerMenus?: { _key: string; title: string; links?: { internal?: { _ref: string } }[] }[];
+  } | null>(`*[_id == "siteSettings"][0]{ mainMenu, footerMenus }`);
+  const linksToApps = (l?: { internal?: { _ref: string } }) => l?.internal?._ref === "page-applications";
+  const productsItem = nav?.mainMenu?.find((m) => m.kind === "products");
+  if (productsItem && !nav?.mainMenu?.some(linksToApps)) {
+    tx.patch("siteSettings", (p) =>
+      p.insert("after", `mainMenu[_key=="${productsItem._key}"]`, [
+        { _type: "menuItem", _key: key(), label: "Vehicle Applications", kind: "link", internal: ref("page-applications") },
+      ]),
+    );
+  }
+  const productColumn = nav?.footerMenus?.find((m) => /product/i.test(m.title));
+  if (productColumn && !productColumn.links?.some(linksToApps)) {
+    tx.patch("siteSettings", (p) =>
+      p.insert("after", `footerMenus[_key=="${productColumn._key}"].links[-1]`, [link("Vehicle Applications", "page-applications")]),
+    );
   }
 
   // "Meet the team" menu link jumps to the team section

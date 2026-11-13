@@ -9,6 +9,8 @@ export const LINKABLE_TYPES = [
   { type: "post" },
   { type: "product" },
   { type: "productCategory" },
+  { type: "applicationGuide" },
+  { type: "localePage" },
 ];
 
 export const internalField = defineField({

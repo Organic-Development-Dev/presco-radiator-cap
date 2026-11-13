@@ -17,7 +17,7 @@ async function sanityRedirects() {
       useCdn: false,
       perspective: "published",
     }).fetch<RedirectDoc[]>(
-      `*[_type == "redirect" && defined(from)]{ from, permanent, url, "internal": internal->{ _type, "slug": slug.current } }`,
+      `*[_type == "redirect" && defined(from)]{ from, permanent, url, "internal": internal->{ _type, "slug": coalesce(slug.current, language) } }`,
     );
     return toNextRedirects(docs);
   } catch (err) {

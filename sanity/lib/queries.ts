@@ -15,7 +15,7 @@ const seoFields = /* groq */ `seo{ title, description, noIndex, image }`;
 
 
 /** A link's target: an internal document (resolved to a URL in lib/links.ts) or a raw URL. */
-const linkTarget = /* groq */ `"internal": internal->{ _type, "slug": slug.current }, url`;
+const linkTarget = /* groq */ `"internal": internal->{ _type, "slug": coalesce(slug.current, language) }, url`;
 const navLinkFields = /* groq */ `_key, label, anchor, ${linkTarget}`;
 
 export const SITE_SETTINGS_QUERY = defineQuery(`*[_id == "siteSettings"][0]{
@@ -81,6 +81,7 @@ export const PRODUCT_QUERY = defineQuery(`*[_type == "product" && slug.current =
   modelInfo,
   "categories": categories[]->{ title, "slug": slug.current, productNoun, "isChild": defined(parent) },
   "related": relatedProducts[]->{ ${productCard} },
+  "guides": *[_type == "applicationGuide" && references(^._id)] | order(order asc){ title, "slug": slug.current },
   ${seoFields}
 }`);
 
@@ -128,7 +129,31 @@ export const SITEMAP_QUERY = defineQuery(`{
   "products": *[_type == "product" && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt },
   "categories": *[_type == "productCategory" && defined(slug.current) && hidden != true && seo.noIndex != true]{ "slug": slug.current, _updatedAt },
   "posts": *[_type == "post" && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt },
-  "pages": *[_type == "page" && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt }
+  "pages": *[_type == "page" && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt },
+  "guides": *[_type == "applicationGuide" && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt },
+  "locales": *[_type == "localePage" && translationChecked == true && seo.noIndex != true]{ "slug": language, _updatedAt }
+}`);
+
+export const APPLICATION_GUIDES_QUERY = defineQuery(`*[_type == "applicationGuide" && defined(slug.current)] | order(order asc, title asc){
+  _id, title, "slug": slug.current, intro,
+  "makes": sections[defined(heading)].heading,
+  "partCount": count(sections[].parts[])
+}`);
+
+export const APPLICATION_GUIDE_QUERY = defineQuery(`*[_type == "applicationGuide" && slug.current == $slug][0]{
+  _id, _updatedAt, title, "slug": slug.current, intro,
+  sections[]{ _key, heading, parts[]{
+    _key, code, fits, pressure, oe,
+    "product": product->{ title, "slug": slug.current, "image": images[0]{ ${imageFields} } }
+  } },
+  ${seoFields}
+}`);
+
+export const APPLICATION_GUIDE_SLUGS_QUERY = defineQuery(`*[_type == "applicationGuide" && defined(slug.current)]{ "slug": slug.current }`);
+
+/** All language pages (title, language, whether checked) for hreflang, the footer and the page itself. */
+export const LOCALE_PAGES_QUERY = defineQuery(`*[_type == "localePage" && defined(language)] | order(language asc){
+  _id, _updatedAt, language, title, "checked": translationChecked == true, body, ${seoFields}
 }`);
 
 export const PAGE_SLUGS_QUERY = defineQuery(
