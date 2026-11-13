@@ -2,7 +2,7 @@ import { PortableText, type PortableTextBlock, type PortableTextComponents } fro
 import Link from "next/link";
 import { SanityImage } from "./SanityImage";
 import type { SanityImage as SanityImageType } from "@/lib/types";
-import { imageSize, withDimensions } from "@/lib/image";
+import { croppedSize, withDimensions } from "@/lib/image";
 import { dataset, projectId } from "@/sanity/env";
 
 type VideoBlock = { url?: string; caption?: string; file?: { asset?: { _ref: string } } };
@@ -61,7 +61,7 @@ const components: PortableTextComponents = {
   types: {
     image: ({ value }: { value: SanityImageType & { caption?: string } }) => {
       // Never stretch an image beyond its real size (small photos looked blown up at full width).
-      const size = imageSize(value.asset?._ref);
+      const size = croppedSize(value);
       const width = Math.min(size?.width ?? 960, 960);
       const image = withDimensions(value);
       return (

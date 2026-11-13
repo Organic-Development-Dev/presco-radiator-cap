@@ -40,3 +40,10 @@ describe("isExternalHref", () => {
     expect(isExternalHref("mailto:a@b.com")).toBe(false);
   });
 });
+
+describe("resolveHref anchors on non-page links", () => {
+  it("never adds an anchor to mailto: or tel:", () => {
+    expect(resolveHref({ url: "mailto:sales@example.com", anchor: "team" })).toBe("mailto:sales@example.com");
+    expect(resolveHref({ url: "tel:+441905755656", anchor: "team" })).toBe("tel:+441905755656");
+  });
+});

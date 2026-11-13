@@ -22,7 +22,7 @@ export function documentHref(type: string, slug?: string | null): string | null 
 export function resolveHref(link: LinkTarget | null | undefined): string | null {
   if (!link) return null;
   const href = link.internal ? documentHref(link.internal._type, link.internal.slug) : link.url || null;
-  if (!href || !link.anchor) return href;
+  if (!href || !link.anchor || /^(mailto|tel):/i.test(href)) return href;
   return `${href.split("#")[0]}#${link.anchor}`;
 }
 

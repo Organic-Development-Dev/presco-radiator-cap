@@ -16,7 +16,7 @@ const RESERVED_SLUGS = new Set(["contact-us", "products", "news"]);
 
 function getPage(slug: string) {
   if (RESERVED_SLUGS.has(slug)) return Promise.resolve(null);
-  return sanityFetch<Page | null>({ query: PAGE_QUERY, params: { slug }, tags: ["page", `page:${slug}`] });
+  return sanityFetch<Page | null>({ query: PAGE_QUERY, params: { slug }, tags: ["page", `page:${slug}`, "teamMember"] });
 }
 
 export async function generateStaticParams() {

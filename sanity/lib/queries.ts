@@ -118,7 +118,8 @@ export const POSTS_QUERY = defineQuery(`*[_type == "post" && defined(slug.curren
     _id, title, "slug": slug.current, publishedAt, excerpt, mainImage{ ${imageFields} }
   }`);
 
-export const POST_QUERY = defineQuery(`*[_type == "post" && slug.current == $slug][0]{
+export const POST_QUERY = defineQuery(`*[_type == "post" && (slug.current == $slug || $slug in previousSlugs)]
+  | order(select(slug.current == $slug => 0, 1))[0]{
   _id, _updatedAt, title, "slug": slug.current, publishedAt, excerpt, mainImage{ ${imageFields} }, body, ${seoFields}
 }`);
 
@@ -132,11 +133,6 @@ export const SITEMAP_QUERY = defineQuery(`{
 
 export const PAGE_SLUGS_QUERY = defineQuery(
   `*[_type == "page" && defined(slug.current)]{ "slug": slug.current }`,
-);
-
-/** Current slug of a post that used to live at $slug (for redirects). */
-export const POST_REDIRECT_QUERY = defineQuery(
-  `*[_type == "post" && $slug in previousSlugs && defined(slug.current)][0].slug.current`,
 );
 
 export const POST_SLUGS_QUERY = defineQuery(

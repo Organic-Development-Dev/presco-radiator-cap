@@ -468,15 +468,21 @@ async function main() {
   // shown as cards (the WordPress layout came across as huge stacked photos)
   // -------------------------------------------------------------------------
   type BodyBlock = { _type: string; style?: string; children?: { text?: string }[]; asset?: { _ref: string }; alt?: string };
-  const about = await sanity.fetch<{ _id: string; body?: BodyBlock[] } | null>(
-    `*[_type == "page" && slug.current == "about-us" && !(_id in path("drafts.**"))][0]{ _id, body }`,
+  const about = await sanity.fetch<{ _id: string; body?: BodyBlock[]; hasTeam: boolean; hasDraft: boolean } | null>(
+    `*[_type == "page" && slug.current == "about-us" && !(_id in path("drafts.**"))][0]{
+      _id, body, "hasTeam": count(teamMembers) > 0, "hasDraft": defined(*[_id == "drafts." + ^._id][0]._id)
+    }`,
   );
   const text = (b: BodyBlock) => (b.children ?? []).map((c) => c.text ?? "").join("").trim();
   const teamStart = about?.body?.findIndex((b) => b.style === "h2" && /meet the team/i.test(text(b))) ?? -1;
-  if (about?.body && teamStart >= 0) {
+  // Team section = from the "Meet the team" heading up to the next h2 (or the end).
+  const nextH2 = about?.body?.findIndex((b, i) => i > teamStart && b.style === "h2") ?? -1;
+  const teamEnd = nextH2 > teamStart ? nextH2 : (about?.body?.length ?? 0);
+  if (about?.hasDraft && teamStart >= 0) log("About Us: has unpublished changes — publish or discard the draft, then re-run");
+  if (about?.body && teamStart >= 0 && !about.hasTeam && !about.hasDraft) {
     const members: { name: string; role?: string; email?: string; photo?: BodyBlock; bio: string[] }[] = [];
     let photo: BodyBlock | undefined;
-    for (const block of about.body.slice(teamStart + 1)) {
+    for (const block of about.body.slice(teamStart + 1, teamEnd)) {
       if (block._type === "image") photo = block;
       else if (block.style === "h3") {
         members.push({ name: text(block), photo, bio: [] });
@@ -510,7 +516,7 @@ async function main() {
           teamHeading: text(about.body![teamStart]),
           teamMembers: ids.map((id) => ({ _type: "reference", _ref: id, _key: key() })),
         })
-        .set({ body: about.body!.slice(0, teamStart) }),
+        .set({ body: [...about.body!.slice(0, teamStart), ...about.body!.slice(teamEnd)] }),
     );
     log(`About Us: ${members.length} team members moved out of the page body`);
   }
@@ -532,9 +538,18 @@ async function main() {
       .catch(() => "");
     if (!html) log("Packaging: WordPress not reachable, table images skipped");
     const wpRows = html.slice(html.indexOf("<table"), html.indexOf("</table>")).match(/<tr[\s\S]*?<\/tr>/g) ?? [];
-    const set: Record<string, unknown> = { [`body[_key=="${table._key}"].imageColumn`]: imageCol + 1 };
-    for (const [i, row] of table.rows.entries()) {
-      const src = wpRows[i]?.match(/<img[^>]*src="([^"]+)"/)?.[1]?.replace(/-\d+x\d+(\.\w+)$/, "$1");
+    // Match rows on their first cell ("2. Individual Sealed Bag"), not position.
+    const norm = (s: string) => s.replace(/<[^>]+>|&[a-z#0-9]+;/gi, " ").replace(/\s+/g, " ").trim().toLowerCase();
+    const wpImages = new Map(
+      wpRows.flatMap((r) => {
+        const firstCell = r.match(/<td[^>]*>([\s\S]*?)<\/td>/)?.[1];
+        const src = r.match(/<img[^>]*src="([^"]+)"/)?.[1];
+        return firstCell && src ? [[norm(firstCell), src.replace(/-\d+x\d+(\.\w+)$/, "$1")] as const] : [];
+      }),
+    );
+    const set: Record<string, unknown> = {};
+    for (const row of table.rows) {
+      const src = row.cells?.[0] ? wpImages.get(norm(row.cells[0])) : undefined;
       if (!src) continue;
       const filename = src.split("/").pop()!;
       let assetId = await sanity.fetch<string | null>(`*[_type == "sanity.imageAsset" && originalFilename == $filename][0]._id`, { filename });
@@ -546,8 +561,11 @@ async function main() {
       const alt = row.cells?.[0]?.replace(/^\d+\.\s*/, "").trim();
       set[`body[_key=="${table._key}"].rows[_key=="${row._key}"].image`] = { _type: "image", asset: { _type: "reference", _ref: assetId ?? "image-dry-run" }, alt };
     }
-    tx.patch(packaging._id, (p) => p.set(set));
-    log(`Packaging: ${Object.keys(set).length - 1} table images restored`);
+    if (Object.keys(set).length) {
+      set[`body[_key=="${table._key}"].imageColumn`] = imageCol + 1;
+      tx.patch(packaging._id, (p) => p.set(set));
+    }
+    log(`Packaging: ${Math.max(Object.keys(set).length - 1, 0)} table images restored`);
   }
 
   // "Meet the team" menu link jumps to the team section
