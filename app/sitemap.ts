@@ -3,6 +3,13 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { SITEMAP_QUERY } from "@/sanity/lib/queries";
 import { SITE_URL } from "@/lib/site";
 
+/*
+ * Prerendered at build, and Vercel serves it as a static file that the publish webhook's tag
+ * revalidation doesn't reach (checked live: it stayed at the deploy-time version after a
+ * revalidate). Rebuild it at most hourly so new or removed products show up without a deploy.
+ */
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const data = await sanityFetch({
     query: SITEMAP_QUERY,
