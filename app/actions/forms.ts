@@ -12,18 +12,29 @@ export type FormState = {
   status: "idle" | "success" | "error";
   message?: string;
   fieldErrors?: Record<string, string[] | undefined>;
+  /** Submitted text values, echoed back on error so the form can be refilled (React resets it). */
+  values?: Record<string, string>;
 };
+
+/** Text fields to echo back to the form after an error. */
+const ECHO_FIELDS = ["name", "email", "phone", "company", "enquiryType", "message"] as const;
+function echo(formData: FormData): Record<string, string> {
+  return Object.fromEntries(ECHO_FIELDS.map((f) => [f, String(formData.get(f) ?? "").slice(0, 5000)]));
+}
+
+/** No line breaks: these values end up in the email subject. */
+const singleLine = (s: z.ZodString) => s.regex(/^[^\r\n]*$/, "Please use a single line");
 
 const enquirySchema = z.object({
   kind: z.enum(["contact", "enquiry", "order"]),
-  name: z.string().trim().min(1, "Please enter your name").max(120),
+  name: singleLine(z.string().trim().min(1, "Please enter your name").max(120)),
   email: z.email("Please enter a valid email address").max(200),
   phone: z.string().trim().max(40).optional().or(z.literal("")),
   company: z.string().trim().max(160).optional().or(z.literal("")),
   enquiryType: z.enum(ENQUIRY_TYPES).optional().or(z.literal("")),
   message: z.string().trim().min(1, "Please enter a message").max(5000),
   productId: z.string().max(100).optional().or(z.literal("")),
-  productTitle: z.string().max(200).optional().or(z.literal("")),
+  productTitle: singleLine(z.string().max(200)).optional().or(z.literal("")),
 });
 
 const escapeHtml = (s: string) =>
@@ -39,14 +50,21 @@ export async function submitEnquiry(_prev: FormState, formData: FormData): Promi
 
   const parsed = enquirySchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) {
-    return { status: "error", message: "Please check the highlighted fields.", fieldErrors: z.flattenError(parsed.error).fieldErrors };
+    return {
+      status: "error",
+      message: "Please check the highlighted fields.",
+      fieldErrors: z.flattenError(parsed.error).fieldErrors,
+      values: echo(formData),
+    };
   }
   const data = parsed.data;
 
   const h = await headers();
   const ip = h.get("x-forwarded-for")?.split(",")[0]?.trim();
   const human = await verifyTurnstile(formData.get("cf-turnstile-response")?.toString(), ip);
-  if (!human) return { status: "error", message: "Spam check failed. Please refresh the page and try again." };
+  if (!human) {
+    return { status: "error", message: "Spam check failed. Please try again.", values: echo(formData) };
+  }
 
   const results = await Promise.allSettled([
     process.env.SANITY_API_WRITE_TOKEN
@@ -70,7 +88,7 @@ export async function submitEnquiry(_prev: FormState, formData: FormData): Promi
   failures.forEach((f) => console.error("Enquiry delivery failed:", (f as PromiseRejectedResult).reason));
   // Only fail if nothing got through.
   if (failures.length === results.length) {
-    return { status: "error", message: "Sorry, something went wrong. Please email or call us instead." };
+    return { status: "error", message: "Sorry, something went wrong. Please email or call us instead.", values: echo(formData) };
   }
   return { status: "success", message: "Thanks — your message has been sent. We'll be in touch shortly." };
 }
