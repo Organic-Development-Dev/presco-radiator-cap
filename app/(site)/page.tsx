@@ -56,8 +56,10 @@ export default async function HomePage() {
 
   const slides: CarouselSlide[] = (page?.heroSlides ?? []).map((slide) => ({
     key: slide._key,
-    src: urlFor(slide.image).width(2000).height(800).fit("crop").url(),
-    // Phones: the dedicated phone image if there is one, otherwise the wide banner cropped around its hotspot.
+    // Desktop: the banner at its own shape, uncropped (banners carry text near their edges).
+    src: urlFor(slide.image).width(2000).url(),
+    // Phones (5:3): the dedicated phone image if there is one, otherwise the wide banner cropped
+    // around its hotspot (set the hotspot on the text in the Studio).
     mobileSrc: urlFor(slide.mobileImage?.asset ? slide.mobileImage : slide.image)
       .width(1200)
       .height(720)
@@ -67,12 +69,14 @@ export default async function HomePage() {
     href: resolveHref(slide),
     blurDataURL: slide.image.lqip,
   }));
+  // All slides share the first banner's shape on desktop, kept within sensible bounds.
+  const heroAspect = Math.min(4, Math.max(2, page?.heroSlides?.[0]?.image.dimensions?.aspectRatio ?? 2.5));
   const testimonials = (page?.testimonials ?? []).filter((t): t is Testimonial => Boolean(t?.quote));
 
   return (
     <>
       <h1 className="sr-only">{page?.heading || settings?.siteName || SITE_NAME}</h1>
-      <HeroCarousel slides={slides} />
+      <HeroCarousel slides={slides} desktopAspect={heroAspect} />
       <Features heading={page?.featuresHeading} items={page?.features ?? []} />
       <ProductTiles heading={page?.productsHeading} tiles={page?.productTiles ?? []} />
       {page?.intro?.length ? (
