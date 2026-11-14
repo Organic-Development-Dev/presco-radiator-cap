@@ -13,7 +13,8 @@ export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
   try {
     return await sanityFetch<SiteSettings>({
       query: SITE_SETTINGS_QUERY,
-      tags: ["siteSettings", "page", "post", "product", "productCategory", "homePage"],
+      // Menus and footer link to any LINKABLE_TYPES document, so a renamed slug must refresh them.
+      tags: ["siteSettings", "page", "post", "product", "productCategory", "homePage", "applicationGuide", "localePage"],
     });
   } catch (error) {
     console.error("Failed to load site settings", error);

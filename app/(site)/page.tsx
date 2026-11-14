@@ -18,7 +18,11 @@ import { HOME_PAGE_QUERY, POSTS_QUERY } from "@/sanity/lib/queries";
 
 const getHomePage = cache(async (): Promise<HomePageData> => {
   try {
-    return await sanityFetch<HomePageData>({ query: HOME_PAGE_QUERY, tags: ["homePage", "testimonial"] });
+    return await sanityFetch<HomePageData>({
+      query: HOME_PAGE_QUERY,
+      // Hero slides and tiles link to pages, categories, products, posts and guides.
+      tags: ["homePage", "testimonial", "page", "productCategory", "product", "post", "applicationGuide"],
+    });
   } catch (error) {
     console.error("Home: failed to load homepage content", error);
     return null;

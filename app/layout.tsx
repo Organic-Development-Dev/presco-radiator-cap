@@ -5,8 +5,8 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const montserrat = Montserrat({
+  // Variable font, no `weight`: one file covering every weight the site uses (300-800).
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-montserrat",
 });

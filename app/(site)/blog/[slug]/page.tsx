@@ -10,6 +10,7 @@ import { SanityImage } from "@/components/SanityImage";
 import { ORGANIZATION_ID } from "@/components/SiteJsonLd";
 import { buildMetadata } from "@/lib/metadata";
 import { getPage } from "@/lib/pages";
+import { getSiteSettings } from "@/lib/settings";
 import { truncate } from "@/lib/text";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import type { Post } from "@/lib/types";
@@ -46,10 +47,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PostPage({ params }: Props) {
   const { slug } = await params;
-  const [post, neighbours, newsPage] = await Promise.all([
+  const [post, neighbours, newsPage, settings] = await Promise.all([
     getPost(slug),
     sanityFetch<Neighbours>({ query: POST_NEIGHBOURS_QUERY, params: { slug }, tags: ["post"] }),
     getPage("news"),
+    getSiteSettings(),
   ]);
   const newsTitle = newsPage?.title ?? "News";
   if (!post) notFound();
@@ -57,7 +59,9 @@ export default async function PostPage({ params }: Props) {
   if (post.slug !== slug) permanentRedirect(`/blog/${post.slug}/`);
 
   const url = `${SITE_URL}/blog/${post.slug}/`;
-  const image = post.mainImage?.asset ? urlFor(post.mainImage).width(1200).url() : undefined;
+  // Google recommends an image on every Article; fall back to the site's default share image.
+  const imageSource = post.mainImage?.asset ? post.mainImage : settings?.defaultSeo?.image;
+  const image = imageSource?.asset ? urlFor(imageSource).width(1200).url() : undefined;
 
   return (
     <>
@@ -73,7 +77,7 @@ export default async function PostPage({ params }: Props) {
             <SanityImage
               image={post.mainImage}
               width={768}
-              priority
+              preload
               sizes="(min-width: 800px) 768px, 100vw"
               className="mb-8 h-auto w-full rounded-lg"
             />

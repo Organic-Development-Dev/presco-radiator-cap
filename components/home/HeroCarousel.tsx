@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { getImageProps } from "next/image";
+import { getImageProps, type ImageLoader } from "next/image";
 import Link from "next/link";
 
 export type CarouselSlide = {
@@ -16,11 +16,30 @@ export type CarouselSlide = {
 
 const INTERVAL_MS = 5000;
 
-/** Hero banner: CSS scroll-snap track with auto-advance (paused on hover/focus and for reduced motion). */
+/**
+ * Resize a Sanity CDN URL that already has w/h/crop params, keeping its aspect ratio, so the
+ * browser can pick a width from the srcset instead of always downloading the 2000px image.
+ */
+const sanityLoader: ImageLoader = ({ src, width }) => {
+  const url = new URL(src);
+  const w = Number(url.searchParams.get("w"));
+  const h = Number(url.searchParams.get("h"));
+  url.searchParams.set("w", String(width));
+  if (w && h) url.searchParams.set("h", String(Math.round((width * h) / w)));
+  return url.toString();
+};
+
+/**
+ * Hero banner: CSS scroll-snap track with auto-advance. Rotation pauses on hover/focus, never
+ * starts for reduced motion, and can be stopped with the pause button (WCAG 2.2.2).
+ */
 export function HeroCarousel({ slides }: { slides: CarouselSlide[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+  // Explicit pause by the user; unlike hover/focus it stays until they press play.
+  const [stopped, setStopped] = useState(false);
+  const rotating = !paused && !stopped;
 
   const goTo = useCallback((index: number) => {
     const track = trackRef.current;
@@ -38,10 +57,10 @@ export function HeroCarousel({ slides }: { slides: CarouselSlide[] }) {
   }, []);
 
   useEffect(() => {
-    if (paused || slides.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!rotating || slides.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const timer = setInterval(() => goTo((current + 1) % slides.length), INTERVAL_MS);
     return () => clearInterval(timer);
-  }, [current, paused, goTo, slides.length]);
+  }, [current, rotating, goTo, slides.length]);
 
   if (!slides.length) return null;
 
@@ -57,6 +76,8 @@ export function HeroCarousel({ slides }: { slides: CarouselSlide[] }) {
     >
       <div
         ref={trackRef}
+        // Announce slide changes only when the user is in control (not every 5 seconds).
+        aria-live={rotating ? "off" : "polite"}
         className="flex aspect-[5/3] snap-x md:aspect-[5/2] snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {slides.map((slide, index) => {
@@ -68,8 +89,7 @@ export function HeroCarousel({ slides }: { slides: CarouselSlide[] }) {
             // No `preload` here: with <picture> it would fetch both images. Eager + high priority instead.
             loading: index === 0 ? ("eager" as const) : ("lazy" as const),
             fetchPriority: index === 0 ? ("high" as const) : undefined,
-            // Sanity's CDN already sizes and converts the image.
-            unoptimized: true,
+            loader: sanityLoader,
           };
           const { props: desktop } = getImageProps({ ...shared, src: slide.src });
           const { props: mobile } = getImageProps({ ...shared, src: slide.mobileSrc });
@@ -105,7 +125,17 @@ export function HeroCarousel({ slides }: { slides: CarouselSlide[] }) {
       </div>
 
       {slides.length > 1 && (
-      <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1">
+      <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1">
+        <button
+          type="button"
+          onClick={() => setStopped((s) => !s)}
+          aria-label={stopped ? "Play slideshow" : "Pause slideshow"}
+          className="mr-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/40 text-white transition-colors hover:bg-black/60"
+        >
+          <svg aria-hidden="true" viewBox="0 0 24 24" className="size-3.5 fill-current">
+            {stopped ? <path d="M8 5v14l11-7z" /> : <path d="M7 5h4v14H7zM13 5h4v14h-4z" />}
+          </svg>
+        </button>
         {slides.map((slide, index) => (
           <button
             key={slide.key}

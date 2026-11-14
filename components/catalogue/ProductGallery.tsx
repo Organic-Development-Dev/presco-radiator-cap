@@ -25,7 +25,7 @@ export function ProductGallery({ images, title }: { images: SanityImageType[]; t
           alt={current?.alt || title}
           fallbackSrc={PLACEHOLDER_PRODUCT_IMAGE}
           fill
-          priority
+          preload
           sizes="(min-width: 1024px) 50vw, 100vw"
           className="object-contain p-6"
         />
