@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandPlaceholder } from "@/components/BrandPlaceholder";
 import { SanityImage } from "@/components/SanityImage";
 import type { PostCard as PostCardType } from "@/lib/types";
 import { PostDate } from "./PostDate";
@@ -9,14 +10,17 @@ export function PostCard({ post }: { post: PostCardType }) {
   return (
     <article className="group relative grid gap-4 md:grid-cols-3 md:gap-6">
       <div className="relative aspect-[361/207] overflow-hidden rounded-lg bg-surface">
-        <SanityImage
-          image={post.mainImage}
-          fallbackSrc="/img/background-gray.png"
-          alt=""
-          fill
-          sizes="(min-width: 768px) 33vw, 100vw"
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
-        />
+        {post.mainImage?.asset ? (
+          <SanityImage
+            image={post.mainImage}
+            alt=""
+            fill
+            sizes="(min-width: 768px) 33vw, 100vw"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <BrandPlaceholder className="transition-transform duration-300 group-hover:scale-105" />
+        )}
       </div>
       <div className="md:col-span-2">
         <PostDate date={post.publishedAt} className="text-xs text-gray-500" />

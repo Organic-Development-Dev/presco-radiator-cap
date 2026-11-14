@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandPlaceholder } from "@/components/BrandPlaceholder";
 import { SanityImage } from "@/components/SanityImage";
 import type { PostCard } from "@/lib/types";
 
@@ -18,14 +19,17 @@ export function LatestNews({ posts, heading }: { posts: PostCard[]; heading?: st
           <li key={post._id} className="w-4/5 shrink-0 snap-center sm:w-auto">
             <Link href={`/blog/${post.slug}/`} className="group block">
               <div className="relative aspect-[285/235] overflow-hidden rounded-2xl bg-surface">
-                <SanityImage
-                  image={post.mainImage}
-                  alt=""
-                  fallbackSrc="/img/latest-news.png"
-                  fill
-                  sizes="(min-width: 640px) 33vw, 80vw"
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
+                {post.mainImage?.asset ? (
+                  <SanityImage
+                    image={post.mainImage}
+                    alt=""
+                    fill
+                    sizes="(min-width: 640px) 33vw, 80vw"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                ) : (
+                  <BrandPlaceholder className="transition-transform duration-300 group-hover:scale-105" />
+                )}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                   <span className="rounded-2xl border border-white bg-primary px-4 py-1.5 text-sm text-white">
                     Read more
