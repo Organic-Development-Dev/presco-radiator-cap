@@ -19,7 +19,7 @@ export function PostCard({ post }: { post: PostCardType }) {
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <BrandPlaceholder className="transition-transform duration-300 group-hover:scale-105" />
+          <BrandPlaceholder />
         )}
       </div>
       <div className="md:col-span-2">

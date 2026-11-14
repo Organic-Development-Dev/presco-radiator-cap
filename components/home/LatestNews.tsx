@@ -28,7 +28,7 @@ export function LatestNews({ posts, heading }: { posts: PostCard[]; heading?: st
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 ) : (
-                  <BrandPlaceholder className="transition-transform duration-300 group-hover:scale-105" />
+                  <BrandPlaceholder />
                 )}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                   <span className="rounded-2xl border border-white bg-primary px-4 py-1.5 text-sm text-white">
