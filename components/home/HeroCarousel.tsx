@@ -33,7 +33,7 @@ const sanityLoader: ImageLoader = ({ src, width }) => {
  * Hero banner: CSS scroll-snap track with auto-advance. Rotation pauses on hover/focus, never
  * starts for reduced motion, and can be stopped with the pause button (WCAG 2.2.2).
  */
-export function HeroCarousel({ slides }: { slides: CarouselSlide[] }) {
+export function HeroCarousel({ slides, desktopAspect = 2.5 }: { slides: CarouselSlide[]; /** width / height from 768px up */ desktopAspect?: number }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -78,7 +78,8 @@ export function HeroCarousel({ slides }: { slides: CarouselSlide[] }) {
         ref={trackRef}
         // Announce slide changes only when the user is in control (not every 5 seconds).
         aria-live={rotating ? "off" : "polite"}
-        className="flex aspect-[5/3] snap-x md:aspect-[5/2] snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{ "--hero-aspect": String(desktopAspect) } as React.CSSProperties}
+        className="flex aspect-[5/3] snap-x md:aspect-(--hero-aspect) snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {slides.map((slide, index) => {
           // Art direction: phones download only the 5:3 image, larger screens only the 5:2 one.
