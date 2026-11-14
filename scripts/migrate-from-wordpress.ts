@@ -104,6 +104,7 @@ const blockContentType = Schema.compile({
                 type: "object",
                 fields: [
                   { name: "href", type: "url" },
+                  { name: "file", type: "file" },
                   { name: "blank", type: "boolean" },
                 ],
               },

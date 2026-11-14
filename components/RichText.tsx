@@ -22,22 +22,95 @@ function embedUrl(url: string) {
   return null;
 }
 
+type VideoGroup = { _type: "videoGroup"; _key: string; videos: (VideoBlock & { _key: string })[] };
+
+/**
+ * Uploaded clips are often portrait phone videos: at full width a 9:16 clip is
+ * three screens tall. Cap the height and centre them; embeds stay 16:9.
+ */
+function VideoFigure({
+  value,
+  className,
+  videoClassName = "mx-auto max-h-[70vh]",
+}: {
+  value: VideoBlock;
+  className?: string;
+  /** Sizing for uploaded clips; grouped clips share a fixed height so they line up. */
+  videoClassName?: string;
+}) {
+  const src = value.file?.asset?._ref ? fileUrl(value.file.asset._ref) : value.url;
+  if (!src) return null;
+  const embed = embedUrl(src);
+  return (
+    <figure className={className}>
+      {embed ? (
+        <div className="relative aspect-video overflow-hidden rounded-lg">
+          <iframe
+            src={embed}
+            title={value.caption ?? "Video"}
+            className="absolute inset-0 h-full w-full"
+            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            loading="lazy"
+          />
+        </div>
+      ) : (
+        <video
+          src={src}
+          controls
+          playsInline
+          preload="metadata"
+          className={`block w-auto max-w-full rounded-lg bg-black shadow-sm ${videoClassName}`}
+        />
+      )}
+      {value.caption && <figcaption className="mt-2 text-center text-sm text-gray-500">{value.caption}</figcaption>}
+    </figure>
+  );
+}
+
+/** Merge runs of 2+ consecutive video blocks into one videoGroup block. */
+function groupVideos(blocks: PortableTextBlock[]): PortableTextBlock[] {
+  const out: PortableTextBlock[] = [];
+  for (let i = 0; i < blocks.length; ) {
+    let j = i;
+    while (j < blocks.length && blocks[j]._type === "video") j++;
+    if (j - i >= 2) {
+      const videos = blocks.slice(i, j) as unknown as VideoGroup["videos"];
+      out.push({ _type: "videoGroup", _key: `${videos[0]._key}-group`, videos } as unknown as PortableTextBlock);
+      i = j;
+    } else {
+      out.push(blocks[i]);
+      i++;
+    }
+  }
+  return out;
+}
+
 const components: PortableTextComponents = {
   block: {
-    h2: ({ children }) => <h2 className="mt-10 mb-4 text-2xl font-semibold text-accent">{children}</h2>,
-    h3: ({ children }) => <h3 className="mt-8 mb-3 text-xl font-semibold text-accent">{children}</h3>,
-    h4: ({ children }) => <h4 className="mt-6 mb-2 text-lg font-semibold">{children}</h4>,
+    h2: ({ children }) => <h2 className="mt-10 mb-4 max-w-3xl text-2xl font-semibold text-accent">{children}</h2>,
+    h3: ({ children }) => <h3 className="mt-8 mb-3 max-w-3xl text-xl font-semibold text-accent">{children}</h3>,
+    h4: ({ children }) => <h4 className="mt-6 mb-2 max-w-3xl text-lg font-semibold">{children}</h4>,
     blockquote: ({ children }) => (
-      <blockquote className="my-6 border-l-4 border-accent pl-4 italic">{children}</blockquote>
+      <blockquote className="my-6 max-w-3xl border-l-4 border-accent pl-4 italic">{children}</blockquote>
     ),
-    normal: ({ children }) => <p className="my-4 leading-relaxed whitespace-pre-line">{children}</p>,
+    normal: ({ children }) => <p className="my-4 max-w-3xl leading-relaxed whitespace-pre-line">{children}</p>,
   },
   list: {
-    bullet: ({ children }) => <ul className="my-4 list-disc space-y-2 pl-6">{children}</ul>,
-    number: ({ children }) => <ol className="my-4 list-decimal space-y-2 pl-6">{children}</ol>,
+    bullet: ({ children }) => <ul className="my-4 max-w-3xl list-disc space-y-2 pl-6">{children}</ul>,
+    number: ({ children }) => <ol className="my-4 max-w-3xl list-decimal space-y-2 pl-6">{children}</ol>,
   },
   marks: {
     link: ({ value, children }) => {
+      // An uploaded file wins over the URL; files open in a new tab.
+      const fileRef: string | undefined = value?.file?.asset?._ref;
+      if (fileRef) {
+        return (
+          <a href={fileUrl(fileRef)} target="_blank" rel="noopener" className="text-accent underline underline-offset-2 hover:no-underline">
+            {children}
+          </a>
+        );
+      }
       const href: string = value?.href ?? "#";
       const external = /^https?:\/\//.test(href) || value?.blank;
       if (href.startsWith("/")) {
@@ -71,30 +144,15 @@ const components: PortableTextComponents = {
         </figure>
       );
     },
-    video: ({ value }: { value: VideoBlock }) => {
-      const src = value.file?.asset?._ref ? fileUrl(value.file.asset._ref) : value.url;
-      if (!src) return null;
-      const embed = embedUrl(src);
-      return (
-        <figure className="my-8">
-          {embed ? (
-            <div className="relative aspect-video overflow-hidden rounded-lg">
-              <iframe
-                src={embed}
-                title={value.caption ?? "Video"}
-                className="absolute inset-0 h-full w-full"
-                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                loading="lazy"
-              />
-            </div>
-          ) : (
-            <video src={src} controls playsInline preload="metadata" className="w-full rounded-lg" />
-          )}
-          {value.caption && <figcaption className="mt-2 text-center text-sm text-gray-500">{value.caption}</figcaption>}
-        </figure>
-      );
-    },
+    video: ({ value }: { value: VideoBlock }) => <VideoFigure value={value} className="my-8" />,
+    // Consecutive videos, grouped by groupVideos() so they sit side by side.
+    videoGroup: ({ value }: { value: VideoGroup }) => (
+      <div className="my-8 flex flex-wrap items-start gap-6">
+        {value.videos.map((video) => (
+          <VideoFigure key={video._key} value={video} videoClassName="h-[min(60vh,32rem)]" />
+        ))}
+      </div>
+    ),
     table: ({ value }: { value: TableBlock }) => {
       const [head, ...rows] = value.rows ?? [];
       if (!head) return null;
@@ -135,7 +193,7 @@ export function RichText({ value, className }: { value: PortableTextBlock[] | nu
   if (!value?.length) return null;
   return (
     <div className={className}>
-      <PortableText value={value} components={components} />
+      <PortableText value={groupVideos(value)} components={components} />
     </div>
   );
 }

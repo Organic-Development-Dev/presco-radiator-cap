@@ -35,11 +35,23 @@ export const blockContent = defineType({
                 name: "href",
                 title: "URL",
                 type: "url",
+                description: "A web address, or leave empty and upload a file below.",
                 validation: (rule) =>
                   rule.uri({ allowRelative: true, scheme: ["http", "https", "mailto", "tel"] }),
               }),
+              defineField({
+                name: "file",
+                title: "Or link to a file",
+                type: "file",
+                description:
+                  "Upload a document such as a PDF certificate or price list. To update it later, replace the file here. Used instead of the URL.",
+              }),
               defineField({ name: "blank", title: "Open in new tab", type: "boolean" }),
             ],
+            validation: (rule) =>
+              rule.custom((value: { href?: string; file?: { asset?: unknown } } | undefined) =>
+                value?.href || value?.file?.asset ? true : "Add a URL or upload a file",
+              ),
           }),
         ],
       },
