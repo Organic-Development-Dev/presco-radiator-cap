@@ -26,6 +26,35 @@ async function sanityRedirects() {
   }
 }
 
+/*
+ * Full Content-Security-Policy, sent REPORT-ONLY for now: violations are logged via
+ * /api/csp-report/ (Vercel logs, "CSP violation") but nothing is blocked. Once the logs are
+ * quiet (e.g. after checking any Google Tag Manager tags), rename the header to
+ * Content-Security-Policy to enforce it.
+ *
+ * Scripts use an allowlist with 'unsafe-inline' rather than nonces: nonces need a fresh value
+ * per request, which would make every page dynamic and lose static prerendering. The allowlist
+ * still blocks scripts from any host not listed. The Studio (/studio) is excluded: it needs
+ * its own, looser policy.
+ */
+const csp = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https://cdn.sanity.io https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com",
+  "font-src 'self' data:",
+  "media-src 'self' https://cdn.sanity.io",
+  "connect-src 'self' https://cdn.sanity.io https://challenges.cloudflare.com https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com",
+  "frame-src https://challenges.cloudflare.com https://www.youtube-nocookie.com https://player.vimeo.com https://www.google.com https://www.googletagmanager.com",
+  "worker-src 'self'",
+  "manifest-src 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'self'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "report-uri /api/csp-report/",
+].join("; ");
+
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
@@ -51,6 +80,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
+      { source: "/((?!studio).*)", headers: [{ key: "Content-Security-Policy-Report-Only", value: csp }] },
       // The service worker must never be cached by the browser/CDN, or updates won't reach visitors.
       {
         source: "/sw.js",
