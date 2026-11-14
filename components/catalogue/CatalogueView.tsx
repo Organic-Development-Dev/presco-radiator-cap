@@ -91,7 +91,7 @@ export function CatalogueView({
               {products.length} {products.length === 1 ? "product" : "products"}
               {activeCount > 0 && " matching your filters"}
             </p>
-            <ProductGrid products={pageItems} />
+            <ProductGrid products={pageItems} preloadCount={2} />
             {totalPages > 1 && (
               <Pagination basePath={basePath} filters={filters} page={currentPage} totalPages={totalPages} />
             )}

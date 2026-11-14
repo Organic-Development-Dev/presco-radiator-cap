@@ -20,6 +20,11 @@ export function EnquiryForm({ kind, productId, productTitle, submitLabel = "Send
   const [state, formAction, pending] = useActionState(submitEnquiry, initialState);
   const id = useId();
   const err = (field: string) => state.fieldErrors?.[field]?.[0];
+  // React resets the form after every action, so refill it from what the server echoed back.
+  const value = (field: string) => state.values?.[field];
+  // Link each input to its error message for screen readers.
+  const a11y = (field: string, inputId: string) =>
+    err(field) ? { "aria-invalid": true as const, "aria-describedby": `${inputId}-error` } : {};
 
   if (state.status === "success") {
     return (
@@ -45,21 +50,21 @@ export function EnquiryForm({ kind, productId, productTitle, submitLabel = "Send
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field id={`${id}-name`} label="Name" error={err("name")}>
-          <input id={`${id}-name`} name="name" required autoComplete="name" className="field-input" />
+          <input id={`${id}-name`} name="name" required autoComplete="name" defaultValue={value("name")} {...a11y("name", `${id}-name`)} className="field-input" />
         </Field>
         <Field id={`${id}-email`} label="Email" error={err("email")}>
-          <input id={`${id}-email`} name="email" type="email" required autoComplete="email" className="field-input" />
+          <input id={`${id}-email`} name="email" type="email" required autoComplete="email" defaultValue={value("email")} {...a11y("email", `${id}-email`)} className="field-input" />
         </Field>
         <Field id={`${id}-phone`} label="Phone (optional)" error={err("phone")}>
-          <input id={`${id}-phone`} name="phone" type="tel" autoComplete="tel" className="field-input" />
+          <input id={`${id}-phone`} name="phone" type="tel" autoComplete="tel" defaultValue={value("phone")} {...a11y("phone", `${id}-phone`)} className="field-input" />
         </Field>
         <Field id={`${id}-company`} label="Company (optional)" error={err("company")}>
-          <input id={`${id}-company`} name="company" autoComplete="organization" className="field-input" />
+          <input id={`${id}-company`} name="company" autoComplete="organization" defaultValue={value("company")} {...a11y("company", `${id}-company`)} className="field-input" />
         </Field>
       </div>
       {kind === "contact" && (
         <Field id={`${id}-type`} label="Enquiry type" error={err("enquiryType")}>
-          <select id={`${id}-type`} name="enquiryType" defaultValue="" className="field-input">
+          <select id={`${id}-type`} name="enquiryType" defaultValue={value("enquiryType") ?? ""} className="field-input">
             <option value="">Please choose (optional)</option>
             {ENQUIRY_TYPES.map((type) => (
               <option key={type}>{type}</option>
@@ -73,12 +78,13 @@ export function EnquiryForm({ kind, productId, productTitle, submitLabel = "Send
           name="message"
           required
           rows={5}
-          defaultValue={defaultMessage}
+          defaultValue={value("message") ?? defaultMessage}
+          {...a11y("message", `${id}-message`)}
           className="field-input"
         />
       </Field>
 
-      <Turnstile />
+      <Turnstile resetKey={state} />
 
       {state.status === "error" && state.message && (
         <p role="alert" className="text-sm text-red-700 dark:text-red-400">
@@ -99,7 +105,11 @@ function Field({ id, label, error, children }: { id: string; label: string; erro
         {label}
       </label>
       {children}
-      {error && <p className="mt-1 text-xs text-red-700 dark:text-red-400">{error}</p>}
+      {error && (
+        <p id={`${id}-error`} className="mt-1 text-xs text-red-700 dark:text-red-400">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

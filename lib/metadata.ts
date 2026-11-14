@@ -24,10 +24,20 @@ type Options = {
   languages?: Record<string, string>;
   /** Use the title as-is, without the site name suffix. */
   absoluteTitle?: boolean;
+  /**
+   * Letterbox the fallback image on white instead of cropping it to 1200x630.
+   * For product photos (square, white background) where a crop would cut off the part.
+   */
+  containFallbackImage?: boolean;
 };
 
-const shareImage = (image: SanityImage | null | undefined) =>
-  image?.asset ? urlFor(image).width(1200).height(630).fit("crop").url() : undefined;
+const shareImage = (image: SanityImage | null | undefined, contain = false) =>
+  image?.asset
+    ? contain
+      ? // Built by hand: the URL builder always adds a crop rect when both width and height are set.
+        `${urlFor(image).url().split("?")[0]}?w=1200&h=630&fit=fill&bg=ffffff&auto=format`
+      : urlFor(image).width(1200).height(630).fit("crop").url()
+    : undefined;
 
 /**
  * Page metadata from a document's title + SEO object, falling back to the
@@ -40,7 +50,7 @@ export async function buildMetadata(options: Options): Promise<Metadata> {
   const metaTitle = seo?.title || title;
   const description =
     truncate(seo?.description) || truncate(fallbackDescription) || truncate(settings?.defaultSeo?.description) || undefined;
-  const image = shareImage(seo?.image) ?? shareImage(fallbackImage) ?? shareImage(settings?.defaultSeo?.image);
+  const image = shareImage(seo?.image) ?? shareImage(fallbackImage, options.containFallbackImage) ?? shareImage(settings?.defaultSeo?.image);
   const images = image ? [{ url: image, width: 1200, height: 630, alt: metaTitle }] : undefined;
   const noIndex = options.noIndex || seo?.noIndex;
 

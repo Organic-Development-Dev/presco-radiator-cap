@@ -61,13 +61,16 @@ export function ProductEnquiryButtons({ productId, productTitle }: { productId: 
               </svg>
             </button>
           </div>
-          <EnquiryForm
-            key={`${kind}-${session}`}
-            kind={kind}
-            productId={productId}
-            productTitle={productTitle}
-            submitLabel={kind === "order" ? "Send order request" : "Send enquiry"}
-          />
+          {/* Mounted only once opened, so the spam check doesn't load on every product page. */}
+          {session > 0 && (
+            <EnquiryForm
+              key={`${kind}-${session}`}
+              kind={kind}
+              productId={productId}
+              productTitle={productTitle}
+              submitLabel={kind === "order" ? "Send order request" : "Send enquiry"}
+            />
+          )}
         </div>
       </dialog>
     </>

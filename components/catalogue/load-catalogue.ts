@@ -1,8 +1,9 @@
 import "server-only";
+import { notFound } from "next/navigation";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { CATEGORIES_QUERY, PRODUCTS_QUERY, PRODUCT_FACETS_QUERY } from "@/sanity/lib/queries";
 import type { Category, ProductCard, ProductFacets } from "@/lib/types";
-import { naturalCompare, parseFilters, parsePage, type SearchParams } from "./params";
+import { PAGE_SIZE, naturalCompare, parseFilters, parsePage, type SearchParams } from "./params";
 
 const TAGS = ["product", "productCategory"];
 
@@ -25,11 +26,16 @@ export async function loadCatalogue({ category, searchParams }: { category: stri
     tags: TAGS,
   });
 
+  // Pages past the end are a 404, not a duplicate of the last page under a new URL.
+  const page = parsePage(searchParams);
+  const totalPages = Math.max(1, Math.ceil((products?.length ?? 0) / PAGE_SIZE));
+  if (page > totalPages) notFound();
+
   return {
     categories: categories ?? [],
     facets,
     filters,
     products: [...(products ?? [])].sort((a, b) => naturalCompare(a.title, b.title)),
-    page: parsePage(searchParams),
+    page,
   };
 }

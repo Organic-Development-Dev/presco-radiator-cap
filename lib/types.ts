@@ -22,11 +22,11 @@ export type ProductCard = {
   slug: string;
   image?: SanityImage | null;
   partType?: string[] | null;
-  applications?: string[] | null;
 };
 
 export type Product = ProductCard & {
   images?: SanityImage[] | null;
+  applications?: string[] | null;
   summary?: PortableTextBlock[] | null;
   description?: PortableTextBlock[] | null;
   oeNumbers?: string[] | null;

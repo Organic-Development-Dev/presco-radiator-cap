@@ -48,6 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path: `/product/${product.slug}/`,
     fallbackDescription: describe(product, settings?.siteName || SITE_NAME),
     fallbackImage: product.images?.find((img) => img?.asset),
+    containFallbackImage: true,
   });
 }
 
@@ -67,7 +68,9 @@ function productTitle(product: Product): string {
 /** Plain-text description for meta tags and JSON-LD, built from the specs when there's no copy. */
 function describe(product: Product, siteName: string): string {
   const copy = toPlainText(product.description ?? []).trim();
-  if (copy) return truncate(copy);
+  // Short or ALL-CAPS copy (often just a spec line like "56.5MM DIAMETER") makes a poor
+  // search snippet; use the generated sentence instead.
+  if (copy.length >= 70 && copy !== copy.toUpperCase()) return truncate(copy);
   const list = (values: string[] | null | undefined, n = 4) =>
     (values ?? [])
       .map((v) => v.replace(/[\s,.;]+$/, ""))

@@ -28,7 +28,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!guide) return {};
   const makes = guide.sections?.map((s) => s.heading).filter(Boolean).join(", ");
   return buildMetadata({
-    title: guide.seo?.title || `${guide.title} – Radiator Cap Applications`,
+    // Don't repeat "Applications" when the guide title already says it (keeps titles shorter).
+    title: guide.seo?.title || (/applications/i.test(guide.title) ? guide.title : `${guide.title} – Radiator Cap Applications`),
     seo: guide.seo,
     path: `/applications/${guide.slug}/`,
     fallbackDescription: guide.intro || (makes ? `Presco radiator, fuel and oil caps for ${makes}: part numbers, pressures and OE references.` : undefined),

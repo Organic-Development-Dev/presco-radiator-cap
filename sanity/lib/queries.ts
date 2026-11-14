@@ -7,8 +7,7 @@ const productCard = /* groq */ `
   title,
   "slug": slug.current,
   "image": images[0]{ ${imageFields} },
-  partType,
-  applications
+  partType
 `;
 
 const seoFields = /* groq */ `seo{ title, description, noIndex, image }`;
