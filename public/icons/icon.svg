@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Presco app icon: radiator cap (two lugs) on brand navy. Full-bleed so it also works as a maskable icon. -->
+  <rect width="512" height="512" fill="#445a8e"/>
+  <g fill="none" stroke="#fff" stroke-linejoin="round">
+    <path stroke-width="18" d="M256 118c52 0 96 24 116 60 10 18 30 26 50 34 18 8 24 26 24 44s-6 36-24 44c-20 8-40 16-50 34-20 36-64 60-116 60s-96-24-116-60c-10-18-30-26-50-34-18-8-24-26-24-44s6-36 24-44c20-8 40-16 50-34 20-36 64-60 116-60z"/>
+    <circle cx="256" cy="256" r="74" stroke-width="14"/>
+    <circle cx="256" cy="256" r="50" stroke-width="8"/>
+  </g>
+  <text x="256" y="278" text-anchor="middle" font-family="Montserrat, Arial, Helvetica, sans-serif" font-weight="800" font-size="64" fill="#fff">P</text>
+</svg>

@@ -1,46 +1,45 @@
+# Presco Radiator Caps — website
 
-# Features:
+Next.js 16 (App Router) + Sanity. Product catalogue with enquiry forms; content is edited in Sanity Studio at `/studio`.
 
-1. WooCommerce Store in React( contains: Products Page, Single Product Page, AddToCart, CartPage and Checkout Page with country selection ).
-2. SSR
-3. SEO friendly
-4. Automatic Code Splitting
-5. Hot Reloading
-6. Prefetching
-8. Incremental Static (Re)generation ( Next.js 10 support )
-9. GraphQL with Apollo Client
-10. Tailwindcss
-11. Stripe Checkout ( with Stripe Session and Stripe webhook)
+## Setup
 
-## Getting Started :rocket:
+```bash
+nvm use            # Node 24 (see .nvmrc)
+npm install
+cp .env.example .env.local   # fill in the Sanity project ID at minimum
+npm run dev        # http://localhost:3000, Studio at /studio
+```
 
-These instructions will get you a copy of the project up and running on your local machine for development purposes.
+## Scripts
 
-### Prerequisites :page_facing_up:
+| Command | What it does |
+|---|---|
+| `npm run dev` / `build` / `start` | Next.js |
+| `npm run lint` / `typecheck` / `test` | ESLint, TypeScript, Vitest |
+| `npm run migrate -- --dry-run` | Convert WordPress/WooCommerce content without writing (output in `scripts/.cache/`) |
+| `npm run migrate` | Import WordPress/WooCommerce content into Sanity (idempotent; needs `SANITY_API_WRITE_TOKEN`) |
+| `npm run seed` | Run after `migrate`: menus, contact details, homepage sections, testimonial and SEO clean-up into Sanity (only fills empty fields) |
+| `npm run typegen` | Generate TypeScript types from the Sanity schema and queries |
 
-### Installing :wrench:
+## How content updates reach the site
 
-2. `cd woo-next`
-3. `yarn install`
+Pages are cached. A Sanity webhook calls `POST /api/revalidate` on publish, which revalidates the cache tags for that document type. Setup is documented in `app/api/revalidate/route.ts`.
 
-## Add GraphQl support for WordPress
+### Redirects
 
+Editors manage old → new addresses under **Redirects** in the Studio. They're read when the site builds (`next.config.ts` → `lib/redirects.ts`), so they add no per-request cost, but a change only goes live after a rebuild. Set this up once:
 
-* Make sure Woocommerce plugin is also installed in your WordPress site. You can also import default wooCommerce products that come with wooCommerce Plugin for development ( if you don't have any products in your WordPress install ) `WP Dashboard > Tools > Import > WooCommerce products(CSV)`: The WooCommerce default products csv file is available at `wp-content/plugins/woocommerce/sample-data/sample_products.csv`
+1. Vercel → Project → Settings → Git → **Deploy Hooks**: create one for `main` and copy the URL.
+2. sanity.io/manage → API → **Webhooks** → Create: URL = the deploy hook, Dataset = production, Trigger on = create/update/delete, Filter = `_type == "redirect"`, HTTP method = POST.
 
-## Hero Carousel.
-To use Hero carousel, create a category called 'offers' from WordPress Dashboard > Products > Categories.
-Now create and assign as many child categories to this parent 'offers' category with name, description and image.
-These Child categories data will automatically be used to create hero carousel on the frontend.
+Saving a redirect then rebuilds the site (about 2 minutes). Renamed blog posts are also handled instantly via the post's "Previous URLs" field.
 
+## Layout
 
-## Configuration(for GraphQL implementation) :wrench:
-
-1. (Required) Create a `.env` file taking reference from `.env-example` and update your WordPressSite URL.
-- `NEXT_PUBLIC_WORDPRESS_URL=https://example.com`
-
-
-## Common Commands :computer:
-
-* `dev` Runs server in development mode
-
+- `app/(site)/` — public pages; `app/studio/` — embedded Sanity Studio; `app/actions/` — form server actions
+- `components/` — UI; `lib/` — helpers and types
+- `sanity/` — schemas, queries, client
+- `scripts/migrate-from-wordpress.ts` — one-off migration
+- `scripts/seed-site-content.ts` — one-off content seed (run after the migration)
+- `legacy/` — the previous WooCommerce frontend, kept for reference during the rebuild; delete after launch

@@ -1,0 +1,2032 @@
+[
+ {
+  "slug": "auto-europe",
+  "title": "Auto Europe",
+  "intro": "Car and van radiator caps by manufacturer.",
+  "sections": [
+   {
+    "heading": "Alfa Romeo",
+    "parts": [
+     {
+      "code": "SR13-05",
+      "productIds": [
+       "product-wp-5056"
+      ],
+      "pressure": "1.0 Bar",
+      "fits": null,
+      "oe": "Ref:46556737",
+      "vehicle": "Alfa Romeo"
+     },
+     {
+      "code": "SR10-05",
+      "productIds": [
+       "product-wp-5052"
+      ],
+      "pressure": "0.7 Bar",
+      "fits": null,
+      "oe": "Ref:60507812",
+      "vehicle": "Alfa Romeo"
+     },
+     {
+      "code": "PRC810",
+      "productIds": [
+       "product-wp-4879"
+      ],
+      "pressure": "1.0 Bar / 15PSi",
+      "fits": null,
+      "oe": null,
+      "vehicle": "Alfa Romeo"
+     }
+    ]
+   },
+   {
+    "heading": "Audi",
+    "parts": [
+     {
+      "code": "SR15-06",
+      "productIds": [
+       "product-wp-5064"
+      ],
+      "pressure": "(1.0bar / 15psi)",
+      "fits": "AUDI 50,60,75,80,100",
+      "oe": "sim OE 171 121 321C",
+      "vehicle": "Audi: 50,60,75,80,100"
+     },
+     {
+      "code": "PRC802",
+      "productIds": [
+       "product-wp-4863"
+      ],
+      "pressure": "1.5 Bar /22PSi",
+      "fits": "Audi: 80,90,100,200",
+      "oe": null,
+      "vehicle": "Audi: 80,90,100,200"
+     },
+     {
+      "code": "PRC803",
+      "productIds": [
+       "product-wp-4865"
+      ],
+      "pressure": "1.5 Bar /22PSi",
+      "fits": "Audi: A4,A6,A8",
+      "oe": null,
+      "vehicle": "Audi: A4,A6,A8"
+     },
+     {
+      "code": "PRC804",
+      "productIds": [
+       "product-wp-4867"
+      ],
+      "pressure": "1.5 Bar / 22PSi",
+      "fits": "Audi: A6 (97), A3, A4",
+      "oe": null,
+      "vehicle": "Audi: A6 (97), A3, A4"
+     },
+     {
+      "code": "PRC822",
+      "productIds": [
+       "product-wp-4903"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 3BO121321",
+      "vehicle": "Audi"
+     },
+     {
+      "code": "PRC839",
+      "productIds": [
+       "product-wp-4935"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "SIM OE 8E0 121 321",
+      "vehicle": "Audi"
+     }
+    ]
+   },
+   {
+    "heading": "BMW",
+    "parts": [
+     {
+      "code": "SR13-06",
+      "productIds": [
+       "product-wp-5059"
+      ],
+      "pressure": "0.9 bar / 13psi",
+      "fits": "316, 318, 320i, 323i, 325i, 1991>; 518i, 520i, 525i, 530i, 730i, 735i, 740i, 750i,",
+      "oe": "17111100847; OE equip 17111742231",
+      "vehicle": "BMW: 316, 318, 320i, 323i, 325i, 1991>; 518i, 520i, 525i, 530i, 730i, 735i, 740i, 750i"
+     },
+     {
+      "code": "PRC812",
+      "productIds": [
+       "product-wp-4883"
+      ],
+      "pressure": "2.0 Bar / 30PSi",
+      "fits": "Z3, (1.9i - 1995)",
+      "oe": null,
+      "vehicle": "BMW: Z3, (1.9i - 1995)"
+     },
+     {
+      "code": "PRC813",
+      "productIds": [
+       "product-wp-4885"
+      ],
+      "pressure": "1.4 Bar / 20PSi",
+      "fits": null,
+      "oe": "BMW: 316, 318 early series OE equip 17111742232",
+      "vehicle": "BMW"
+     },
+     {
+      "code": "PRC835",
+      "productIds": [
+       "product-wp-4927"
+      ],
+      "pressure": null,
+      "fits": "Mini",
+      "oe": "SIM OE 17132 754 264",
+      "vehicle": "BMW: Mini"
+     },
+     {
+      "code": "PRC839",
+      "productIds": [
+       "product-wp-4935"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "SIM OE 8E0 121 321",
+      "vehicle": "BMW"
+     },
+     {
+      "code": "PRC848",
+      "productIds": [
+       "product-wp-4953"
+      ],
+      "pressure": null,
+      "fits": "1 series",
+      "oe": "SIM OE1711 7 521071",
+      "vehicle": "BMW: 1 series"
+     },
+     {
+      "code": "PRC849",
+      "productIds": [
+       "product-wp-4955"
+      ],
+      "pressure": null,
+      "fits": "Mini",
+      "oe": "SIM OE 1710 7 515499",
+      "vehicle": "BMW: Mini"
+     }
+    ]
+   },
+   {
+    "heading": "Citroen",
+    "parts": [
+     {
+      "code": "SR15-06",
+      "productIds": [
+       "product-wp-5064"
+      ],
+      "pressure": null,
+      "fits": "AX,BX <91",
+      "oe": null,
+      "vehicle": "Citroen: AX,BX <91"
+     },
+     {
+      "code": "SR20-06",
+      "productIds": [
+       "product-wp-5068"
+      ],
+      "pressure": null,
+      "fits": "Saxo,Xantia,ZX",
+      "oe": null,
+      "vehicle": "Citroen: Saxo,Xantia,ZX"
+     },
+     {
+      "code": "PRC814",
+      "productIds": [
+       "product-wp-4887"
+      ],
+      "pressure": null,
+      "fits": "106 exp. Restyle, 206, 306, 406 Tdi, Partner D, 605 Tdi",
+      "oe": "OE equiv 1306.85",
+      "vehicle": "Citroen: 106 exp. Restyle, 206, 306, 406 Tdi, Partner D, 605 Tdi"
+     },
+     {
+      "code": "PRC815",
+      "productIds": [
+       "product-wp-4889"
+      ],
+      "pressure": null,
+      "fits": "Peugeot Citroen: 205>mod., 309, 405, 806,",
+      "oe": "OE equiv 1306.C7",
+      "vehicle": "Citroen: Peugeot Citroen: 205>mod., 309, 405, 806"
+     },
+     {
+      "code": "PRC824",
+      "productIds": [
+       "product-wp-4906"
+      ],
+      "pressure": null,
+      "fits": "Citroen Jumpy 2.5 TD",
+      "oe": "Sim OE1306 E7",
+      "vehicle": "Citroen: Jumpy 2.5 TD"
+     },
+     {
+      "code": "PRC828",
+      "productIds": [
+       "product-wp-4913"
+      ],
+      "pressure": null,
+      "fits": "Citroen Jumpy / Despatch, C8 3.0 only",
+      "oe": "Sim OE1306 EO",
+      "vehicle": "Citroen: Jumpy / Despatch, C8 3.0 only"
+     }
+    ]
+   },
+   {
+    "heading": "Fiat",
+    "parts": [
+     {
+      "code": "SR15-05-05",
+      "productIds": [
+       "product-wp-5063"
+      ],
+      "pressure": null,
+      "fits": "46556737 (95-03)",
+      "oe": null,
+      "vehicle": "Fiat"
+     },
+     {
+      "code": "SQSR15-06-05",
+      "productIds": [],
+      "pressure": null,
+      "fits": "5944268 (81-94) SR10-06-05",
+      "oe": null,
+      "vehicle": "Fiat"
+     },
+     {
+      "code": "SQSR10-06-05",
+      "productIds": [],
+      "pressure": null,
+      "fits": null,
+      "oe": "4269385",
+      "vehicle": "Fiat"
+     },
+     {
+      "code": "PRC809",
+      "productIds": [
+       "product-wp-4877"
+      ],
+      "pressure": "0.7 Bar / 10PSi",
+      "fits": "Uno 45, 55 1983>, Panda 45",
+      "oe": null,
+      "vehicle": "Fiat: Uno 45, 55 1983>, Panda 45"
+     },
+     {
+      "code": "PRC810",
+      "productIds": [
+       "product-wp-4879"
+      ],
+      "pressure": "1.0 Bar / 15PSi",
+      "fits": null,
+      "oe": "Punto, Brava, Bravo, Ulysse, Marea sim 60811544, 46402982",
+      "vehicle": "Fiat"
+     },
+     {
+      "code": "PRC816",
+      "productIds": [
+       "product-wp-4891"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE1306 E7",
+      "vehicle": "Fiat"
+     },
+     {
+      "code": "PRC826",
+      "productIds": [
+       "product-wp-4910"
+      ],
+      "pressure": null,
+      "fits": "Fiat Punto/Multipla",
+      "oe": "Sim OE 46742378",
+      "vehicle": "Fiat: Punto/Multipla"
+     },
+     {
+      "code": "PRC832",
+      "productIds": [
+       "product-wp-4921"
+      ],
+      "pressure": null,
+      "fits": "Fiat Punto, Siecento:",
+      "oe": "Sim OE 0046799364",
+      "vehicle": "Fiat: Punto, Siecento:"
+     }
+    ]
+   },
+   {
+    "heading": "Ford",
+    "parts": [
+     {
+      "code": "SR13-06-02",
+      "productIds": [
+       "product-wp-5060"
+      ],
+      "pressure": null,
+      "fits": "Pre 1989",
+      "oe": "Ford OE – sim 1647751",
+      "vehicle": "Ford: Pre 1989"
+     },
+     {
+      "code": "PRC800",
+      "productIds": [
+       "product-wp-4859"
+      ],
+      "pressure": "1.2 Bar / 18PSi",
+      "fits": "Ford : Fiesta, Focus, Mondeo, Escort, Transit, Ka",
+      "oe": null,
+      "vehicle": "Ford: Fiesta, Focus, Mondeo, Escort, Transit, Ka"
+     },
+     {
+      "code": "PRC819",
+      "productIds": [
+       "product-wp-4897"
+      ],
+      "pressure": null,
+      "fits": "Mondeo 1.8 16v, 2.0 Tdi, 10/00, Transit (00-06)",
+      "oe": "Sim OE 1230968",
+      "vehicle": "Ford: Mondeo 1.8 16v, 2.0 Tdi, 10/00, Transit (00-06)"
+     },
+     {
+      "code": "PRC820",
+      "productIds": [
+       "product-wp-4854"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 9046743",
+      "vehicle": "Ford"
+     },
+     {
+      "code": "PRC846",
+      "productIds": [
+       "product-wp-4949"
+      ],
+      "pressure": null,
+      "fits": "Awaiting Photo; Ford Transit",
+      "oe": "SIM OE 1029727",
+      "vehicle": "Ford: Awaiting Photo; Ford Transit"
+     },
+     {
+      "code": "PRC847",
+      "productIds": [
+       "product-wp-4951"
+      ],
+      "pressure": null,
+      "fits": "Ford Mondeo",
+      "oe": "SIM OE 1301104",
+      "vehicle": "Ford: Mondeo"
+     }
+    ]
+   },
+   {
+    "heading": "Land Rover",
+    "parts": [
+     {
+      "code": "SR9-05",
+      "productIds": [
+       "product-wp-5047"
+      ],
+      "pressure": null,
+      "fits": "RTC3607",
+      "oe": null,
+      "vehicle": "Land Rover: RTC3607"
+     },
+     {
+      "code": "SR10-05-02",
+      "productIds": [
+       "product-wp-5053"
+      ],
+      "pressure": null,
+      "fits": "STC4735",
+      "oe": null,
+      "vehicle": "Land Rover: STC4735"
+     },
+     {
+      "code": "SR15-06",
+      "productIds": [
+       "product-wp-5064"
+      ],
+      "pressure": null,
+      "fits": "PCD100150",
+      "oe": null,
+      "vehicle": "Land Rover"
+     },
+     {
+      "code": "PRC801",
+      "productIds": [
+       "product-wp-4861"
+      ],
+      "pressure": null,
+      "fits": "Freelander (PCD 100 160) equiv",
+      "oe": null,
+      "vehicle": "Land Rover: Freelander (PCD 100 160) equiv"
+     },
+     {
+      "code": "PRC811",
+      "productIds": [
+       "product-wp-4881"
+      ],
+      "pressure": "15 Psi",
+      "fits": "Landrover Discovery - NTC 7161",
+      "oe": null,
+      "vehicle": "Land Rover: rover Discovery - NTC 7161"
+     },
+     {
+      "code": "PRC813",
+      "productIds": [
+       "product-wp-4885"
+      ],
+      "pressure": "1.4 Bar / 20PSi",
+      "fits": null,
+      "oe": null,
+      "vehicle": "Land Rover"
+     },
+     {
+      "code": "PRC830",
+      "productIds": [
+       "product-wp-4917"
+      ],
+      "pressure": null,
+      "fits": "Ford,Landrover Dis.RR Sport",
+      "oe": "Sim OE PCD500030",
+      "vehicle": "Land Rover: Ford,Landrover Dis.RR Sport"
+     },
+     {
+      "code": "PRC831",
+      "productIds": [
+       "product-wp-4919"
+      ],
+      "pressure": null,
+      "fits": "Freelander",
+      "oe": null,
+      "vehicle": "Land Rover: Freelander"
+     },
+     {
+      "code": "PRC843",
+      "productIds": [
+       "product-wp-4943"
+      ],
+      "pressure": null,
+      "fits": "Landrover Fuel Cover with key",
+      "oe": "SIM OE WLD500200",
+      "vehicle": "Land Rover: rover Fuel Cover with key"
+     },
+     {
+      "code": "PRC844",
+      "productIds": [
+       "product-wp-4945"
+      ],
+      "pressure": null,
+      "fits": "Landrover Fuel cover with Key",
+      "oe": "SIM OE STC4072",
+      "vehicle": "Land Rover: rover Fuel cover with Key"
+     },
+     {
+      "code": "PRC845",
+      "productIds": [
+       "product-wp-4947"
+      ],
+      "pressure": null,
+      "fits": "Landrover Pressure Cap + Sensor",
+      "oe": "SIM OE PRC7925",
+      "vehicle": "Land Rover: rover Pressure Cap + Sensor"
+     }
+    ]
+   },
+   {
+    "heading": "Mercedes",
+    "parts": [
+     {
+      "code": "SR15-05",
+      "productIds": [
+       "product-wp-5061"
+      ],
+      "pressure": null,
+      "fits": "190/200/300 ser",
+      "oe": null,
+      "vehicle": "Mercedes: 190/200/300 ser"
+     },
+     {
+      "code": "PRC834",
+      "productIds": [
+       "product-wp-4925"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "SIM OE 168 501 01 15",
+      "vehicle": "Mercedes"
+     }
+    ]
+   },
+   {
+    "heading": "Opel",
+    "parts": [
+     {
+      "code": "SR13-05",
+      "productIds": [
+       "product-wp-5056"
+      ],
+      "pressure": null,
+      "fits": "Rekord",
+      "oe": null,
+      "vehicle": "Opel: Rekord"
+     },
+     {
+      "code": "SR15-05",
+      "productIds": [
+       "product-wp-5061"
+      ],
+      "pressure": null,
+      "fits": "Rekord",
+      "oe": null,
+      "vehicle": "Opel: Rekord"
+     },
+     {
+      "code": "PRC800",
+      "productIds": [
+       "product-wp-4859"
+      ],
+      "pressure": null,
+      "fits": "Ascona, astra, Corsa, Frontera, Vectra, Kadett",
+      "oe": "GM OE –sim 13.04.666",
+      "vehicle": "Opel: Ascona, astra, Corsa, Frontera, Vectra, Kadett"
+     },
+     {
+      "code": "PRC821",
+      "productIds": [
+       "product-wp-4901"
+      ],
+      "pressure": null,
+      "fits": "Vectra, Safrira",
+      "oe": "Sim OE 9202799",
+      "vehicle": "Opel: Vectra, Safrira"
+     },
+     {
+      "code": "PRC838",
+      "productIds": [
+       "product-wp-4933"
+      ],
+      "pressure": "Opel Vectra,Astra,: 1.4bar",
+      "fits": null,
+      "oe": "SIM OE 920 89 812/1304667",
+      "vehicle": "Opel"
+     }
+    ]
+   },
+   {
+    "heading": "Peugeot",
+    "parts": [
+     {
+      "code": "SR20-06",
+      "productIds": [
+       "product-wp-5068"
+      ],
+      "pressure": null,
+      "fits": "306,405 ser.",
+      "oe": null,
+      "vehicle": "Peugeot: 306,405 ser."
+     },
+     {
+      "code": "SR4-05",
+      "productIds": [
+       "product-wp-5043"
+      ],
+      "pressure": null,
+      "fits": "504",
+      "oe": null,
+      "vehicle": "Peugeot: 504"
+     },
+     {
+      "code": "SR15-05",
+      "productIds": [
+       "product-wp-5061"
+      ],
+      "pressure": null,
+      "fits": "1306.C7",
+      "oe": null,
+      "vehicle": "Peugeot: 1306.C7"
+     },
+     {
+      "code": "PRC814",
+      "productIds": [
+       "product-wp-4887"
+      ],
+      "pressure": null,
+      "fits": "Peugeot 106 exp. Restyle, 206, 306, 406 Tdi, Partner D, 605 Tdi",
+      "oe": "OE equiv 1306.85",
+      "vehicle": "Peugeot: 106 exp. Restyle, 206, 306, 406 Tdi, Partner D, 605 Tdi"
+     },
+     {
+      "code": "PRC815",
+      "productIds": [
+       "product-wp-4889"
+      ],
+      "pressure": null,
+      "fits": "Peugeot 205>mod., 309, 405, 806,",
+      "oe": "OE equiv 1306.C7",
+      "vehicle": "Peugeot: 205>mod., 309, 405, 806"
+     },
+     {
+      "code": "PRC818",
+      "productIds": [
+       "product-wp-4895"
+      ],
+      "pressure": null,
+      "fits": "Peugeot 206 1.1,1.4,1.6,16v, 2.0 Hdi,307 1.4 Hdi, 1.6,",
+      "oe": "Sim OE1306.E4",
+      "vehicle": "Peugeot: 206 1.1,1.4,1.6,16v, 2.0 Hdi,307 1.4 Hdi, 1.6"
+     },
+     {
+      "code": "PRC824",
+      "productIds": [
+       "product-wp-4906"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE1306 E7",
+      "vehicle": "Peugeot"
+     },
+     {
+      "code": "PRC828",
+      "productIds": [
+       "product-wp-4913"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE1306 E7",
+      "vehicle": "Peugeot"
+     },
+     {
+      "code": "PRC832",
+      "productIds": [
+       "product-wp-4921"
+      ],
+      "pressure": "1.4 bar",
+      "fits": "1306.F8",
+      "oe": null,
+      "vehicle": "Peugeot: 1306.F8"
+     },
+     {
+      "code": "PRC840",
+      "productIds": [
+       "product-wp-4937"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "SIM OE 7700759789",
+      "vehicle": "Peugeot"
+     }
+    ]
+   },
+   {
+    "heading": "Renault",
+    "parts": [
+     {
+      "code": "PRC810",
+      "productIds": [
+       "product-wp-4879"
+      ],
+      "pressure": "1.0 Bar / 15PSi",
+      "fits": null,
+      "oe": "Sim 60811544, 46402982",
+      "vehicle": "Renault"
+     },
+     {
+      "code": "PRC817",
+      "productIds": [
+       "product-wp-4893"
+      ],
+      "pressure": null,
+      "fits": "Renault Megane: 1.4,1.6, 1.8 all 16v",
+      "oe": "Sim OE 820048024",
+      "vehicle": "Renault: Megane: 1.4,1.6, 1.8 all 16v"
+     },
+     {
+      "code": "PRC836",
+      "productIds": [
+       "product-wp-4929"
+      ],
+      "pressure": "Renault 1.2 bar",
+      "fits": null,
+      "oe": "SIM OE 7700 805 032",
+      "vehicle": "Renault"
+     },
+     {
+      "code": "PRC837",
+      "productIds": [
+       "product-wp-4931"
+      ],
+      "pressure": "Renault 1.4 bar",
+      "fits": null,
+      "oe": "SIM OE 7700 805 031",
+      "vehicle": "Renault"
+     },
+     {
+      "code": "PRC840",
+      "productIds": [
+       "product-wp-4937"
+      ],
+      "pressure": "Renault 19,Clio,Laguna/white:1.4bar",
+      "fits": null,
+      "oe": "SIM OE 7700759789",
+      "vehicle": "Renault"
+     },
+     {
+      "code": "PRC841",
+      "productIds": [
+       "product-wp-4939"
+      ],
+      "pressure": "Renault 4,5,6,12,14 18/black:1.0bar",
+      "fits": null,
+      "oe": null,
+      "vehicle": "Renault"
+     },
+     {
+      "code": "PRC842",
+      "productIds": [
+       "product-wp-4941"
+      ],
+      "pressure": "Renault 19,Clio,Megane/green:1.6bar",
+      "fits": null,
+      "oe": null,
+      "vehicle": "Renault"
+     }
+    ]
+   },
+   {
+    "heading": "Rover",
+    "parts": [
+     {
+      "code": "SR15-06GN",
+      "productIds": [
+       "product-wp-5065"
+      ],
+      "pressure": null,
+      "fits": "PCD100150",
+      "oe": null,
+      "vehicle": "Rover"
+     },
+     {
+      "code": "PRC801",
+      "productIds": [
+       "product-wp-4861"
+      ],
+      "pressure": null,
+      "fits": "Metro(94), 100, 200, 400, 600, 800 series",
+      "oe": null,
+      "vehicle": "Rover: Metro(94), 100, 200, 400, 600, 800 series"
+     },
+     {
+      "code": "PRC831",
+      "productIds": [
+       "product-wp-4919"
+      ],
+      "pressure": null,
+      "fits": "Mini, Rover 100,200,300,400 series",
+      "oe": "Sim OE PCD100160",
+      "vehicle": "Rover: Mini, Rover 100,200,300,400 series"
+     }
+    ]
+   },
+   {
+    "heading": "Seat",
+    "parts": [
+     {
+      "code": "SR7-05-05",
+      "productIds": [
+       "product-wp-5046"
+      ],
+      "pressure": null,
+      "fits": "BD 11701200",
+      "oe": null,
+      "vehicle": "Seat"
+     },
+     {
+      "code": "SQSR15-05-05",
+      "productIds": [
+       "product-wp-5079"
+      ],
+      "pressure": null,
+      "fits": "JA 11701200",
+      "oe": null,
+      "vehicle": "Seat"
+     },
+     {
+      "code": "SQSR10-05-05",
+      "productIds": [],
+      "pressure": null,
+      "fits": "FA 11701201",
+      "oe": null,
+      "vehicle": "Seat"
+     },
+     {
+      "code": "PRC802",
+      "productIds": [
+       "product-wp-4863"
+      ],
+      "pressure": "1.5 Bar /22PSi",
+      "fits": null,
+      "oe": null,
+      "vehicle": "Seat"
+     },
+     {
+      "code": "PRC803",
+      "productIds": [
+       "product-wp-4865"
+      ],
+      "pressure": "1.5 Bar /22PSi",
+      "fits": "Ibiza, Toledo, Alhambra",
+      "oe": null,
+      "vehicle": "Seat: Ibiza, Toledo, Alhambra"
+     },
+     {
+      "code": "PRC827",
+      "productIds": [
+       "product-wp-4912"
+      ],
+      "pressure": null,
+      "fits": "Arosa",
+      "oe": "SIM OE 1 HO 121 321D",
+      "vehicle": "Seat: Arosa"
+     }
+    ]
+   },
+   {
+    "heading": "Volkswagen",
+    "parts": [
+     {
+      "code": "PRC802",
+      "productIds": [
+       "product-wp-4863"
+      ],
+      "pressure": "1.5 Bar /22PSi",
+      "fits": null,
+      "oe": "VW: Golf, Jetta, Polo, Sharan VW OE:sim 443 121 321",
+      "vehicle": "Volkswagen"
+     },
+     {
+      "code": "PRC803",
+      "productIds": [
+       "product-wp-4865"
+      ],
+      "pressure": "1.5 Bar /22PSi",
+      "fits": null,
+      "oe": "VW : Golf sim OE 1HO 121 321A/B/C",
+      "vehicle": "Volkswagen"
+     },
+     {
+      "code": "PRC804",
+      "productIds": [
+       "product-wp-4867"
+      ],
+      "pressure": "1.5 Bar / 22PSi",
+      "fits": "VW: Golf (98), Passat , Beetle",
+      "oe": null,
+      "vehicle": "Volkswagen: VW: Golf (98), Passat , Beetle"
+     },
+     {
+      "code": "PRC822",
+      "productIds": [
+       "product-wp-4903"
+      ],
+      "pressure": null,
+      "fits": "VW Beetle, Caddy,Passat",
+      "oe": "Sim OE 3BO121321",
+      "vehicle": "Volkswagen: VW Beetle, Caddy,Passat"
+     },
+     {
+      "code": "PRC823",
+      "productIds": [
+       "product-wp-4905"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "VW Passat, Santana, Sim: OE 1 JO 121 321 B",
+      "vehicle": "Volkswagen"
+     },
+     {
+      "code": "PRC833",
+      "productIds": [
+       "product-wp-4923"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "VW Golf Sim OE 025 121 321B",
+      "vehicle": "Volkswagen"
+     },
+     {
+      "code": "PRC839",
+      "productIds": [
+       "product-wp-4935"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "VW SIM OE 8E0 121 321",
+      "vehicle": "Volkswagen"
+     },
+     {
+      "code": "PRC850",
+      "productIds": [
+       "product-wp-4957"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "VW Sharan Sim OE 7M3 121 321",
+      "vehicle": "Volkswagen"
+     },
+     {
+      "code": "SR15-05",
+      "productIds": [
+       "product-wp-5061"
+      ],
+      "pressure": null,
+      "fits": "<90-Polo, Passat",
+      "oe": null,
+      "vehicle": "Volkswagen: <90-Polo, Passat"
+     }
+    ]
+   },
+   {
+    "heading": "Volvo",
+    "parts": [
+     {
+      "code": "SR10-06-02",
+      "productIds": [
+       "product-wp-5055"
+      ],
+      "pressure": null,
+      "fits": "200,300ser.",
+      "oe": null,
+      "vehicle": "Volvo: 200,300ser."
+     },
+     {
+      "code": "PRC806",
+      "productIds": [
+       "product-wp-4871"
+      ],
+      "pressure": "1.5 Bar / 22PSi",
+      "fits": null,
+      "oe": "Volvo 480,: 1987>, 760, 780: 1982>,940/960 series OE equiv 9445462/6",
+      "vehicle": "Volvo"
+     },
+     {
+      "code": "PRC807",
+      "productIds": [
+       "product-wp-4873"
+      ],
+      "pressure": "11 PSi",
+      "fits": "240,245: 1974>, 260,265: 1979>,340,360: 1976>",
+      "oe": null,
+      "vehicle": "Volvo: 240,245: 1974>, 260,265: 1979>,340,360: 1976>"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "radiator-caps-japanese-vehicle-applications",
+  "title": "Japanese Vehicle Applications",
+  "intro": "Radiator caps for Japanese cars and vans.",
+  "sections": [
+   {
+    "heading": null,
+    "parts": [
+     {
+      "code": "SR13-06-06",
+      "productIds": [
+       "product-wp-5028"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "X Ref: KH C13, KC 904, R123 Pressure 0.9 kg/cm2"
+     },
+     {
+      "code": "SD1",
+      "productIds": [
+       "product-wp-5021"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "X Ref: KH C19, KC 911, R124 Pressure 0.9 kg/cm2"
+     },
+     {
+      "code": "SD2",
+      "productIds": [
+       "product-wp-5022"
+      ],
+      "pressure": "X Ref: KH C17 Pressure 1.1 kg/cm2",
+      "fits": null,
+      "oe": null
+     },
+     {
+      "code": "SD3",
+      "productIds": [
+       "product-wp-5023"
+      ],
+      "pressure": "X Ref: KH C30 Pressure 0.9 kg/cm2",
+      "fits": null,
+      "oe": null
+     },
+     {
+      "code": "SD4",
+      "productIds": [
+       "product-wp-5024"
+      ],
+      "pressure": "X Ref: KH C31 Pressure 1.1 kg/cm2",
+      "fits": null,
+      "oe": null
+     },
+     {
+      "code": "SD5",
+      "productIds": [
+       "product-wp-5025"
+      ],
+      "pressure": "X Ref: Mazda 626 Pressure 1.3 kg/cm2",
+      "fits": null,
+      "oe": null
+     },
+     {
+      "code": "SD7",
+      "productIds": [
+       "product-wp-5027"
+      ],
+      "pressure": "X Ref: Kia Pride Pressure 0.9 kg/cm2",
+      "fits": null,
+      "oe": null
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "radiator-caps-trucks-commercial",
+  "title": "Trucks & Commercial",
+  "intro": "Pressure caps, oil filler covers and fuel tank covers for trucks and commercial vehicles.",
+  "sections": [
+   {
+    "heading": null,
+    "parts": [
+     {
+      "code": "PRC870",
+      "productIds": [
+       "product-wp-5260"
+      ],
+      "pressure": null,
+      "fits": "Mercedes Pressure Cap",
+      "oe": "Similar OE 00 501 64 15",
+      "vehicle": "Mercedes"
+     },
+     {
+      "code": "PRC871",
+      "productIds": [
+       "product-wp-5884"
+      ],
+      "pressure": null,
+      "fits": "Mercedes Pressure Cap",
+      "oe": "Similar OE 00 501 45 15",
+      "vehicle": "Mercedes"
+     },
+     {
+      "code": "PRC872",
+      "productIds": [
+       "product-wp-4976"
+      ],
+      "pressure": null,
+      "fits": "Mercedes Oil Filler Cover",
+      "oe": "Similar OE 00 018 07 02",
+      "vehicle": "Mercedes"
+     },
+     {
+      "code": "PRC873",
+      "productIds": [
+       "product-wp-4977"
+      ],
+      "pressure": null,
+      "fits": "Mercedes Pressure Cap",
+      "oe": "Similar OE 210 501 05 15",
+      "vehicle": "Mercedes"
+     },
+     {
+      "code": "PRC874",
+      "productIds": [
+       "product-wp-5887"
+      ],
+      "pressure": null,
+      "fits": "Scania Pressure Cap",
+      "oe": "Similar OE 1.676.744 / Engine Ser:112,113H,142",
+      "vehicle": "Scania"
+     },
+     {
+      "code": "PRC875",
+      "productIds": [
+       "product-wp-4978"
+      ],
+      "pressure": null,
+      "fits": "Scania Fuel Tank Cover",
+      "oe": "Similar OE 1432 187",
+      "vehicle": "Scania"
+     },
+     {
+      "code": "PRC876",
+      "productIds": [
+       "product-wp-4979"
+      ],
+      "pressure": null,
+      "fits": "Scania Fuel Tank Cover",
+      "oe": "Similar OE 1481 301",
+      "vehicle": "Scania"
+     },
+     {
+      "code": "PRC877",
+      "productIds": [
+       "product-wp-5890"
+      ],
+      "pressure": null,
+      "fits": "Scania Pressure Cap",
+      "oe": "Similar OE 1.374.050 / Engine Series 4",
+      "vehicle": "Scania"
+     },
+     {
+      "code": "PRC878",
+      "productIds": [
+       "product-wp-5893"
+      ],
+      "pressure": null,
+      "fits": "Volvo Pressure Cap",
+      "oe": "Similar OE 1.542.591",
+      "vehicle": "Volvo"
+     },
+     {
+      "code": "RC10",
+      "productIds": [
+       "product-wp-5083"
+      ],
+      "pressure": null,
+      "fits": "Scania Pressure Cap",
+      "oe": "Similar OE 254 669 / Engine Series 110,111",
+      "vehicle": "Scania"
+     },
+     {
+      "code": "SQSR10-05-05",
+      "productIds": [],
+      "pressure": "0.7bar",
+      "fits": "Mercedes Pressure Cap",
+      "oe": "Similar OE 00.501.46 15",
+      "vehicle": "Mercedes"
+     },
+     {
+      "code": "SQSR4-05-05",
+      "productIds": [],
+      "pressure": "0.25bar",
+      "fits": "Mercedes Pressure Cap",
+      "oe": "Similar OE 00.501.73 15",
+      "vehicle": "Mercedes"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "other-applications",
+  "title": "Other Applications",
+  "intro": "Caps for compressors, industrial and other applications.",
+  "sections": [
+   {
+    "heading": "Sealing Caps",
+    "parts": [
+     {
+      "code": "ST1",
+      "productIds": [
+       "product-wp-5030"
+      ],
+      "pressure": null,
+      "fits": "wing",
+      "oe": null
+     },
+     {
+      "code": "ST3",
+      "productIds": [
+       "product-wp-5031"
+      ],
+      "pressure": null,
+      "fits": "wing",
+      "oe": null
+     },
+     {
+      "code": "ST5",
+      "productIds": [
+       "product-wp-5032"
+      ],
+      "pressure": null,
+      "fits": "/ CP78",
+      "oe": null
+     }
+    ]
+   },
+   {
+    "heading": null,
+    "parts": [
+     {
+      "code": "SN708",
+      "productIds": [
+       "product-wp-5976"
+      ],
+      "pressure": null,
+      "fits": "aluminium",
+      "oe": null
+     },
+     {
+      "code": "SN709",
+      "productIds": [
+       "product-wp-5977"
+      ],
+      "pressure": null,
+      "fits": "aluminium",
+      "oe": null
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "agricultural-applications-agco-massey-ferguson",
+  "title": "Agricultural: AGCO (Massey Ferguson)",
+  "intro": "",
+  "sections": [
+   {
+    "heading": "Pressure Caps",
+    "parts": [
+     {
+      "code": "SR7-05",
+      "productIds": [
+       "product-wp-5045"
+      ],
+      "pressure": null,
+      "fits": "/ 046609400 SR10-05 / 180224M92 SR10-06 / 1824628M91 SR13-06 / 3280783M1; Round Caps",
+      "oe": null,
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "LR7-05",
+      "productIds": [
+       "product-wp-5072"
+      ],
+      "pressure": null,
+      "fits": "/ 3475308M1 LR7-05-03 / 968976M2,3475308M1 LR10-05 / 3637301M1,3637939M1, 24850017, 885344M1; Sealing Cover",
+      "oe": null,
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "RC4",
+      "productIds": [
+       "product-wp-5080"
+      ],
+      "pressure": null,
+      "fits": "/ 3638322M1,3637675M1, 24870010 RC7 / 811711544",
+      "oe": null,
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "CP78",
+      "productIds": [
+       "product-wp-5034"
+      ],
+      "pressure": null,
+      "fits": "/ 1876534M91",
+      "oe": null,
+      "vehicle": "AGCO / Massey Ferguson"
+     }
+    ]
+   },
+   {
+    "heading": "Fuel Covers",
+    "parts": [
+     {
+      "code": "PAG825",
+      "productIds": [
+       "product-wp-5135"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 1695732M1, 3697463M1",
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "PAG826",
+      "productIds": [
+       "product-wp-5139"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 3041489M4",
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "PAG868",
+      "productIds": [
+       "product-wp-5253"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 187445M93",
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "PAG830B",
+      "productIds": [
+       "product-wp-5156"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 1698042M91",
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "PAG840",
+      "productIds": [
+       "product-wp-5180"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 977093M91",
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "PAG846",
+      "productIds": [
+       "product-wp-5195"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 734962M91, 1851752M91",
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "PAG869",
+      "productIds": [
+       "product-wp-5257"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 963023M2, 828583M91",
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "PAG888",
+      "productIds": [
+       "product-wp-5283"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "SIM OE 3616543M1",
+      "vehicle": "AGCO / Massey Ferguson"
+     }
+    ]
+   },
+   {
+    "heading": "Oil Covers",
+    "parts": [
+     {
+      "code": "PAG841",
+      "productIds": [
+       "product-wp-5183"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 16823011M91",
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "PAG842",
+      "productIds": [
+       "product-wp-5186"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 748219M1",
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "PAG843",
+      "productIds": [
+       "product-wp-5188"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 3641889M1",
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "PAG847",
+      "productIds": [
+       "product-wp-5198"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 1851753M1, 2487845",
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "PAG851",
+      "productIds": [
+       "product-wp-5209"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 897105M1, 2487863",
+      "vehicle": "AGCO / Massey Ferguson"
+     },
+     {
+      "code": "PAG857",
+      "productIds": [
+       "product-wp-5225"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 3639319M1",
+      "vehicle": "AGCO / Massey Ferguson"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "agricultural-applications-fnh-group",
+  "title": "Agricultural: FNH Group",
+  "intro": "",
+  "sections": [
+   {
+    "heading": "Pressure Caps",
+    "parts": [
+     {
+      "code": "SR7-05",
+      "productIds": [
+       "product-wp-5045"
+      ],
+      "pressure": null,
+      "fits": "/ 4988491 / 2400E8100A / E2NN8100AA",
+      "oe": null,
+      "vehicle": "New Holland (FNH)"
+     },
+     {
+      "code": "SQSR7-06-06",
+      "productIds": [
+       "product-wp-5335"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "9966958",
+      "vehicle": "New Holland (FNH)"
+     },
+     {
+      "code": "SR10-05",
+      "productIds": [
+       "product-wp-5052"
+      ],
+      "pressure": null,
+      "fits": "/ E2NN8100AA",
+      "oe": null,
+      "vehicle": "New Holland (FNH)"
+     },
+     {
+      "code": "SQSR10-06-06",
+      "productIds": [
+       "product-wp-5336"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "4999682",
+      "vehicle": "New Holland (FNH)"
+     },
+     {
+      "code": "SR13-06",
+      "productIds": [
+       "product-wp-5059"
+      ],
+      "pressure": null,
+      "fits": "/ E2NN8100BA / 211E8100A1 / 81854756 / D2AE8100A1A",
+      "oe": null,
+      "vehicle": "New Holland (FNH)"
+     },
+     {
+      "code": "SR13-06",
+      "productIds": [
+       "product-wp-5059"
+      ],
+      "pressure": null,
+      "fits": "/ 83957211 / E5TH8100AA; Round Caps",
+      "oe": null,
+      "vehicle": "New Holland (FNH)"
+     },
+     {
+      "code": "RC7",
+      "productIds": [
+       "product-wp-5082"
+      ],
+      "pressure": null,
+      "fits": "/SFD10021",
+      "oe": null,
+      "vehicle": "New Holland (FNH)"
+     },
+     {
+      "code": "CP78",
+      "productIds": [
+       "product-wp-5034"
+      ],
+      "pressure": null,
+      "fits": "/ E1ADDN8030",
+      "oe": null,
+      "vehicle": "New Holland (FNH)"
+     }
+    ]
+   },
+   {
+    "heading": "Fuel Covers",
+    "parts": [
+     {
+      "code": "PAG845",
+      "productIds": [
+       "product-wp-5192"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 83952357",
+      "vehicle": "New Holland (FNH)"
+     },
+     {
+      "code": "PAG852",
+      "productIds": [
+       "product-wp-5211"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 83947669",
+      "vehicle": "New Holland (FNH)"
+     },
+     {
+      "code": "PAG856",
+      "productIds": [
+       "product-wp-5222"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 81811847 / E7NN9030AA / C5NN9030A / 83929889",
+      "vehicle": "New Holland (FNH)"
+     },
+     {
+      "code": "PAG889",
+      "productIds": [
+       "product-wp-5286"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 81874137",
+      "vehicle": "New Holland (FNH)"
+     }
+    ]
+   },
+   {
+    "heading": "Oil Covers",
+    "parts": [
+     {
+      "code": "PAG853",
+      "productIds": [
+       "product-wp-5214"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 4232606",
+      "vehicle": "New Holland (FNH)"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "agricultural-applications-case",
+  "title": "Agricultural: CASE",
+  "intro": "",
+  "sections": [
+   {
+    "heading": "Pressure Caps",
+    "parts": [
+     {
+      "code": "SR4-05",
+      "productIds": [
+       "product-wp-5043"
+      ],
+      "pressure": null,
+      "fits": "/ IH/K945363; Round Caps",
+      "oe": null,
+      "vehicle": "Case IH"
+     },
+     {
+      "code": "LR4-05",
+      "productIds": [
+       "product-wp-5071"
+      ],
+      "pressure": null,
+      "fits": "/ IH/K906196",
+      "oe": null,
+      "vehicle": "Case IH"
+     },
+     {
+      "code": "RC7",
+      "productIds": [
+       "product-wp-5082"
+      ],
+      "pressure": null,
+      "fits": "/3111424R91",
+      "oe": null,
+      "vehicle": "Case IH"
+     }
+    ]
+   },
+   {
+    "heading": "Round Caps",
+    "parts": [
+     {
+      "code": "PAG830",
+      "productIds": [
+       "product-wp-5150"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE K304590",
+      "vehicle": "Case IH"
+     },
+     {
+      "code": "PAG858",
+      "productIds": [
+       "product-wp-5228"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 1500626C92 / 532029R1",
+      "vehicle": "Case IH"
+     },
+     {
+      "code": "PAG844",
+      "productIds": [
+       "product-wp-5190"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 1970876C3",
+      "vehicle": "Case IH"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "agricultural-applications-john-deere",
+  "title": "Agricultural: John Deere",
+  "intro": "",
+  "sections": [
+   {
+    "heading": "Pressure Caps",
+    "parts": [
+     {
+      "code": "SR14-06-05",
+      "productIds": [],
+      "pressure": null,
+      "fits": "GN - RE71863",
+      "oe": null,
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "LR7-05",
+      "productIds": [
+       "product-wp-5072"
+      ],
+      "pressure": null,
+      "fits": "AT 29054",
+      "oe": null,
+      "vehicle": "John Deere"
+     }
+    ]
+   },
+   {
+    "heading": "Long Reach Wing Caps (32mm)",
+    "parts": [
+     {
+      "code": "PAG862",
+      "productIds": [
+       "product-wp-5239"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE RE49908",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG863",
+      "productIds": [
+       "product-wp-5241"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE RE43593",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG864",
+      "productIds": [
+       "product-wp-5244"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE AL38374",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG870",
+      "productIds": [],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE AL76661",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG880",
+      "productIds": [
+       "product-wp-5263"
+      ],
+      "pressure": "Sim OE AR28482 (7psi)",
+      "fits": null,
+      "oe": null,
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG881",
+      "productIds": [
+       "product-wp-5266"
+      ],
+      "pressure": "Sim OE RE24897 (10psi) / RE369103",
+      "fits": null,
+      "oe": null,
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG882",
+      "productIds": [
+       "product-wp-5267"
+      ],
+      "pressure": "Sim OE AR76619 (15psi)",
+      "fits": null,
+      "oe": null,
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG884",
+      "productIds": [
+       "product-wp-5271"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE AT29054 / AT27585 / AT28821 / AT20719",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG885",
+      "productIds": [
+       "product-wp-5274"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE AL78005",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG886",
+      "productIds": [
+       "product-wp-5277"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE AL113086",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG887",
+      "productIds": [
+       "product-wp-5280"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE AL113087 (w/key), AL78343 / AL80633",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG892",
+      "productIds": [
+       "product-wp-5295"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE AL58894",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG893",
+      "productIds": [
+       "product-wp-5298"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE AL56759; Sim OE R97876 / R70736",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG854",
+      "productIds": [
+       "product-wp-5217"
+      ],
+      "pressure": null,
+      "fits": "Thermostat Cover",
+      "oe": null,
+      "vehicle": "John Deere"
+     }
+    ]
+   },
+   {
+    "heading": "Fuel Caps",
+    "parts": [
+     {
+      "code": "PAG855",
+      "productIds": [
+       "product-wp-5219"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE AL34678 / AL31274",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG892",
+      "productIds": [
+       "product-wp-5295"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE AL58894",
+      "vehicle": "John Deere"
+     }
+    ]
+   },
+   {
+    "heading": "Oil Caps",
+    "parts": [
+     {
+      "code": "PAG861",
+      "productIds": [
+       "product-wp-5236"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE RE500005 / RE52326 / RE535560",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG890",
+      "productIds": [
+       "product-wp-5289"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE R90788 / T20294",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG891",
+      "productIds": [
+       "product-wp-5292"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 80136",
+      "vehicle": "John Deere"
+     }
+    ]
+   },
+   {
+    "heading": "Drain Plugs",
+    "parts": [
+     {
+      "code": "PAG865",
+      "productIds": [
+       "product-wp-5247"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE AL76662 / 110979",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG866",
+      "productIds": [
+       "product-wp-5249"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE AL155781",
+      "vehicle": "John Deere"
+     },
+     {
+      "code": "PAG867",
+      "productIds": [
+       "product-wp-5251"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE AL61314",
+      "vehicle": "John Deere"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "agricultural-applications-other",
+  "title": "Agricultural: Other",
+  "intro": "",
+  "sections": [
+   {
+    "heading": "Deutz",
+    "parts": [
+     {
+      "code": "PAG832",
+      "productIds": [
+       "product-wp-5161"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 01244823 / 01230003",
+      "vehicle": "Deutz"
+     },
+     {
+      "code": "PAG848",
+      "productIds": [
+       "product-wp-5201"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 01236291",
+      "vehicle": "Deutz"
+     }
+    ]
+   },
+   {
+    "heading": "Fendt",
+    "parts": [
+     {
+      "code": "PAG827",
+      "productIds": [
+       "product-wp-5141"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE F135200050020",
+      "vehicle": "Fendt"
+     }
+    ]
+   },
+   {
+    "heading": "Fuel Caps",
+    "parts": [
+     {
+      "code": "PAG849",
+      "productIds": [
+       "product-wp-5203"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 7920001773"
+     },
+     {
+      "code": "PAG850",
+      "productIds": [
+       "product-wp-5206"
+      ],
+      "pressure": null,
+      "fits": null,
+      "oe": "Sim OE 7700021448 / 7700015937"
+     }
+    ]
+   }
+  ]
+ }
+]
