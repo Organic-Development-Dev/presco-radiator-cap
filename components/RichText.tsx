@@ -99,6 +99,7 @@ const components: PortableTextComponents = {
   list: {
     bullet: ({ children }) => <ul className="my-4 max-w-3xl list-disc space-y-2 pl-6">{children}</ul>,
     number: ({ children }) => <ol className="my-4 max-w-3xl list-decimal space-y-2 pl-6">{children}</ol>,
+    indent: ({ children }) => <ul className="my-3 max-w-3xl list-none space-y-2 pl-6 sm:pl-10 [&_ul]:my-2">{children}</ul>,
   },
   marks: {
     link: ({ value, children }) => {

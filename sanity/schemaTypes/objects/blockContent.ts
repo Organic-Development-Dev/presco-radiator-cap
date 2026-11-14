@@ -18,6 +18,8 @@ export const blockContent = defineType({
       lists: [
         { title: "Bullet", value: "bullet" },
         { title: "Numbered", value: "number" },
+        // No bullet or number: for text that carries its own labels, e.g. legal clauses "(a)", "(i)".
+        { title: "Indented", value: "indent" },
       ],
       marks: {
         decorators: [

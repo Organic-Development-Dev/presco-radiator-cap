@@ -95,6 +95,7 @@ const blockContentType = Schema.compile({
           lists: [
             { title: "Bullet", value: "bullet" },
             { title: "Numbered", value: "number" },
+            { title: "Indented", value: "indent" },
           ],
           marks: {
             decorators: ["strong", "em", "underline"].map((value) => ({ title: value, value })),
