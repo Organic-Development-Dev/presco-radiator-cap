@@ -4,8 +4,9 @@ import { parseBody } from "next-sanity/webhook";
 
 /**
  * Sanity GROQ-powered webhook target. Configure in sanity.io/manage -> API -> Webhooks:
- *   URL:        https://www.presco-radiator-caps.com/api/revalidate
+ *   URL:        https://www.presco-radiator-caps.com/api/revalidate/  (trailing slash: trailingSlash is on, without it the POST gets a 308)
  *   Trigger on: create, update, delete
+ *   Filter:     _type != "enquiry"
  *   Projection: { _type, "slug": slug.current }
  *   Secret:     SANITY_REVALIDATE_SECRET
  */
