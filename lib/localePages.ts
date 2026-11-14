@@ -7,7 +7,7 @@ import type { LocalePage } from "./types";
 /** All language pages (checked or not). Cached per request. */
 export const getLocalePages = cache(async (): Promise<LocalePage[]> => {
   try {
-    return (await sanityFetch<LocalePage[]>({ query: LOCALE_PAGES_QUERY, tags: ["localePage"] })) ?? [];
+    return (await sanityFetch({ query: LOCALE_PAGES_QUERY, tags: ["localePage"] })) ?? [];
   } catch (error) {
     console.error("Failed to load language pages", error);
     return [];

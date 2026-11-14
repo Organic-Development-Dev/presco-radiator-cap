@@ -18,7 +18,7 @@ import { HOME_PAGE_QUERY, POSTS_QUERY } from "@/sanity/lib/queries";
 
 const getHomePage = cache(async (): Promise<HomePageData> => {
   try {
-    return await sanityFetch<HomePageData>({
+    return await sanityFetch({
       query: HOME_PAGE_QUERY,
       // Hero slides and tiles link to pages, categories, products, posts and guides.
       tags: ["homePage", "testimonial", "page", "productCategory", "product", "post", "applicationGuide"],
@@ -31,7 +31,7 @@ const getHomePage = cache(async (): Promise<HomePageData> => {
 
 async function getLatestPosts(): Promise<PostCard[]> {
   try {
-    return (await sanityFetch<PostCard[]>({ query: POSTS_QUERY, params: { limit: 4 }, tags: ["post"] })) ?? [];
+    return (await sanityFetch({ query: POSTS_QUERY, params: { limit: 4 }, tags: ["post"] })) ?? [];
   } catch (error) {
     console.error("Home: failed to load latest posts", error);
     return [];

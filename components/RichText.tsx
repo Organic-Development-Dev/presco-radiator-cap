@@ -2,6 +2,7 @@ import { PortableText, type PortableTextBlock, type PortableTextComponents } fro
 import Link from "next/link";
 import { SanityImage } from "./SanityImage";
 import type { SanityImage as SanityImageType } from "@/lib/types";
+import type { BlockContent } from "@/sanity.types";
 import { croppedSize, withDimensions } from "@/lib/image";
 import { dataset, projectId } from "@/sanity/env";
 
@@ -190,11 +191,19 @@ const components: PortableTextComponents = {
   },
 };
 
-export function RichText({ value, className }: { value: PortableTextBlock[] | null | undefined; className?: string }) {
+/** Rich text from any `blockContent` field (typed by typegen); plain strings render as one paragraph. */
+export function RichText({ value, className }: { value: BlockContent | string | null | undefined; className?: string }) {
   if (!value?.length) return null;
+  if (typeof value === "string") {
+    return (
+      <div className={className}>
+        <p className="my-4 max-w-3xl leading-relaxed whitespace-pre-line">{value}</p>
+      </div>
+    );
+  }
   return (
     <div className={className}>
-      <PortableText value={groupVideos(value)} components={components} />
+      <PortableText value={groupVideos(value as unknown as PortableTextBlock[])} components={components} />
     </div>
   );
 }

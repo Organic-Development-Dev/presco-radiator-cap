@@ -25,7 +25,7 @@ type Props = { params: Promise<{ slug: string }> };
 export const dynamicParams = true;
 
 const getProduct = cache((slug: string) =>
-  sanityFetch<Product | null>({
+  sanityFetch({
     query: PRODUCT_QUERY,
     params: { slug },
     tags: ["product", "productCategory", `product:${slug}`, "applicationGuide"],
@@ -33,7 +33,7 @@ const getProduct = cache((slug: string) =>
 );
 
 export async function generateStaticParams() {
-  const slugs = await sanityFetch<{ slug: string }[]>({ query: PRODUCT_SLUGS_QUERY, tags: ["product"] });
+  const slugs = await sanityFetch({ query: PRODUCT_SLUGS_QUERY, tags: ["product"] });
   return (slugs ?? []).filter((s) => s.slug).map(({ slug }) => ({ slug }));
 }
 
@@ -98,7 +98,7 @@ export default async function ProductPage({ params }: Props) {
   if (!product) {
     // Old WooCommerce links used numeric IDs: /product/7314/
     if (/^\d+$/.test(slug)) {
-      const newSlug = await sanityFetch<string | null>({
+      const newSlug = await sanityFetch({
         query: PRODUCT_SLUG_BY_WP_ID_QUERY,
         params: { wpId: Number(slug) },
         tags: ["product"],

@@ -23,3 +23,6 @@ next-env.d.ts
 
 # Migration working files (contain WordPress exports)
 /scripts/.cache/
+
+# Sanity schema snapshot used only by `npm run typegen` (regenerated each run)
+sanity/extract.json

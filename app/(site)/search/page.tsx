@@ -3,7 +3,6 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { firstParam, type SearchParams } from "@/components/catalogue/params";
 import { SearchBox } from "@/components/catalogue/SearchBox";
 import { ProductGrid } from "@/components/ProductCard";
-import type { ProductCard } from "@/lib/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { SEARCH_QUERY } from "@/sanity/lib/queries";
 
@@ -38,7 +37,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   const query = sanitise(firstParam(sp.q) || firstParam(sp.name));
 
   const products = query
-    ? await sanityFetch<ProductCard[]>({
+    ? await sanityFetch({
         query: SEARCH_QUERY,
         params: { term: toWildcardTerm(query) },
         tags: ["product"],

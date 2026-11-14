@@ -7,7 +7,6 @@ import { SanityImage } from "@/components/SanityImage";
 import { buildMetadata } from "@/lib/metadata";
 import { getPage } from "@/lib/pages";
 import { slugify } from "@/lib/slugify";
-import type { ApplicationGuide } from "@/lib/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { APPLICATION_GUIDE_QUERY, APPLICATION_GUIDE_SLUGS_QUERY } from "@/sanity/lib/queries";
 
@@ -15,11 +14,11 @@ type Props = { params: Promise<{ slug: string }> };
 
 const getGuide = cache((slug: string) =>
   // "product": linked products' titles/images appear in the table.
-  sanityFetch<ApplicationGuide | null>({ query: APPLICATION_GUIDE_QUERY, params: { slug }, tags: ["applicationGuide", "product"] }),
+  sanityFetch({ query: APPLICATION_GUIDE_QUERY, params: { slug }, tags: ["applicationGuide", "product"] }),
 );
 
 export async function generateStaticParams() {
-  return sanityFetch<{ slug: string }[]>({ query: APPLICATION_GUIDE_SLUGS_QUERY, tags: ["applicationGuide"] });
+  return sanityFetch({ query: APPLICATION_GUIDE_SLUGS_QUERY, tags: ["applicationGuide"] });
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

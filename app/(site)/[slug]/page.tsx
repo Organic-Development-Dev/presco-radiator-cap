@@ -8,7 +8,6 @@ import { TeamGrid } from "@/components/content/TeamGrid";
 import { isLocale, localeInfo } from "@/lib/locales";
 import { getLocalePages, languageAlternates } from "@/lib/localePages";
 import { buildMetadata } from "@/lib/metadata";
-import type { Page } from "@/lib/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { PAGE_QUERY, PAGE_SLUGS_QUERY } from "@/sanity/lib/queries";
 
@@ -19,7 +18,7 @@ const RESERVED_SLUGS = new Set(["contact-us", "products", "news", "applications"
 
 function getPage(slug: string) {
   if (RESERVED_SLUGS.has(slug)) return Promise.resolve(null);
-  return sanityFetch<Page | null>({ query: PAGE_QUERY, params: { slug }, tags: ["page", `page:${slug}`, "teamMember"] });
+  return sanityFetch({ query: PAGE_QUERY, params: { slug }, tags: ["page", `page:${slug}`, "teamMember"] });
 }
 
 async function getLocalePage(slug: string) {
@@ -29,7 +28,7 @@ async function getLocalePage(slug: string) {
 
 export async function generateStaticParams() {
   const [pages, locales] = await Promise.all([
-    sanityFetch<{ slug: string }[]>({ query: PAGE_SLUGS_QUERY, tags: ["page"] }),
+    sanityFetch({ query: PAGE_SLUGS_QUERY, tags: ["page"] }),
     getLocalePages(),
   ]);
   return [

@@ -4,7 +4,6 @@ import { PostCard } from "@/components/content/PostCard";
 import { RichText } from "@/components/RichText";
 import { buildMetadata } from "@/lib/metadata";
 import { getPage } from "@/lib/pages";
-import type { PostCard as PostCardType } from "@/lib/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { POSTS_QUERY } from "@/sanity/lib/queries";
 
@@ -18,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function NewsPage() {
   const [page, posts] = await Promise.all([
     getPage(SLUG),
-    sanityFetch<PostCardType[]>({ query: POSTS_QUERY, params: { limit: 50 }, tags: ["post"] }),
+    sanityFetch({ query: POSTS_QUERY, params: { limit: 50 }, tags: ["post"] }),
   ]);
   const title = page?.title ?? "News";
 

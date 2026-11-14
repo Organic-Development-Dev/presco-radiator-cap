@@ -3,18 +3,8 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { SITEMAP_QUERY } from "@/sanity/lib/queries";
 import { SITE_URL } from "@/lib/site";
 
-type Entry = { slug: string; _updatedAt: string };
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const data = await sanityFetch<{
-    home: string | null;
-    products: Entry[];
-    categories: Entry[];
-    posts: Entry[];
-    pages: Entry[];
-    guides: Entry[];
-    locales: Entry[];
-  }>({
+  const data = await sanityFetch({
     query: SITEMAP_QUERY,
     tags: ["homePage", "product", "productCategory", "post", "page", "applicationGuide", "localePage"],
   });

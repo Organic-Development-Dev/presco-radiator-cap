@@ -1,5 +1,5 @@
 import "server-only";
-import type { QueryParams } from "next-sanity";
+import type { ClientReturn, QueryParams } from "next-sanity";
 import { client } from "./client";
 
 /**
@@ -11,16 +11,20 @@ import { client } from "./client";
  */
 const DEV = process.env.NODE_ENV === "development";
 
-export async function sanityFetch<T>({
+/**
+ * The result type is inferred from the query: `npm run typegen` generates a type for every
+ * `defineQuery` in sanity/lib/queries.ts (sanity.types.ts) and registers it by query text.
+ */
+export async function sanityFetch<const Q extends string>({
   query,
   params = {},
   tags,
 }: {
-  query: string;
+  query: Q;
   params?: QueryParams;
   tags: string[];
-}): Promise<T> {
-  return client.fetch<T>(
+}): Promise<ClientReturn<Q, unknown>> {
+  return client.fetch(
     query,
     params,
     DEV ? { cache: "no-store", useCdn: false } : { cache: "force-cache", next: { tags: ["sanity", ...tags] } },

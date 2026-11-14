@@ -25,7 +25,7 @@ describe("withDimensions", () => {
 
 describe("croppedSize", () => {
   it("applies the editor's crop", () => {
-    const crop = { top: 0, bottom: 0, left: 0.25, right: 0.25 };
+    const crop = { _type: "sanity.imageCrop" as const, top: 0, bottom: 0, left: 0.25, right: 0.25 };
     expect(croppedSize({ asset: { _type: "reference", _ref: "image-x-1000x500-jpg" }, crop })).toEqual({ width: 500, height: 500 });
   });
 });
