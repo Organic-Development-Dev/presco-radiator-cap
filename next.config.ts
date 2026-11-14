@@ -32,6 +32,12 @@ const securityHeaders = [
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+  // Baseline CSP: directives that can't break GTM, Turnstile, embeds or the Studio. A full
+  // script-src allowlist (with nonces) is a separate, report-only-first job.
+  {
+    key: "Content-Security-Policy",
+    value: "frame-ancestors 'self'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests",
+  },
 ];
 
 const nextConfig: NextConfig = {
@@ -57,11 +63,22 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // Old WordPress / starter routes
-      { source: "/index.php/:path*", destination: "/:path*", permanent: true },
+      // Old WordPress / WooCommerce URLs. Destinations end in "/" so each is a single hop.
+      // Dated post permalinks (with or without /index.php); renamed slugs then hit the
+      // blog route's previousSlugs redirect.
+      { source: "/:prefix(index\\.php)?/:y(\\d{4})/:m(\\d{2})/:d(\\d{2})/:slug", destination: "/blog/:slug/", permanent: true },
+      { source: "/index.php", destination: "/", permanent: true },
+      { source: "/index.php/:path+", destination: "/:path+/", permanent: true },
       { source: "/blog", destination: "/news/", permanent: true },
+      { source: "/feed/:path*", destination: "/news/", permanent: true },
+      { source: "/category/:path*", destination: "/news/", permanent: true },
+      { source: "/page/:n(\\d+)", destination: "/news/", permanent: true },
       { source: "/shop", destination: "/products/", permanent: true },
+      { source: "/shop/page/:n(\\d+)", destination: "/products/?page=:n", permanent: true },
+      { source: "/product-category/:slug/page/:n(\\d+)", destination: "/product-category/:slug/?page=:n", permanent: true },
       { source: "/product-tag/:path*", destination: "/products/", permanent: true },
+      // WordPress search (/?s=...) -> site search
+      { source: "/", has: [{ type: "query", key: "s", value: "(?<q>.+)" }], destination: "/search/?q=:q", permanent: true },
       ...(await sanityRedirects()),
     ];
   },
