@@ -1,19 +1,18 @@
 import type { NextConfig } from "next";
 import { createClient } from "@sanity/client";
 import { toNextRedirects, type RedirectDoc } from "./lib/redirects";
+import { apiVersion, dataset, projectId } from "./sanity/env";
 
 /**
  * Redirects managed in Sanity ("Redirects" in the Studio). Read at build time so they cost nothing
  * per request; a Sanity webhook calls the Vercel deploy hook when one changes (see README).
  */
 async function sanityRedirects() {
-  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-  if (!projectId) return [];
   try {
     const docs = await createClient({
       projectId,
-      dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
-      apiVersion: "2026-11-01",
+      dataset,
+      apiVersion,
       useCdn: false,
       perspective: "published",
     }).fetch<RedirectDoc[]>(

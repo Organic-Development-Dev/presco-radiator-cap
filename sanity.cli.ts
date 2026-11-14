@@ -1,9 +1,10 @@
 import { defineCliConfig } from "sanity/cli";
+import { dataset, projectId } from "./sanity/env";
 
 export default defineCliConfig({
   api: {
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
+    projectId,
+    dataset,
   },
   typegen: {
     path: "./{app,components,sanity,lib}/**/*.{ts,tsx}",
