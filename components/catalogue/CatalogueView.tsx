@@ -61,9 +61,17 @@ export function CatalogueView({
         </header>
 
         <div className="lg:grid lg:grid-cols-[16rem_1fr] lg:gap-10">
-          {/* Mobile: collapsible drawer */}
-          <details className="group mb-6 rounded-lg bg-surface lg:hidden">
-            <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-3 text-lg font-semibold uppercase text-accent [&::-webkit-details-marker]:hidden">
+          {/*
+            One sidebar for all screen sizes (it used to be rendered twice, doubling the DOM and
+            the serialised filter lists). Phones: a CSS-only toggle (checkbox + label), so it
+            works without JavaScript. Desktop: always shown.
+          */}
+          <div className="mb-6 rounded-lg bg-surface lg:mb-0 lg:rounded-none lg:bg-transparent">
+            <input type="checkbox" id="catalogue-filter-toggle" className="peer sr-only lg:hidden" aria-controls="catalogue-filters" />
+            <label
+              htmlFor="catalogue-filter-toggle"
+              className="flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-lg font-semibold uppercase text-accent peer-focus-visible:ring-2 peer-focus-visible:ring-accent peer-checked:[&_.chevron]:rotate-180 lg:hidden"
+            >
               <svg aria-hidden="true" viewBox="0 0 24 24" className="size-6 fill-none stroke-current stroke-2">
                 <path d="M4 6h16M7 12h10M10 18h4" strokeLinecap="round" />
               </svg>
@@ -71,17 +79,18 @@ export function CatalogueView({
               {activeCount > 0 && (
                 <span className="rounded-full bg-primary px-2 py-0.5 text-xs text-white">{activeCount}</span>
               )}
-              <span aria-hidden="true" className="ml-auto text-base transition-transform group-open:rotate-180">
+              <span aria-hidden="true" className="chevron ml-auto text-base transition-transform">
                 ▾
               </span>
-            </summary>
-            <div className="border-t border-gray-200 px-4 py-4">{sidebar}</div>
-          </details>
-
-          {/* Desktop: sidebar */}
-          <aside aria-label="Product filters" className="hidden lg:block">
-            {sidebar}
-          </aside>
+            </label>
+            <aside
+              id="catalogue-filters"
+              aria-label="Product filters"
+              className="hidden border-t border-gray-200 px-4 py-4 peer-checked:block lg:block lg:border-0 lg:p-0"
+            >
+              {sidebar}
+            </aside>
+          </div>
 
           <section aria-labelledby="results-heading">
             <h2 id="results-heading" className="sr-only">

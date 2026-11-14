@@ -61,6 +61,24 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async rewrites() {
+    // Catalogue listings: the unfiltered first page is static; any filter or page parameter
+    // is served by the on-demand /catalogue-results/ route, keeping the visitor's URL.
+    // beforeFiles, so these win over the static /products/ and /product-category/[slug]/ pages.
+    const params = ["application", "type", "page"]; // = FILTER_PARAMS in components/catalogue/params.ts
+    return {
+      beforeFiles: params.flatMap((key) => [
+        { source: "/products/", has: [{ type: "query" as const, key }], destination: "/catalogue-results/" },
+        {
+          source: "/product-category/:slug/",
+          has: [{ type: "query" as const, key }],
+          destination: "/catalogue-results/:slug/",
+        },
+      ]),
+      afterFiles: [],
+      fallback: [],
+    };
+  },
   async redirects() {
     return [
       // Old WordPress / WooCommerce URLs. Destinations end in "/" so each is a single hop.
