@@ -5,7 +5,6 @@ import { RichText } from "@/components/RichText";
 import { buildMetadata } from "@/lib/metadata";
 import { getPage } from "@/lib/pages";
 import { slugify } from "@/lib/slugify";
-import type { ApplicationGuideSummary } from "@/lib/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { APPLICATION_GUIDES_QUERY } from "@/sanity/lib/queries";
 
@@ -25,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ApplicationsPage() {
   const [page, guides] = await Promise.all([
     getPage(SLUG),
-    sanityFetch<ApplicationGuideSummary[]>({ query: APPLICATION_GUIDES_QUERY, tags: ["applicationGuide"] }),
+    sanityFetch({ query: APPLICATION_GUIDES_QUERY, tags: ["applicationGuide"] }),
   ]);
   const title = page?.title ?? "Vehicle Applications";
 

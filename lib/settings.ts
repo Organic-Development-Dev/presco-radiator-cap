@@ -11,7 +11,7 @@ import type { SiteSettings } from "./types";
  */
 export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
   try {
-    return await sanityFetch<SiteSettings>({
+    return await sanityFetch({
       query: SITE_SETTINGS_QUERY,
       // Menus and footer link to any LINKABLE_TYPES document, so a renamed slug must refresh them.
       tags: ["siteSettings", "page", "post", "product", "productCategory", "homePage", "applicationGuide", "localePage"],

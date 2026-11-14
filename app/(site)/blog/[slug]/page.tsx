@@ -13,19 +13,16 @@ import { getPage } from "@/lib/pages";
 import { getSiteSettings } from "@/lib/settings";
 import { truncate } from "@/lib/text";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
-import type { Post } from "@/lib/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { urlFor } from "@/sanity/lib/image";
 import { POST_NEIGHBOURS_QUERY, POST_QUERY, POST_SLUGS_QUERY } from "@/sanity/lib/queries";
 
 type Props = { params: Promise<{ slug: string }> };
-type PostLink = { title: string; slug: string } | null;
-type Neighbours = { newer: PostLink; older: PostLink } | null;
 
-const getPost = cache((slug: string) => sanityFetch<Post | null>({ query: POST_QUERY, params: { slug }, tags: ["post"] }));
+const getPost = cache((slug: string) => sanityFetch({ query: POST_QUERY, params: { slug }, tags: ["post"] }));
 
 export async function generateStaticParams() {
-  const posts = await sanityFetch<{ slug: string }[]>({ query: POST_SLUGS_QUERY, tags: ["post"] });
+  const posts = await sanityFetch({ query: POST_SLUGS_QUERY, tags: ["post"] });
   return posts.map(({ slug }) => ({ slug }));
 }
 
@@ -49,7 +46,7 @@ export default async function PostPage({ params }: Props) {
   const { slug } = await params;
   const [post, neighbours, newsPage, settings] = await Promise.all([
     getPost(slug),
-    sanityFetch<Neighbours>({ query: POST_NEIGHBOURS_QUERY, params: { slug }, tags: ["post"] }),
+    sanityFetch({ query: POST_NEIGHBOURS_QUERY, params: { slug }, tags: ["post"] }),
     getPage("news"),
     getSiteSettings(),
   ]);

@@ -12,7 +12,7 @@ import { buildNavItems } from "./nav-data";
 
 async function getCategories(): Promise<Category[]> {
   try {
-    return (await sanityFetch<Category[]>({ query: CATEGORIES_QUERY, tags: ["productCategory"] })) ?? [];
+    return (await sanityFetch({ query: CATEGORIES_QUERY, tags: ["productCategory"] })) ?? [];
   } catch (error) {
     // Keep the site chrome rendering; the products menu just shows "View all products".
     console.error("Header: failed to load product categories", error);

@@ -15,7 +15,7 @@
     "test": "vitest run",
     "migrate": "tsx scripts/migrate-from-wordpress.ts",
     "seed": "tsx scripts/seed-site-content.ts",
-    "typegen": "sanity schema extract --path=sanity/extract.json && sanity typegen generate"
+    "typegen": "sanity schema extract --enforce-required-fields --force --path=sanity/extract.json && sanity typegen generate"
   },
   "dependencies": {
     "@next/third-parties": "^16.4.6",

@@ -2,25 +2,26 @@ import "server-only";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { CATEGORIES_QUERY, PRODUCTS_QUERY, PRODUCT_FACETS_QUERY } from "@/sanity/lib/queries";
-import type { Category, ProductCard, ProductFacets } from "@/lib/types";
 import { PAGE_SIZE, naturalCompare, parseFilters, parsePage, type SearchParams } from "./params";
 
 const TAGS = ["product", "productCategory"];
 
+const isString = (value: string | null): value is string => Boolean(value);
+
 /** Fetch everything a catalogue listing page needs: categories, facets, filtered products. */
 export async function loadCatalogue({ category, searchParams }: { category: string | null; searchParams: SearchParams }) {
   const [categories, rawFacets] = await Promise.all([
-    sanityFetch<Category[]>({ query: CATEGORIES_QUERY, tags: TAGS }),
-    sanityFetch<ProductFacets>({ query: PRODUCT_FACETS_QUERY, params: { category }, tags: TAGS }),
+    sanityFetch({ query: CATEGORIES_QUERY, tags: TAGS }),
+    sanityFetch({ query: PRODUCT_FACETS_QUERY, params: { category }, tags: TAGS }),
   ]);
 
   const facets = {
-    applications: (rawFacets?.applications ?? []).filter(Boolean).sort(naturalCompare),
-    partTypes: (rawFacets?.partTypes ?? []).filter(Boolean).sort(naturalCompare),
+    applications: (rawFacets?.applications ?? []).filter(isString).sort(naturalCompare),
+    partTypes: (rawFacets?.partTypes ?? []).filter(isString).sort(naturalCompare),
   };
   const filters = parseFilters(searchParams, facets);
 
-  const products = await sanityFetch<ProductCard[]>({
+  const products = await sanityFetch({
     query: PRODUCTS_QUERY,
     params: { category, applications: filters.applications, partTypes: filters.types },
     tags: TAGS,

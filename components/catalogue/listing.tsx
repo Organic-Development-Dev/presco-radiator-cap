@@ -4,7 +4,6 @@ import { cache } from "react";
 import { notFound } from "next/navigation";
 import { buildMetadata } from "@/lib/metadata";
 import { getPage } from "@/lib/pages";
-import type { CategoryDetail } from "@/lib/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { CATEGORY_QUERY } from "@/sanity/lib/queries";
 import { CatalogueView } from "./CatalogueView";
@@ -25,7 +24,7 @@ const PRODUCTS_PATH = `/${PRODUCTS_SLUG}/`;
 const DEFAULT_PRODUCTS_TITLE = "Products & Solutions";
 
 export const getCategory = cache((slug: string) =>
-  sanityFetch<CategoryDetail | null>({ query: CATEGORY_QUERY, params: { slug }, tags: ["productCategory"] }),
+  sanityFetch({ query: CATEGORY_QUERY, params: { slug }, tags: ["productCategory"] }),
 );
 
 export async function productsMetadata(searchParams: SearchParams): Promise<Metadata> {

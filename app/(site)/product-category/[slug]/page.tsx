@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { CategoryListing, categoryMetadata } from "@/components/catalogue/listing";
-import type { Category } from "@/lib/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { CATEGORIES_QUERY } from "@/sanity/lib/queries";
 
@@ -15,7 +14,7 @@ type Props = { params: Promise<{ slug: string }> };
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const categories = await sanityFetch<Category[]>({ query: CATEGORIES_QUERY, tags: ["productCategory"] });
+  const categories = await sanityFetch({ query: CATEGORIES_QUERY, tags: ["productCategory"] });
   return (categories ?? []).filter((c) => c.slug).map((c) => ({ slug: c.slug }));
 }
 
